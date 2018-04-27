@@ -7,6 +7,8 @@ public class Game {
 	private Board board;
 	private Ladder ladder;
 	private Snake snake;
+	private BackwardSquare backwards;
+	private FreezeSquare freezes;
 
 	private int currentPlayerIndex;
 	private boolean ended;
@@ -18,8 +20,11 @@ public class Game {
 
 		die = new Die();
 		board = new Board();
-		ladder = new Ladder();
-		snake = new Snake();
+		ladder = new Ladder(board);
+		snake = new Snake(board);
+		backwards = new BackwardSquare(board);
+		freezes = new FreezeSquare(board);
+		
 		ended = false;
 		
 		board.addPiece(players[0].getPiece(), 0);
