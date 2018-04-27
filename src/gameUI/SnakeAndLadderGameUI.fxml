@@ -10,13 +10,13 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="gameUI.SnakeAndLadderController">
    <children>
       <Pane prefHeight="500.0" prefWidth="700.0">
          <children>
             <VBox alignment="TOP_CENTER" layoutX="500.0" prefHeight="500.0" prefWidth="200.0">
                <children>
-                  <Label text="Player Name">
+                  <Label fx:id="playerNameLabel" text="Player Name">
                      <font>
                         <Font size="25.0" />
                      </font>
@@ -24,7 +24,7 @@
                         <Insets top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <Label text="Your Turn!!">
+                  <Label fx:id="playerTurnLabel" text="Your Turn!!">
                      <VBox.margin>
                         <Insets top="20.0" />
                      </VBox.margin>
@@ -32,12 +32,12 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="80.0" text="Roll">
+                  <Button fx:id="rollButton" mnemonicParsing="false" prefHeight="45.0" prefWidth="80.0" text="Roll">
                      <VBox.margin>
                         <Insets top="20.0" />
                      </VBox.margin>
                   </Button>
-                  <TextField alignment="CENTER" editable="false" prefHeight="48.0" prefWidth="200.0" promptText="0">
+                  <TextField fx:id="diceOutputNumberText" alignment="CENTER" editable="false" prefHeight="48.0" prefWidth="200.0" promptText="0">
                      <VBox.margin>
                         <Insets left="30.0" right="30.0" top="20.0" />
                      </VBox.margin>
@@ -45,7 +45,7 @@
                         <Font size="29.0" />
                      </font>
                   </TextField>
-                  <Label text="Your position: 0">
+                  <Label fx:id="playerPosition" text="Your position: 0">
                      <VBox.margin>
                         <Insets top="20.0" />
                      </VBox.margin>
