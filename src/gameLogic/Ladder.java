@@ -2,17 +2,27 @@ package gameLogic;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Ladder {
 
 	private Map<Integer, Integer> ladder = new HashMap<>();
+	private Random rn = new Random();
+	
+	private int numberOfPath = 62;
+	private int maxLadder = 5;
+	private int minLadder = 3;
 
 	public Ladder() {
-		ladder.put(5, 11);
-		ladder.put(13, 30);
-		ladder.put(25, 32);
-		ladder.put(40, 62);
-		ladder.put(43, 45);
+		
+		int numOfLadder = rn.nextInt(maxLadder - minLadder + 1) + minLadder;
+		System.out.println("Number of ladder : "+numOfLadder);
+		for(int i = 0; i < numOfLadder;i++) {
+			int headOfLadder = rn.nextInt(numberOfPath);
+			int tailOfLadder = rn.nextInt(headOfLadder);
+			ladder.put(tailOfLadder, headOfLadder);
+			System.out.println("Ladder at "+tailOfLadder+","+headOfLadder);
+		}
 	}
 
 	public boolean isOnLadder(Board board, Piece piece) {

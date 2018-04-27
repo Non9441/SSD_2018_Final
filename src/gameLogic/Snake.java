@@ -2,17 +2,26 @@ package gameLogic;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Snake {
 
 	private Map<Integer, Integer> snake = new HashMap<>();
-
+	private Random rn = new Random();
+	
+	private int numberOfPath = 62;
+	private int maxSnake = 5;
+	private int minSnake = 3;
 	public Snake() {
-		snake.put(61, 10);
-		snake.put(50, 45);
-		snake.put(31, 15);
-		snake.put(55, 1);
-		snake.put(10, 8);
+		
+		int numOfSnake = rn.nextInt(maxSnake - minSnake + 1) + minSnake;
+		System.out.println("Number of snake : "+numOfSnake);
+		for(int i = 0; i < numOfSnake;i++) {
+			int tailOfSnake = rn.nextInt(numberOfPath);
+			int headOfSnake = rn.nextInt(numberOfPath - tailOfSnake) + tailOfSnake + 1;
+			snake.put(headOfSnake, tailOfSnake);
+			System.out.println("Snake at "+headOfSnake+","+tailOfSnake);
+		}
 
 	}
 
