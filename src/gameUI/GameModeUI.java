@@ -6,14 +6,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class SnakeAndLadderUI extends Application {
+public class GameModeUI extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Parent root = (Parent)FXMLLoader.load(getClass().getResource("SnakeAndLadderGameUI.fxml"));
+			Parent root = (Parent)FXMLLoader.load(getClass().getResource("GameModeUI.fxml"));
 			Scene scene = new Scene(root);
-			primaryStage.setTitle("Snake and Ladder");
+			primaryStage.setTitle("Choose Game Mode");
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
