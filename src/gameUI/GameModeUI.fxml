@@ -2,28 +2,34 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="gameUI.GameModeController">
+<AnchorPane xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameUI.GameModeController">
    <children>
-      <Pane prefHeight="500.0" prefWidth="700.0">
+      <Pane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #ffefbf;">
          <children>
-            <Button fx:id="twoPlayerModeButton" layoutX="108.0" layoutY="192.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="200.0" text="2 Players">
+            <Button fx:id="twoPlayerModeButton" layoutX="102.0" layoutY="346.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="200.0" text="2 Players">
                <font>
                   <Font name="Hack Regular" size="26.0" />
                </font>
             </Button>
-            <Button fx:id="fourPlayerModeButton" layoutX="395.0" layoutY="275.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="200.0" text="4 Players">
+            <Button fx:id="fourPlayerModeButton" layoutX="396.0" layoutY="346.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="200.0" text="4 Players">
                <font>
                   <Font name="Hack Regular" size="26.0" />
                </font>
             </Button>
-            <Label layoutX="189.0" layoutY="71.0" text="Choose Game Mode">
+            <ImageView fitHeight="401.0" fitWidth="553.0" layoutX="90.0" layoutY="-62.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../logo.gif" />
+               </image>
+            </ImageView>
+            <Label layoutX="243.0" layoutY="259.0" opacity="0.4" prefHeight="48.0" prefWidth="346.0" text="CHOOSE GAME MODE" textAlignment="CENTER" textFill="#bf5c00">
                <font>
-                  <Font name="FreeSans" size="36.0" />
+                  <Font name="Roboto Mono Medium Italic for Powerline" size="24.0" />
                </font>
             </Label>
          </children>
