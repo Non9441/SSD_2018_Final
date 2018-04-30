@@ -12,14 +12,14 @@ public class Game {
 	private BackwardSquare backwards;
 	private FreezeSquare freezes;
 
+	private Scanner sc = new Scanner(System.in);
 	private int currentPlayerIndex;
+	private int numPlayer;
 	private boolean ended;
 
-	public Game() {
-		players = new Player[2];
-		players[0] = new Player("P1");
-		players[1] = new Player("P2");
-
+	public Game(int numPlayer) {
+		this.numPlayer = numPlayer;
+		players = new Player[numPlayer];
 		die = new Die();
 		board = new Board();
 		ladder = new Ladder(board);
@@ -27,6 +27,11 @@ public class Game {
 		backwards = new BackwardSquare(board);
 		freezes = new FreezeSquare(board);
 		
+		for (int i = 0; i < numPlayer; i++) {
+			players[i] = new Player("Player" + (i+1));
+			board.addPiece(players[i].getPiece(), 0);
+		}
+
 		ended = false;
 	}
 
@@ -43,7 +48,10 @@ public class Game {
 	}
 
 	public void switchPlayer() {
-		currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+		currentPlayerIndex+=1;
+		if(currentPlayerIndex >= numPlayer) {
+			currentPlayerIndex = 0;
+		}
 	}
 
 	public String currentPlayerName() {
@@ -59,22 +67,55 @@ public class Game {
 	}
 
 	public void currentPlayerMovePiece(int steps) {
-		currentPlayer().movePiece(board, steps);
+		Player currentPlayer = currentPlayer();
+		currentPlayer.movePiece(board, steps);
+		
+		if (ladder.isOnLadder(board, currentPlayer.getPiece())) {
+			ladder.moveUp(board, currentPlayer.getPiece());
+			System.out.println(currentPlayer.getName() + " found Ladder!!");
+			System.out.println(
+					currentPlayer.getName() + " move to " + ladder.getNewPosition(board, currentPlayer.getPiece()));
+		}
+		// Found snake
+		if (snake.isOnSnake(board, currentPlayer.getPiece())) {
+			snake.moveDown(board, currentPlayer.getPiece());
+			System.out.println(currentPlayer.getName() + " found Snake!!");
+			System.out.println(
+					currentPlayer.getName() + " move to " + snake.getNewPosition(board, currentPlayer.getPiece()));
+		}
+		// found freeze
+		if (freezes.isOnFreeze(board, currentPlayer.getPiece())) {
+			System.out.println(currentPlayer.getName() + " Freeze pass 1 turn");
+			currentPlayer.setCanPlay(false);
+		}
+		if (backwards.isOnBackward(board, currentPlayer.getPiece())) {
+			System.out.println(currentPlayer.getName() + " found Backward!!");
+			System.out.println("Please hit enter to roll a die.");
+			sc.nextLine();
+			int face = currentPlayer.roll(die);
+			backwards.moveBack(board, currentPlayer.getPiece(), face);
+			System.out.println("Die face " + face);
+			System.out
+					.println(currentPlayer.getName() + " move to " + board.getPiecePosition(currentPlayer.getPiece()));
+		}
+
+		if (board.pieceIsAtGoal(currentPlayer.getPiece())) {
+			System.out.println("===============================================");
+			System.out.println(currentPlayer.getName() + " Win!!");
+			ended = true;
+		}
 	}
 
-	public boolean cuurentPlayerWin() {
+	public boolean currentPlayerWin() {
 		return board.pieceIsAtGoal(currentPlayer().getPiece());
 	}
 
 	public void start() {
-		board.addPiece(players[0].getPiece(), 0);
-		board.addPiece(players[1].getPiece(), 0);
-
 		currentPlayerIndex = 0;
 
 		while (!ended) {
-			Player currentPlayer = players[currentPlayerIndex];
-			if(!currentPlayer.isCanPlay()) {
+			Player currentPlayer = currentPlayer();
+			if (!currentPlayer.isCanPlay()) {
 				currentPlayer.setCanPlay(true);
 				System.out.println(currentPlayer.getName() + " skip");
 				currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
@@ -83,57 +124,19 @@ public class Game {
 			System.out.println("----------------------------------------");
 			System.out.println("Current Player is " + currentPlayer.getName());
 
-			Scanner scanner = new Scanner(System.in);
 			System.out.println("Please hit enter to roll a die.");
-			scanner.nextLine();
-			int face = currentPlayer.roll(die);
-
+			sc.nextLine();
+			int face = currentPlayerRollDie();
 			System.out.println("The die is rolled! Face = " + face);
 			System.out.println("The piece is at " + board.getPiecePosition(currentPlayer.getPiece()));
-			currentPlayer.movePiece(board, face);
+			currentPlayerMovePiece(face);
 			System.out.println("The piece is moved to " + board.getPiecePosition(currentPlayer.getPiece()));
-
-			// homework
-			// Found ladder
-			if (ladder.isOnLadder(board, currentPlayer.getPiece())) {
-				ladder.moveUp(board, currentPlayer.getPiece());
-				System.out.println(currentPlayer.getName() + " found Ladder!!");
-				System.out.println(
-						currentPlayer.getName() + " move to " + ladder.getNewPosition(board, currentPlayer.getPiece()));
-			}
-			// Found snake
-			if (snake.isOnSnake(board, currentPlayer.getPiece())) {
-				snake.moveDown(board, currentPlayer.getPiece());
-				System.out.println(currentPlayer.getName() + " found Snake!!");
-				System.out.println(
-						currentPlayer.getName() + " move to " + snake.getNewPosition(board, currentPlayer.getPiece()));
-			}
-			//found freeze
-			if(freezes.isOnFreeze(board, currentPlayer.getPiece())) {
-				System.out.println(currentPlayer.getName() + " Freeze pass 1 turn");
-				currentPlayer.setCanPlay(false);
-			}
-			if(backwards.isOnBackward(board, currentPlayer.getPiece())) {
-				System.out.println(currentPlayer.getName() + " found Backward!!");
-				System.out.println("Please hit enter to roll a die.");
-				scanner.nextLine();
-				face = currentPlayer.roll(die);
-				backwards.moveBack(board,currentPlayer.getPiece(),face);
-				System.out.println("Die face "+face);
-				System.out.println(currentPlayer.getName() + " move to "+board.getPiecePosition(currentPlayer.getPiece()));
-			}
-
-			if (board.pieceIsAtGoal(currentPlayer.getPiece())) {
-				System.out.println("===============================================");
-				System.out.println(currentPlayer.getName() + " Win!!");
-				ended = true;
-			}
-			currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+			switchPlayer();
 		}
 	}
 
 	public static void main(String[] args) {
-		Game game = new Game();
+		Game game = new Game(4);
 		game.start();
 	}
 }

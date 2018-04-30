@@ -33,7 +33,7 @@ public class SnakeAndLadderController {
 	private Stage stage;
 
 	public void initialize() {
-		game = new Game();
+		game = new Game(4);
 
 		rollButton.setOnAction(this::onRollButtonClicked);
 		playerPosition.setText("Your position: " + (game.currentPlayerPosition() + 1));
