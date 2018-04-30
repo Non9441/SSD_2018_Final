@@ -42,11 +42,12 @@ public class SnakeAndLadderController {
 	public void onRollButtonClicked(ActionEvent event) {
 		int face = game.currentPlayerRollDie();
 		diceOutputNumberText.setText(face + "");
-		game.currentPlayerMovePiece(face);
-		playerPosition.setText("Your position: " + (game.currentPlayerPosition() + 1));
+		String status = game.currentPlayerMovePiece(face);
+		playerPosition.setText(status + " ( At "+(game.currentPlayerPosition()+1)+" )");
 		if (game.currentPlayerPosition() == 63) {
 			gameEndAlert();
 		}
+		game.switchPlayer();
 	}
 
 	public void gameEndAlert() {

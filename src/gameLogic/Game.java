@@ -66,15 +66,17 @@ public class Game {
 		return currentPlayer().roll(die);
 	}
 
-	public void currentPlayerMovePiece(int steps) {
+	public String currentPlayerMovePiece(int steps) {
 		Player currentPlayer = currentPlayer();
 		currentPlayer.movePiece(board, steps);
+		String status = currentPlayerName()+" move "+steps+" steps.";
 		
 		if (ladder.isOnLadder(board, currentPlayer.getPiece())) {
 			ladder.moveUp(board, currentPlayer.getPiece());
 			System.out.println(currentPlayer.getName() + " found Ladder!!");
 			System.out.println(
 					currentPlayer.getName() + " move to " + ladder.getNewPosition(board, currentPlayer.getPiece()));
+			status = currentPlayerName() + " hit the snake block.";
 		}
 		// Found snake
 		if (snake.isOnSnake(board, currentPlayer.getPiece())) {
@@ -82,11 +84,13 @@ public class Game {
 			System.out.println(currentPlayer.getName() + " found Snake!!");
 			System.out.println(
 					currentPlayer.getName() + " move to " + snake.getNewPosition(board, currentPlayer.getPiece()));
+			status = currentPlayerName() + " hit the snake block.";
 		}
 		// found freeze
 		if (freezes.isOnFreeze(board, currentPlayer.getPiece())) {
 			System.out.println(currentPlayer.getName() + " Freeze pass 1 turn");
 			currentPlayer.setCanPlay(false);
+			status = currentPlayerName() + " hit the freeze block.";
 		}
 		if (backwards.isOnBackward(board, currentPlayer.getPiece())) {
 			System.out.println(currentPlayer.getName() + " found Backward!!");
@@ -97,13 +101,17 @@ public class Game {
 			System.out.println("Die face " + face);
 			System.out
 					.println(currentPlayer.getName() + " move to " + board.getPiecePosition(currentPlayer.getPiece()));
+			status = currentPlayerName() + " hit the backwards block.";
 		}
 
 		if (board.pieceIsAtGoal(currentPlayer.getPiece())) {
 			System.out.println("===============================================");
 			System.out.println(currentPlayer.getName() + " Win!!");
-			ended = true;
+			status = currentPlayerName()+" reach the goal!!!";
+			end();
 		}
+		
+		return status;
 	}
 
 	public boolean currentPlayerWin() {
