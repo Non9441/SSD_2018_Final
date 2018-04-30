@@ -4,6 +4,7 @@ public class Player {
 
 	private String name;
 	private Piece piece;
+	private boolean canPlay = true;;
 	
 	public Player(String name) {
 		this.name = name;
@@ -25,5 +26,13 @@ public class Player {
 	
 	public Piece getPiece() {
 		return piece;
+	}
+	
+	public void setCanPlay(boolean canPlay) {
+		this.canPlay = canPlay;
+	}
+	
+	public boolean isCanPlay() {
+		return canPlay;
 	}
 }

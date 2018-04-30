@@ -36,13 +36,8 @@ public class BackwardSquare {
 		int pos = board.getPiecePosition(piece);
 		return backward.get(pos) != null;
 	}
-	
-	public void setBackward(int position,int moveBack) {
-		backward.put(position,moveBack);
-	}
 		
-	public void moveBack(Board board,Piece piece) {
-		int back = backward.get(board.getPiecePosition(piece)) * -1;
-		board.movePiece(piece, back);
+	public void moveBack(Board board,Piece piece,int back) {
+		board.movePiece(piece, back * -1);
 	}
 }

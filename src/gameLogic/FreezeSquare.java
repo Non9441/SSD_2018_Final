@@ -35,6 +35,11 @@ public class FreezeSquare {
 	
 	public boolean isOnFreeze(Board board,Piece piece) {
 		int pos = board.getPiecePosition(piece);
-		return freeze.get(pos) != null;
+		for(int freezePath : freeze) {
+			if(pos == freezePath) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
