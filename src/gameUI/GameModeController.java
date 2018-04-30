@@ -1,11 +1,15 @@
 package gameUI;
 
+import java.net.URL;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 public class GameModeController {
@@ -16,8 +20,17 @@ public class GameModeController {
 	Button fourPlayerModeButton;
 
 	private Stage stage;
+	MediaPlayer player;
 
 	public void initialize() {
+		
+		URL bgm = getClass().getResource("bgm.wav");
+		Media media = new Media(bgm.toString());
+		player = new MediaPlayer(media);
+		player.setVolume(0.1);
+		player.setCycleCount((int)Double.POSITIVE_INFINITY);
+		player.play();		
+		
 		twoPlayerModeButton.setOnAction(this::onPlayerModeButtonClicked);
 		fourPlayerModeButton.setOnAction(this::onPlayerModeButtonClicked);
 		
@@ -37,6 +50,7 @@ public class GameModeController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		player.pause();
 	}
 
 }
