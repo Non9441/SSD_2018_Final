@@ -34,7 +34,7 @@ public class SnakeAndLadderController {
 
 	private Game game;
 	private Stage stage;
-	
+
 	public void setGame(Game game) {
 		this.game = game;
 	}
@@ -51,7 +51,7 @@ public class SnakeAndLadderController {
 		diceOutputNumberText.setText(face + "");
 		String status = game.currentPlayerMovePiece(face);
 		int newPos = game.getPlayerPosition(cur) + 1;
-		playerPosition.setText(cur.getName()+" "+curPos+"->"+newPos);
+		playerPosition.setText(cur.getName() + " " + curPos + "->" + newPos);
 		specialBlockLabel.setText(status);
 		if (game.isEnded()) {
 			gameEndAlert();
@@ -65,21 +65,24 @@ public class SnakeAndLadderController {
 		alert.setContentText("Choose your option.");
 
 		ButtonType buttonTypeOne = new ButtonType("Play again");
+		ButtonType buttonTypeThree = new ButtonType("Replay!");
 		ButtonType buttonTypeTwo = new ButtonType("Back to Home");
 
-		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeThree, buttonTypeTwo);
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == buttonTypeOne) {
 			game = new Game(game.getNumPlayer());
 			initialize();
+		} else if (result.get() == buttonTypeThree) {
+			alert.setHeaderText("Not finish!!");
 		} else if (result.get() == buttonTypeTwo) {
 			backToHome();
 		}
 	}
-	
+
 	public void backToHome() {
-		
+
 		stage = (Stage) playerNameLabel.getScene().getWindow();
 		try {
 
