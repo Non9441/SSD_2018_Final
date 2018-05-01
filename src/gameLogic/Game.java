@@ -147,6 +147,10 @@ public class Game {
 			switchPlayer();
 		}
 	}
+	
+	public int getNumPlayer() {
+		return numPlayer;
+	}
 
 	public static void main(String[] args) {
 		Game game = new Game(4);

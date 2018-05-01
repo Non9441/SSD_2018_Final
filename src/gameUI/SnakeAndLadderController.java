@@ -41,7 +41,7 @@ public class SnakeAndLadderController {
 
 	public void initialize() {
 		rollButton.setOnAction(this::onRollButtonClicked);
-//		playerPosition.setText("Your position: " + (game.currentPlayerPosition() + 1));
+		playerPosition.setText("Your position: " + 1);
 	}
 
 	public void onRollButtonClicked(ActionEvent event) {
@@ -71,6 +71,7 @@ public class SnakeAndLadderController {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == buttonTypeOne) {
+			game = new Game(game.getNumPlayer());
 			initialize();
 		} else if (result.get() == buttonTypeTwo) {
 			backToHome();
