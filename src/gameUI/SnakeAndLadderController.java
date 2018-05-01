@@ -72,7 +72,7 @@ public class SnakeAndLadderController {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == buttonTypeOne) {
-			game = new Game(game.getNumPlayer());
+			game = new Game();
 			initialize();
 		} else if (result.get() == buttonTypeThree) {
 			alert.setHeaderText("Not finish!!");
