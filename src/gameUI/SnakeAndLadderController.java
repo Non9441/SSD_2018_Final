@@ -51,9 +51,9 @@ public class SnakeAndLadderController {
 		diceOutputNumberText.setText(face + "");
 		String status = game.currentPlayerMovePiece(face);
 		int newPos = game.getPlayerPosition(cur) + 1;
-		playerPosition.setText(cur.getName()+" "+curPos+"-"+newPos);
+		playerPosition.setText(cur.getName()+" "+curPos+"->"+newPos);
 		specialBlockLabel.setText(status);
-		if (game.currentPlayerPosition() == 63) {
+		if (game.isEnded()) {
 			gameEndAlert();
 		}
 	}

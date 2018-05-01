@@ -107,7 +107,7 @@ public class Game {
 		}
 
 		else if (board.pieceIsAtGoal(currentPlayer.getPiece())) {
-			status = currentPlayerName() + " reach the goal!!!";
+			status = "Goal";
 			end();
 		}
 
