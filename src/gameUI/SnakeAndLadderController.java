@@ -107,15 +107,15 @@ public class SnakeAndLadderController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void playerMove() {
 		timer = new AnimationTimer() {
-			
+
 			@Override
 			public void handle(long now) {
-				player1Image.setX(player1Image.getX() + 5.0);
+				player1Image.setTranslateX(player1Image.getTranslateX() + 5);
 				player1Image.setY(player1Image.getY());
-				System.out.println(player1Image.getX());
+				System.out.println(player1Image.getTranslateX());
 			}
 		};
 		timer.start();

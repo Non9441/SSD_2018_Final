@@ -75,16 +75,20 @@
             </VBox>
             <StackPane prefHeight="600.0" prefWidth="600.0">
                <children>
-                  <ImageView fitHeight="600.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../res/board1.jpg" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="player1Image" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../res/player1.png" />
-                     </image>
-                  </ImageView>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="600.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../res/board1.jpg" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="player1Image" fitHeight="35.0" fitWidth="35.0" layoutX="14.0" layoutY="551.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../res/player1.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
                </children>
             </StackPane>
          </children>
