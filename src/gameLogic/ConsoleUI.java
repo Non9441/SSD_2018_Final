@@ -19,7 +19,7 @@ public class ConsoleUI {
 			System.out.println("Dice face = " + face);
 			game.currentPlayerMovePiece(face);
 			System.out.println("Position: " + game.currentPlayerPosition());
-			if (game.cuurentPlayerWin()) {
+			if (game.currentPlayerWin()) {
 				System.out.println(game.currentPlayerName() + "Wins!");
 				game.end();
 			} else {
@@ -29,6 +29,6 @@ public class ConsoleUI {
 	}
 
 	public static void main(String[] args) {
-		new ConsoleUI().start(new Game());
+		new ConsoleUI().start(new Game(2));
 	}
 }

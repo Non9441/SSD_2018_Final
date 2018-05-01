@@ -28,22 +28,27 @@ public class SnakeAndLadderController {
 	TextField diceOutputNumberText;
 	@FXML
 	Label playerPosition;
+	@FXML
+	Label specialBlockLabel;
 
 	private Game game;
 	private Stage stage;
+	
+	public void setGame(Game game) {
+		this.game = game;
+	}
 
 	public void initialize() {
-		game = new Game(4);
-
 		rollButton.setOnAction(this::onRollButtonClicked);
-		playerPosition.setText("Your position: " + (game.currentPlayerPosition() + 1));
+//		playerPosition.setText("Your position: " + (game.currentPlayerPosition() + 1));
 	}
 
 	public void onRollButtonClicked(ActionEvent event) {
 		int face = game.currentPlayerRollDie();
 		diceOutputNumberText.setText(face + "");
 		String status = game.currentPlayerMovePiece(face);
-		playerPosition.setText(status + " ( At "+(game.currentPlayerPosition()+1)+" )");
+		playerPosition.setText(" ( At "+(game.currentPlayerPosition()+1)+" )");
+		specialBlockLabel.setText(status);
 		if (game.currentPlayerPosition() == 63) {
 			gameEndAlert();
 		}

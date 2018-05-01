@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="gameUI.SnakeAndLadderController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameUI.SnakeAndLadderController">
    <children>
       <Pane prefHeight="500.0" prefWidth="700.0">
          <children>
@@ -51,6 +50,14 @@
                      </VBox.margin>
                      <font>
                         <Font size="22.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="specialBlockLabel" prefHeight="50.0" prefWidth="170.0" text="Special Block">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="15.0" />
                      </font>
                   </Label>
                </children>

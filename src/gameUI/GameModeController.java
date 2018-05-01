@@ -2,6 +2,7 @@ package gameUI;
 
 import java.net.URL;
 
+import gameLogic.Game;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,8 @@ public class GameModeController {
 
 	@FXML
 	Button twoPlayerModeButton;
+	@FXML
+	Button threePlayerModeButton;
 	@FXML
 	Button fourPlayerModeButton;
 
@@ -32,6 +35,7 @@ public class GameModeController {
 		player.play();		
 		
 		twoPlayerModeButton.setOnAction(this::onPlayerModeButtonClicked);
+		threePlayerModeButton.setOnAction(this::onPlayerModeButtonClicked);
 		fourPlayerModeButton.setOnAction(this::onPlayerModeButtonClicked);
 		
 	}
@@ -40,17 +44,24 @@ public class GameModeController {
 		stage = (Stage) twoPlayerModeButton.getScene().getWindow();
 		try {
 
+			Button b = (Button)event.getSource();
+			int player = Integer.parseInt(b.getText().charAt(0)+"");
+			System.out.println(player);
+			
 			FXMLLoader chooseGameLoader = new FXMLLoader(getClass().getResource("SnakeAndLadderGameUI.fxml"));
 			Parent chooseGameRoot = chooseGameLoader.load();
 			Scene chooseGameScene = new Scene(chooseGameRoot);
 
+			SnakeAndLadderController snakeAndLadder = chooseGameLoader.getController();
+			snakeAndLadder.setGame(new Game(player));
+			
 			stage.setTitle("Snake and Ladder");
 			stage.setScene(chooseGameScene);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		player.pause();
+		player.stop();
 	}
 
 }

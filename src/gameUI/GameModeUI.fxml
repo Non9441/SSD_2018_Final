@@ -8,18 +8,18 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameUI.GameModeController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameUI.GameModeController">
    <children>
       <Pane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #ffefbf;">
          <children>
-            <Button fx:id="twoPlayerModeButton" layoutX="102.0" layoutY="346.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="200.0" text="2 Players">
+            <Button fx:id="twoPlayerModeButton" layoutX="102.0" layoutY="346.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" text="2 Players">
                <font>
-                  <Font name="Hack Regular" size="26.0" />
+                  <Font name="Hack Regular" size="17.0" />
                </font>
             </Button>
-            <Button fx:id="fourPlayerModeButton" layoutX="396.0" layoutY="346.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="200.0" text="4 Players">
+            <Button fx:id="fourPlayerModeButton" layoutX="449.0" layoutY="346.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" text="4 Players">
                <font>
-                  <Font name="Hack Regular" size="26.0" />
+                  <Font name="Hack Regular" size="17.0" />
                </font>
             </Button>
             <ImageView fitHeight="401.0" fitWidth="553.0" layoutX="90.0" layoutY="-62.0" pickOnBounds="true" preserveRatio="true">
@@ -32,6 +32,11 @@
                   <Font name="Roboto Mono Medium Italic for Powerline" size="24.0" />
                </font>
             </Label>
+            <Button fx:id="threePlayerModeButton" layoutX="275.0" layoutY="346.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" text="3 Players">
+               <font>
+                  <Font name="Hack Regular" size="17.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
    </children>
