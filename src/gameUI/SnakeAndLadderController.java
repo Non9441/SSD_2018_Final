@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import gameLogic.Game;
 import gameLogic.Player;
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,9 +36,12 @@ public class SnakeAndLadderController {
 	Label specialBlockLabel;
 	@FXML
 	ImageView dieImage;
+	@FXML
+	ImageView player1Image;
 
 	private Game game;
 	private Stage stage;
+	private AnimationTimer timer;
 
 	public void setGame(Game game) {
 		this.game = game;
@@ -61,6 +65,7 @@ public class SnakeAndLadderController {
 		if (game.isEnded()) {
 			gameEndAlert();
 		}
+		playerMove();
 	}
 
 	public void gameEndAlert() {
@@ -101,5 +106,18 @@ public class SnakeAndLadderController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void playerMove() {
+		timer = new AnimationTimer() {
+			
+			@Override
+			public void handle(long now) {
+				player1Image.setX(player1Image.getX() + 5.0);
+				player1Image.setY(player1Image.getY());
+				System.out.println(player1Image.getX());
+			}
+		};
+		timer.start();
 	}
 }
