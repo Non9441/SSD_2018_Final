@@ -3,6 +3,7 @@ package gameUI;
 import java.util.Optional;
 
 import gameLogic.Game;
+import gameLogic.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,14 +46,16 @@ public class SnakeAndLadderController {
 
 	public void onRollButtonClicked(ActionEvent event) {
 		int face = game.currentPlayerRollDie();
+		Player cur = game.currentPlayer();
+		int curPos = game.currentPlayerPosition() + 1;
 		diceOutputNumberText.setText(face + "");
 		String status = game.currentPlayerMovePiece(face);
-		playerPosition.setText(" ( At "+(game.currentPlayerPosition()+1)+" )");
+		int newPos = game.getPlayerPosition(cur) + 1;
+		playerPosition.setText(cur.getName()+" "+curPos+"-"+newPos);
 		specialBlockLabel.setText(status);
 		if (game.currentPlayerPosition() == 63) {
 			gameEndAlert();
 		}
-		game.switchPlayer();
 	}
 
 	public void gameEndAlert() {

@@ -29,6 +29,9 @@ public class Board {
 		if (newPos >= squares.length) {
 			newPos = squares.length - 1;
 		}
+		if(newPos < 0 ) {
+			newPos = 0;
+		}
 		addPiece(piece, newPos);
 	}
 

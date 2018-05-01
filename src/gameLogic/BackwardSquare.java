@@ -38,6 +38,8 @@ public class BackwardSquare {
 	}
 		
 	public void moveBack(Board board,Piece piece,int back) {
-		board.movePiece(piece, back * -1);
+		back *= -1;
+		board.movePiece(piece, back);
+		System.out.println(back);
 	}
 }
