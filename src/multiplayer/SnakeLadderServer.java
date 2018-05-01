@@ -26,6 +26,11 @@ public class SnakeLadderServer extends Game{
 		System.out.println("Snake Ladder Server started");
 	}
 	
+	@Override
+	public void start() {
+		System.out.println("Running...");
+	}
+	
 	class ServerListener extends Listener {
 		@Override
 		public void connected(Connection arg0) {
