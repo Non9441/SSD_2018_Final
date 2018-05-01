@@ -14,6 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
@@ -31,6 +33,8 @@ public class SnakeAndLadderController {
 	Label playerPosition;
 	@FXML
 	Label specialBlockLabel;
+	@FXML
+	ImageView dieImage;
 
 	private Game game;
 	private Stage stage;
@@ -46,6 +50,7 @@ public class SnakeAndLadderController {
 
 	public void onRollButtonClicked(ActionEvent event) {
 		int face = game.currentPlayerRollDie();
+		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		Player cur = game.currentPlayer();
 		int curPos = game.currentPlayerPosition() + 1;
 		diceOutputNumberText.setText(face + "");
