@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import gameLogic.Game;
 import gameLogic.Player;
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
@@ -31,9 +34,14 @@ public class SnakeAndLadderController {
 	Label playerPosition;
 	@FXML
 	Label specialBlockLabel;
+	@FXML
+	ImageView dieImage;
+	@FXML
+	ImageView player1Image;
 
 	private Game game;
 	private Stage stage;
+	private AnimationTimer timer;
 
 	public void setGame(Game game) {
 		this.game = game;
@@ -46,6 +54,7 @@ public class SnakeAndLadderController {
 
 	public void onRollButtonClicked(ActionEvent event) {
 		int face = game.currentPlayerRollDie();
+		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		Player cur = game.currentPlayer();
 		int curPos = game.currentPlayerPosition() + 1;
 		diceOutputNumberText.setText(face + "");
@@ -56,6 +65,7 @@ public class SnakeAndLadderController {
 		if (game.isEnded()) {
 			gameEndAlert();
 		}
+		playerMove();
 	}
 
 	public void gameEndAlert() {
@@ -96,5 +106,18 @@ public class SnakeAndLadderController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void playerMove() {
+		timer = new AnimationTimer() {
+
+			@Override
+			public void handle(long now) {
+				player1Image.setTranslateX(player1Image.getTranslateX() + 5);
+				player1Image.setY(player1Image.getY());
+				System.out.println(player1Image.getTranslateX());
+			}
+		};
+		timer.start();
 	}
 }
