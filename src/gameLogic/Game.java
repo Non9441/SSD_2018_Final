@@ -74,6 +74,10 @@ public class Game {
 	public int getPlayerPosition(Player player) {
 		return board.getPiecePosition(player.getPiece());
 	}
+	
+	public Player getPlayer(int num) {
+		return players[num];
+	}
 
 	public void currentPlayerOnMovePiece(int steps) {
 		currentPlayer().movePiece(board, steps);
@@ -103,11 +107,12 @@ public class Game {
 		else if (freezes.isOnFreeze(board, currentPlayer.getPiece())) {
 			currentPlayer.setCanPlay(false);
 			status = "Freeze";
-		} else if (backwards.isOnBackward(board, currentPlayer.getPiece())) {
+		} 
+		
+		else if (backwards.isOnBackward(board, currentPlayer.getPiece())) {
 			status = "Backward";
 			isBackStatus = true;
 			return status;
-			
 		}
 
 		else if (board.pieceIsAtGoal(currentPlayer.getPiece())) {
