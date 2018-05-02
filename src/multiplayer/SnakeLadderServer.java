@@ -28,10 +28,6 @@ public class SnakeLadderServer extends Game{
 		super(2);
 		server = new Server();
 		
-		server.getKryo().register(Player.class);
-		server.getKryo().register(GameData.class);
-		server.getKryo().register(PlayerData.class);
-		
 		server.getKryo().register(Board.class);
 		server.getKryo().register(Piece.class);
 		server.getKryo().register(Square.class);
@@ -42,7 +38,9 @@ public class SnakeLadderServer extends Game{
 		server.getKryo().register(Ladder.class);
 		server.getKryo().register(Game.class);
 
-
+		server.getKryo().register(Player.class);
+		server.getKryo().register(GameData.class);
+		server.getKryo().register(PlayerData.class);
 		
 		server.addListener(new ServerListener());
 		server.start();
@@ -58,7 +56,7 @@ public class SnakeLadderServer extends Game{
 	public void onRolled(Connection c,int face) {
 		String status = currentPlayerMovePiece(face);
 		Player player = currentPlayer();
-		GameData gameData = new GameData(player,status);
+		GameData gameData = new GameData();
 		c.sendTCP(gameData);
 	}
 		
@@ -72,7 +70,7 @@ public class SnakeLadderServer extends Game{
 			
 			connections.put(arg0, curPlayer);
 			
-			arg0.sendTCP(new GameData(curPlayer, status));
+			arg0.sendTCP(new GameData());
 			System.out.println(curPlayer.getName()+" connected.");
 		}
 		
@@ -97,6 +95,7 @@ public class SnakeLadderServer extends Game{
 	public static void main(String[] args) {
 		try {
 			SnakeLadderServer server = new SnakeLadderServer();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
