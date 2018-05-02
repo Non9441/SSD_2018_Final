@@ -18,12 +18,12 @@ import javafx.stage.Stage;
 
 public class GameModeController {
 
-	@FXML
-	Button twoPlayerModeButton;
-	@FXML
-	Button threePlayerModeButton;
-	@FXML
-	Button fourPlayerModeButton;
+	// @FXML
+	// Button twoPlayerModeButton;
+	// @FXML
+	// Button threePlayerModeButton;
+	// @FXML
+	// Button fourPlayerModeButton;
 	
 	@FXML
     ImageView twoPlayerMode;
