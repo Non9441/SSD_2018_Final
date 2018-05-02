@@ -42,6 +42,7 @@ public class SnakeAndLadderController {
 	private Game game;
 	private Stage stage;
 	private AnimationTimer timer;
+	private PLayerMovePiece playerMove;
 
 	public void setGame(Game game) {
 		this.game = game;
@@ -65,7 +66,8 @@ public class SnakeAndLadderController {
 		if (game.isEnded()) {
 			gameEndAlert();
 		}
-		playerMove();
+		playerMove = new PLayerMovePiece(cur, face, player1Image);
+		new Thread(playerMove).start();
 	}
 
 	public void gameEndAlert() {
