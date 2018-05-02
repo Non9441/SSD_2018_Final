@@ -17,39 +17,33 @@ public class PLayerMovePiece extends Task<Integer> {
 		this.playerImage = playerImage;
 	}
 
-	public void moveUp() throws InterruptedException {
-		for (int i = 0; i < 60; i++) {
-			playerImage.setTranslateY(playerImage.getTranslateY() + 1);
-			Thread.sleep(10);
-		}
+	public void moveUp() {
+		playerImage.setTranslateY(playerImage.getTranslateY() - 60);
 	}
 
-	public void moveLeft() throws InterruptedException {
-		for (int i = 0; i < 60; i++) {
-			playerImage.setTranslateX(playerImage.getTranslateX() + 1);
-			Thread.sleep(10);
-		}
+	public void moveLeft() {
+		playerImage.setTranslateX(playerImage.getTranslateX() - 60);
 	}
 
-	public void moveRight() throws InterruptedException {
-		for (int i = 0; i < 60; i++) {
-			playerImage.setTranslateX(playerImage.getTranslateX() - 1);
-			Thread.sleep(10);
-		}
+	public void moveRight() {
+		playerImage.setTranslateX(playerImage.getTranslateX() + 60);
 	}
 
 	@Override
-	protected Integer call() throws Exception {
+	protected Integer call() throws InterruptedException {
 		int position = game.getPlayerPosition(player) + 1;
 		System.out.println(game.currentPlayerName() + " on:" + position);
 		if (position % 20 < 10) {
-			moveLeft();
-		} else if (position % 20 > 10) {
 			moveRight();
+		} else if (position % 20 > 10) {
+			moveLeft();
 		} else if (position % 20 == 10 || game.currentPlayerPosition() % 20 == 0) {
 			moveUp();
 		}
+		Thread.sleep(20);
 		return null;
 	}
+
+
 
 }
