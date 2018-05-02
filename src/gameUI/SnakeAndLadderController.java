@@ -76,6 +76,7 @@ public class SnakeAndLadderController {
 		transition.setNode(player1Image);
 
 		for (int i = 0; i < face; i++) {
+
 //			transition.stop();
 ////			if (face - i == 1) {
 ////				System.out.println("5555");
@@ -94,18 +95,25 @@ public class SnakeAndLadderController {
 //				transition.setByX(-60);
 //			} else if (curPos % 20 == 10 || game.currentPlayerPosition() % 20 == 0) {
 //				transition.setByY(60);
+
+//			if (face - i == 1) {
+//				System.out.println("5555");
+//				String status = game.currentPlayerMovePiece(1);
+//				specialBlockLabel.setText(status);
+//
+//			} else {
+
 //			}
 //			transition.play();
 //			transition.jumpTo(Duration.seconds(1));
 //			Thread.sleep(100);
 			game.currentPlayerOnMovePiece(1);
-			
+
 			if (game.currentPlayer().getName().equals("Player1")) {
 				playerMove = new PLayerMovePiece(game, cur, player1Image);
 				new Thread(playerMove).start();
 				Thread.sleep(40);
 			}
-			
 			
 			System.out.println("-----------\n" + game.currentPlayerName() + "\n----------");
 		}
