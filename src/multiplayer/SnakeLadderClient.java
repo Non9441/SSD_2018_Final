@@ -78,6 +78,7 @@ public class SnakeLadderClient {
 					status = data.getStatus();
 				} else {
 					currentPlayer = data.getCurrentPlayer();
+					System.out.println(currentPlayer.getName());
 				}
 			}
 		}
@@ -94,6 +95,7 @@ public class SnakeLadderClient {
 			}.start();
 			SnakeClientUI scu = SnakeClientUI.waitForLaunch();
 			scu.setClient(snc);
+			scu.disableRollButton();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

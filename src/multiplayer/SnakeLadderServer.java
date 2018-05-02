@@ -22,10 +22,11 @@ import gameLogic.Square;
 public class SnakeLadderServer extends Game {
 
 	private Server server;
+	private static int numPlayer = 2;
 	private Map<Connection, Player> connections = new HashMap<Connection, Player>();
 
 	public SnakeLadderServer() throws IOException {
-		super(2);
+		super(numPlayer);
 		server = new Server();
 
 		server.getKryo().register(Board.class);
@@ -59,6 +60,18 @@ public class SnakeLadderServer extends Game {
 		GameData gameData = new GameData();
 		c.sendTCP(gameData);
 	}
+	
+	public void setFirstPlay() {
+		Player player = currentPlayer();
+		String status = "Playing";
+		GameData gameData = new GameData();
+		gameData.setCurrentPlayer(player);
+		gameData.setStatus(status);
+		
+		for(Connection c : connections.keySet()) {
+			c.sendTCP(gameData);
+		}
+	}
 
 	class ServerListener extends Listener {
 		@Override
@@ -76,6 +89,10 @@ public class SnakeLadderServer extends Game {
 			
 			arg0.sendTCP(gm);
 			System.out.println(curPlayer.getName() + " connected.");
+			
+			if(connections.size() == numPlayer) {
+				setFirstPlay();
+			}
 		}
 
 		@Override

@@ -20,7 +20,7 @@ public class SnakeClientUI extends Application{
 	private final static CountDownLatch latch = new CountDownLatch(1);
 	
 	@FXML
-	Button rollButton;
+	private Button rollButton;
 	
 	public void setSnakeClientUI(SnakeClientUI scu) {
 		this.scu = scu;
@@ -42,6 +42,11 @@ public class SnakeClientUI extends Application{
 	
 	public void setClient(SnakeLadderClient slc) {
 		this.slc = slc;
+		player = slc.getPlayer();
+	}
+	
+	public void disableRollButton() {
+		rollButton.setDisable(true);
 	}
 	
 	@Override
@@ -49,7 +54,7 @@ public class SnakeClientUI extends Application{
 		try {
 			Parent root = (Parent)FXMLLoader.load(getClass().getResource("../gameUI/SnakeAndLadderGameUI.fxml"));
 			Scene scene = new Scene(root);
-			primaryStage.setTitle("Snake and Ladder");
+			primaryStage.setTitle("Snake&Ladder | "+player.getName());
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
 			primaryStage.show();
@@ -57,13 +62,4 @@ public class SnakeClientUI extends Application{
 			e.printStackTrace();
 		}
 	}
-	
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-	
-	public Player getPlayer() {
-		return player;
-	}
-
 }
