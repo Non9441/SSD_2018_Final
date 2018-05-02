@@ -27,7 +27,7 @@ public class Game {
 		snake = new Snake(board);
 		backwards = new BackwardSquare(board);
 		freezes = new FreezeSquare(board);
-
+		
 		for (int i = 0; i < numPlayer; i++) {
 			players[i] = new Player("Player" + (i + 1));
 			board.addPiece(players[i].getPiece(), 0);

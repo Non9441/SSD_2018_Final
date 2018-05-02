@@ -1,8 +1,11 @@
 package multiplayer;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 import com.esotericsoftware.kryonet.Client;
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
 
 import gameLogic.BackwardSquare;
 import gameLogic.Board;
@@ -18,6 +21,8 @@ import gameLogic.Square;
 public class SnakeLadderClient {
 
 	private Client client;
+	private Player player;
+	private Player currentPlayer;
 	
 	public SnakeLadderClient() throws IOException {
 		client = new Client();
@@ -41,11 +46,36 @@ public class SnakeLadderClient {
 		client.connect(500000, "127.0.0.1", 50000);
 	}
 	
+	class clientListener extends Listener {
+		@Override
+		public void connected(Connection arg0) {
+			super.connected(arg0);
+		}
+		
+		@Override
+		public void disconnected(Connection arg0) {
+			super.disconnected(arg0);
+		}
+		
+		@Override
+		public void received(Connection arg0, Object arg1) {
+			super.received(arg0, arg1);
+			if(arg1 instanceof GameData) {
+				GameData data = (GameData) arg1;
+				if(data.getStatus().equals("Game Start")) {
+					player = data.getCurrentPlayer();
+				} else {
+					
+				}
+			}
+		}
+	}
+	
 	public static void main(String[] args) {
 		try {
 			SnakeLadderClient snc = new SnakeLadderClient();
-			
-		} catch (IOException e) {
+			Thread.sleep(5000);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
