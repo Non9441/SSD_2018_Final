@@ -1,27 +1,40 @@
 package gameUI;
 
+import gameLogic.Game;
 import gameLogic.Player;
 import javafx.concurrent.Task;
 import javafx.scene.image.ImageView;
 
 public class PLayerMovePiece extends Task<Integer> {
 
+	private Game game;
 	private Player player;
-	private int dieFace;
 	private ImageView playerImage;
 
-	public PLayerMovePiece(Player player, int dieFace, ImageView playerImage) {
-		this.dieFace = dieFace;
+	public PLayerMovePiece(Game game, Player player, ImageView playerImage) {
+		this.game = game;
+		this.player = player;
 		this.playerImage = playerImage;
 	}
 
 	@Override
 	protected Integer call() throws Exception {
-		for (int i = 0; i < dieFace * 60; i++) {
-			playerImage.setTranslateX(playerImage.getTranslateX() + 1);
+		int position = game.getPlayerPosition(player) + 1;
+		System.out.println(game.currentPlayerName() + " on:" + position);
+		if (position % 20 < 10) {
+			System.out.println(game.currentPlayerName() + " on:" + position);
+			playerImage.setTranslateX(playerImage.getTranslateX() + 60);
 			System.out.println(playerImage.getTranslateX());
-			Thread.sleep(10);
+		} else if (position % 20 > 10) {
+			System.out.println(game.currentPlayerName() + " on:" + position);
+			playerImage.setTranslateX(playerImage.getTranslateX() - 60);
+			System.out.println(playerImage.getTranslateX());
+		} else if (position % 20 == 10 || game.currentPlayerPosition() % 20 == 0) {
+			System.out.println(game.currentPlayerName() + " on:" + position);
+			playerImage.setTranslateY(playerImage.getTranslateY() + 60);
+			System.out.println(playerImage.getTranslateX());
 		}
+		Thread.sleep(10);
 		return null;
 	}
 
