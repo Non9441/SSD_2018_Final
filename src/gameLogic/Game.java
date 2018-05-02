@@ -1,5 +1,7 @@
 package gameLogic;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Game {
@@ -11,7 +13,8 @@ public class Game {
 	private Snake snake;
 	private BackwardSquare backwards;
 	private FreezeSquare freezes;
-
+	
+	private List<Integer> walkHistories;
 	private Scanner sc = new Scanner(System.in);
 	private int currentPlayerIndex;
 	private int numPlayer;
@@ -27,13 +30,18 @@ public class Game {
 		snake = new Snake(board);
 		backwards = new BackwardSquare(board);
 		freezes = new FreezeSquare(board);
-		
+		walkHistories = new ArrayList<>();
+
 		for (int i = 0; i < numPlayer; i++) {
 			players[i] = new Player("Player" + (i + 1));
 			board.addPiece(players[i].getPiece(), 0);
 		}
 
 		ended = false;
+	}
+	
+	public List<Integer> getHistories() {
+		return walkHistories;
 	}
 
 	public boolean isEnded() {
@@ -79,6 +87,13 @@ public class Game {
 		return players[num];
 	}
 
+	public void currentPlayerOnMovePiece(int steps) {
+		currentPlayer().movePiece(board, steps);
+		if (board.pieceIsAtGoal(currentPlayer().getPiece())) {
+			end();
+		}
+	}
+	
 	public String currentPlayerMovePiece(int steps) {
 		Player currentPlayer = currentPlayer();
 		String status = "Simple";
@@ -120,7 +135,7 @@ public class Game {
 			System.out.println(p.getName() + " at " + board.getPiecePosition(p.getPiece()));
 		}
 		System.out.println("==================");
-		switchPlayer();
+//		switchPlayer();
 		return status;
 	}
 
