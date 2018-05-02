@@ -6,6 +6,9 @@ public class Player {
 	private Piece piece;
 	private boolean canPlay = true;;
 	
+	public Player() {
+
+	}
 	public Player(String name) {
 		this.name = name;
 		piece = new Piece();
@@ -14,6 +17,10 @@ public class Player {
 	public int roll(Die die) {
 		die.roll();
 		return die.getFace();
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public String getName() {
