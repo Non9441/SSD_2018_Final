@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import gameLogic.Game;
 import gameLogic.Player;
-import javafx.animation.Animation.Status;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
