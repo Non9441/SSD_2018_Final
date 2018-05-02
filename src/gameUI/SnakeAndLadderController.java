@@ -61,15 +61,16 @@ public class SnakeAndLadderController {
 		int curPos = game.currentPlayerPosition() + 1;
 
 		for (int i = 0; i < face; i++) {
-			if (face - i == 1) {
-				System.out.println("5555");
-				String status = game.currentPlayerMovePiece(1);
-				specialBlockLabel.setText(status);
-
-			} else {
-				System.out.println("1111");
-				game.currentPlayerOnMovePiece(1);
-			}
+//			if (face - i == 1) {
+//				System.out.println("5555");
+//				String status = game.currentPlayerMovePiece(1);
+//				specialBlockLabel.setText(status);
+//
+//			} else {
+//				System.out.println("1111");
+//			}
+			game.currentPlayerOnMovePiece(1);
+			System.out.println("-----------\n" + game.currentPlayerName() + "\n----------");
 			if (game.currentPlayer().getName().equals("Player1")) {
 				playerMove = new PLayerMovePiece(game, cur, player1Image);
 				new Thread(playerMove).start();
@@ -77,6 +78,7 @@ public class SnakeAndLadderController {
 		}
 		int newPos = game.getPlayerPosition(cur) + 1;
 		playerPosition.setText(cur.getName() + " " + curPos + "->" + newPos);
+		game.switchPlayer();
 		if (game.isEnded()) {
 			gameEndAlert();
 		}

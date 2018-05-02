@@ -81,6 +81,9 @@ public class Game {
 
 	public void currentPlayerOnMovePiece(int steps) {
 		currentPlayer().movePiece(board, steps);
+		if (board.pieceIsAtGoal(currentPlayer().getPiece())) {
+			end();
+		}
 	}
 	
 	public String currentPlayerMovePiece(int steps) {
@@ -124,7 +127,7 @@ public class Game {
 			System.out.println(p.getName() + " at " + board.getPiecePosition(p.getPiece()));
 		}
 		System.out.println("==================");
-		switchPlayer();
+//		switchPlayer();
 		return status;
 	}
 
