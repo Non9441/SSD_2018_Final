@@ -67,14 +67,13 @@ public class SnakeAndLadderController {
 //				specialBlockLabel.setText(status);
 //
 //			} else {
-//				System.out.println("1111");
 //			}
 			game.currentPlayerOnMovePiece(1);
-			System.out.println("-----------\n" + game.currentPlayerName() + "\n----------");
 			if (game.currentPlayer().getName().equals("Player1")) {
 				playerMove = new PLayerMovePiece(game, cur, player1Image);
 				new Thread(playerMove).start();
 			}
+			
 		}
 		int newPos = game.getPlayerPosition(cur) + 1;
 		playerPosition.setText(cur.getName() + " " + curPos + "->" + newPos);
