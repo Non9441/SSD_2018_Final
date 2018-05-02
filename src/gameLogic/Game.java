@@ -75,6 +75,10 @@ public class Game {
 		return board.getPiecePosition(player.getPiece());
 	}
 
+	public void currentPlayerOnMovePiece(int steps) {
+		currentPlayer().movePiece(board, steps);
+	}
+	
 	public String currentPlayerMovePiece(int steps) {
 		Player currentPlayer = currentPlayer();
 		String status = "Simple";

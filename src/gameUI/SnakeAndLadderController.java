@@ -56,18 +56,30 @@ public class SnakeAndLadderController {
 	public void onRollButtonClicked(ActionEvent event) {
 		int face = game.currentPlayerRollDie();
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
+		diceOutputNumberText.setText(face + "");
 		Player cur = game.currentPlayer();
 		int curPos = game.currentPlayerPosition() + 1;
-		diceOutputNumberText.setText(face + "");
-		String status = game.currentPlayerMovePiece(face);
+
+		for (int i = 0; i < face; i++) {
+			if (face - i == 1) {
+				System.out.println("5555");
+				String status = game.currentPlayerMovePiece(1);
+				specialBlockLabel.setText(status);
+
+			} else {
+				System.out.println("1111");
+				game.currentPlayerOnMovePiece(1);
+			}
+			if (game.currentPlayer().getName().equals("Player1")) {
+				playerMove = new PLayerMovePiece(game, cur, player1Image);
+				new Thread(playerMove).start();
+			}
+		}
 		int newPos = game.getPlayerPosition(cur) + 1;
 		playerPosition.setText(cur.getName() + " " + curPos + "->" + newPos);
-		specialBlockLabel.setText(status);
 		if (game.isEnded()) {
 			gameEndAlert();
 		}
-		playerMove = new PLayerMovePiece(cur, face, player1Image);
-		new Thread(playerMove).start();
 	}
 
 	public void gameEndAlert() {
