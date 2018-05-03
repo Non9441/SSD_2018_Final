@@ -1,11 +1,13 @@
 package gameUI;
 
 import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
 
 import gameLogic.Game;
 import gameLogic.Player;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,8 +23,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import multiplayer.SnakeClientUI;
+import multiplayer.SnakeLadderClient;
 
-public class SnakeAndLadderController {
+public class SnakeAndLadderController extends Application{
 
 	@FXML
 	Label playerNameLabel;
@@ -47,17 +51,81 @@ public class SnakeAndLadderController {
 	private PLayerMovePiece playerMove;
 	private TranslateTransition transition;
 
+	//Add by fame
+	private Player player;
+	private Player currentPlayer;
+	private SnakeLadderClient slc; 
+	
+	private static SnakeAndLadderController scu;
+	private final static CountDownLatch latch = new CountDownLatch(1);
+
 	public void setGame(Game game) {
 		this.game = game;
 	}
+	
+	public void setSnakeAndLadderController(SnakeAndLadderController scu) {
+		this.scu = scu;
+		latch.countDown();
+	}
+	
+	public SnakeAndLadderController() {
+		setSnakeAndLadderController(this);
+	}
+	
+	public static SnakeAndLadderController waitForLaunch() {
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return scu;
+	}
+	
+	public void setClient(SnakeLadderClient slc) {
+		this.slc = slc;
+		player = slc.getPlayer();
+	}
+	
+	public void setCurrentPlayer(Player currentPlayer) {
+		System.out.println("set currentplayer");
+		this.currentPlayer = currentPlayer;
+	}
+	
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("SnakeAndLadderGameUI.fxml"));
+			Parent root = loader.load();
+			Scene scene = new Scene(root);
+			SnakeAndLadderController snake = loader.getController();
+			snake.setGame(new Game(2));
+			primaryStage.setTitle("Snake&Ladder | ");
+			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
+			primaryStage.show();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void disableRollButton() {
+		rollButton.setDisable(true);
+	}
+	
+	public void enableRollButton() {
+		System.out.println(rollButton);
+		rollButton.setDisable(false);
+	}
+	
+	//End add by fame
 
 	public void initialize() {
 		rollButton.setOnAction(event -> {
 			try {
 				onRollButtonClicked(event);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+ 				e.printStackTrace();
 			}
 		});
 		playerPosition.setText("Your position: " + 1);
@@ -66,6 +134,12 @@ public class SnakeAndLadderController {
 	}
 
 	public void onRollButtonClicked(ActionEvent event) throws InterruptedException {
+		//Fame add aeng ja
+//		if(currentPlayer == null || !currentPlayer.getName().equals(player.getName())) {
+//			specialBlockLabel.setText("It's not your turn!!");
+//			return;
+//		}
+		//Fame lek add laew ja
 		int face = game.currentPlayerRollDie();
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");

@@ -19,16 +19,17 @@ import gameLogic.Player;
 import gameLogic.Snake;
 import gameLogic.Square;
 
-public class SnakeLadderServer extends Game {
+public class SnakeLadderServer {
 
 	private Server server;
+	private Game game;
 	private static int numPlayer = 2;
 	private Map<Connection, Player> connections = new HashMap<Connection, Player>();
 
 	public SnakeLadderServer() throws IOException {
-		super(numPlayer);
 		server = new Server();
-
+		game = new Game(numPlayer);
+		
 		server.getKryo().register(Board.class);
 		server.getKryo().register(Piece.class);
 		server.getKryo().register(Square.class);
@@ -37,11 +38,10 @@ public class SnakeLadderServer extends Game {
 		server.getKryo().register(FreezeSquare.class);
 		server.getKryo().register(Snake.class);
 		server.getKryo().register(Ladder.class);
-		server.getKryo().register(Game.class);
 
 		server.getKryo().register(Player.class);
 		server.getKryo().register(GameData.class);
-		server.getKryo().register(PlayerData.class);
+		server.getKryo().register(RollData.class);
 
 		server.addListener(new ServerListener());
 		server.start();
@@ -49,20 +49,16 @@ public class SnakeLadderServer extends Game {
 		System.out.println("Snake Ladder Server started");
 	}
 
-	@Override
-	public void start() {
-		System.out.println("Running...");
-	}
 
 	public void onRolled(Connection c, int face) {
-		String status = currentPlayerMovePiece(face);
-		Player player = currentPlayer();
+		String status = game.currentPlayerMovePiece(face);
+		Player player = game.currentPlayer();
 		GameData gameData = new GameData();
 		c.sendTCP(gameData);
 	}
 	
 	public void setFirstPlay() {
-		Player player = currentPlayer();
+		Player player = game.currentPlayer();
 		String status = "Playing";
 		GameData gameData = new GameData();
 		gameData.setCurrentPlayer(player);
@@ -79,14 +75,13 @@ public class SnakeLadderServer extends Game {
 			super.connected(arg0);
 			int number = connections.size();
 			String status = "Game Start";
-			Player curPlayer = getPlayer(number);
+			Player curPlayer = game.getPlayer(number);
 
 			connections.put(arg0, curPlayer);
 			
 			GameData gm = new GameData();
 			gm.setCurrentPlayer(curPlayer);
 			gm.setStatus(status);
-			
 			arg0.sendTCP(gm);
 			System.out.println(curPlayer.getName() + " connected.");
 			
@@ -106,8 +101,8 @@ public class SnakeLadderServer extends Game {
 		@Override
 		public void received(Connection arg0, Object arg1) {
 			super.received(arg0, arg1);
-			if (arg1 instanceof PlayerData) {
-				PlayerData data = (PlayerData) arg1;
+			if (arg1 instanceof RollData) {
+				RollData data = (RollData) arg1;
 				int face = data.getFace();
 				onRolled(arg0, face);
 				System.out.println("Server received data.");

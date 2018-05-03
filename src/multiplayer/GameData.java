@@ -1,5 +1,6 @@
 package multiplayer;
 
+import gameLogic.Game;
 import gameLogic.Player;
 
 public class GameData {

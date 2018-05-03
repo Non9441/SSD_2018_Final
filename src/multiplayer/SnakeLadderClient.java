@@ -17,6 +17,7 @@ import gameLogic.Piece;
 import gameLogic.Player;
 import gameLogic.Snake;
 import gameLogic.Square;
+import gameUI.SnakeAndLadderController;
 
 public class SnakeLadderClient {
 
@@ -24,6 +25,8 @@ public class SnakeLadderClient {
 	private Player player;
 	private Player currentPlayer;
 	private String status;
+	
+	private SnakeAndLadderController scu;
 
 	public SnakeLadderClient() throws IOException {
 		client = new Client();
@@ -40,11 +43,20 @@ public class SnakeLadderClient {
 
 		client.getKryo().register(Player.class);
 		client.getKryo().register(GameData.class);
-		client.getKryo().register(PlayerData.class);
+		client.getKryo().register(RollData.class);
 
 		client.addListener(new clientListener());
 		client.start();
 		client.connect(5000, "127.0.0.1", 50000);
+		
+		new Thread() {
+			@Override
+			public void run() {
+				javafx.application.Application.launch(SnakeAndLadderController.class);
+			}
+		}.start();
+		scu = SnakeAndLadderController.waitForLaunch();
+		scu.setClient(this);
 	}
 	
 	public Player getPlayer() {
@@ -78,7 +90,9 @@ public class SnakeLadderClient {
 					status = data.getStatus();
 				} else {
 					currentPlayer = data.getCurrentPlayer();
-					System.out.println(currentPlayer.getName());
+					if(currentPlayer.getName().equals(player.getName())) {
+						scu.setCurrentPlayer(currentPlayer);
+					}
 				}
 			}
 		}
@@ -87,15 +101,6 @@ public class SnakeLadderClient {
 	public static void main(String[] args) {
 		try {
 			SnakeLadderClient snc = new SnakeLadderClient();
-			new Thread() {
-				@Override
-				public void run() {
-					javafx.application.Application.launch(SnakeClientUI.class);
-				}
-			}.start();
-			SnakeClientUI scu = SnakeClientUI.waitForLaunch();
-			scu.setClient(snc);
-			scu.disableRollButton();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
