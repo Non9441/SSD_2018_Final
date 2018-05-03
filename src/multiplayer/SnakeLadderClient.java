@@ -10,7 +10,6 @@ import gameLogic.BackwardSquare;
 import gameLogic.Board;
 import gameLogic.Die;
 import gameLogic.FreezeSquare;
-import gameLogic.Game;
 import gameLogic.Ladder;
 import gameLogic.Piece;
 import gameLogic.Player;
@@ -37,15 +36,12 @@ public class SnakeLadderClient {
 		client.getKryo().register(FreezeSquare.class);
 		client.getKryo().register(Snake.class);
 		client.getKryo().register(Ladder.class);
-		client.getKryo().register(Game.class);
 
 		client.getKryo().register(Player.class);
-		client.getKryo().register(RollData.class);
 		client.getKryo().register(GameData.class);
+		client.getKryo().register(RollData.class);
 		
 		client.addListener(new clientListener());
-		client.start();
-		client.connect(5000, "127.0.0.1", 50000);
 		
 		new Thread() {
 			@Override
@@ -55,6 +51,9 @@ public class SnakeLadderClient {
 		}.start();
 		scu = SnakeAndLadderUI.waitForLaunch();
 		scu.setClient(this);
+		
+		client.start();
+		client.connect(5000, "127.0.0.1", 50000);
 	}
 	
 	public Player getPlayer() {
@@ -83,16 +82,15 @@ public class SnakeLadderClient {
 			System.out.println("receive");
 			System.out.println(arg1);
 			if (arg1 instanceof GameData) {
-				System.out.println(player+":"+status);
 				GameData data = (GameData) arg1;
-				if (data.getStatus().equals("Game Start")) {
+				if (data.getStatus().equals("Start")) {
 					player = data.getCurrentPlayer();
 					status = data.getStatus();
 					scu.setPlayer(player);
 				} else {
 					currentPlayer = data.getCurrentPlayer();
 					if(currentPlayer.getName().equals(player.getName())) {
-						
+						scu.setCurrentPlayer(currentPlayer);
 					}
 				}
 			}

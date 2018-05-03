@@ -72,7 +72,7 @@ public class SnakeAndLadderController {
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
 
-		playerPosition.setText(player.getName() + " " );
+		playerPosition.setText(player.getName() + " ");
 		setButtomDisable();
 	}
 
@@ -109,10 +109,8 @@ public class SnakeAndLadderController {
 	}
 
 	public void backToHome() {
-
 		stage = (Stage) playerNameLabel.getScene().getWindow();
 		try {
-
 			FXMLLoader chooseGameLoader = new FXMLLoader(getClass().getResource("GameModeUI.fxml"));
 			Parent chooseGameRoot = chooseGameLoader.load();
 			Scene chooseGameScene = new Scene(chooseGameRoot);

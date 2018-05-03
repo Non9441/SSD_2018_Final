@@ -1,11 +1,14 @@
 package multiplayer;
 
-import gameLogic.Game;
 import gameLogic.Player;
 
 public class GameData {
 	private Player currentPlayer;
 	private String status;
+	
+	public GameData() {
+		
+	}
 	
 	public void setStatus(String status) {
 		this.status = status;

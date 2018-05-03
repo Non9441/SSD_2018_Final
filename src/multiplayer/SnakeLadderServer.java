@@ -79,10 +79,10 @@ public class SnakeLadderServer {
 
 			connections.put(arg0, curPlayer);
 			
-			GameData gm = new GameData();
-			gm.setCurrentPlayer(curPlayer);
-			gm.setStatus(status);
-			arg0.sendTCP(gm);
+			GameData data = new GameData();
+			data.setCurrentPlayer(curPlayer);
+			data.setStatus(status);
+			arg0.sendTCP(data);
 			System.out.println(curPlayer.getName() + " connected.");
 			
 			if(connections.size() == numPlayer) {
