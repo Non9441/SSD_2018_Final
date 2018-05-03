@@ -74,7 +74,7 @@ public class SnakeLadderServer {
 		public void connected(Connection arg0) {
 			super.connected(arg0);
 			int number = connections.size();
-			String status = "Game Start";
+			String status = "Start";
 			Player curPlayer = game.getPlayer(number);
 
 			connections.put(arg0, curPlayer);

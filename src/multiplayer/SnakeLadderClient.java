@@ -1,7 +1,6 @@
 package multiplayer;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -17,7 +16,6 @@ import gameLogic.Piece;
 import gameLogic.Player;
 import gameLogic.Snake;
 import gameLogic.Square;
-import gameUI.SnakeAndLadderController;
 
 public class SnakeLadderClient {
 
@@ -26,7 +24,7 @@ public class SnakeLadderClient {
 	private Player currentPlayer;
 	private String status;
 	
-	private SnakeAndLadderController scu;
+	private SnakeAndLadderUI scu;
 
 	public SnakeLadderClient() throws IOException {
 		client = new Client();
@@ -42,9 +40,9 @@ public class SnakeLadderClient {
 		client.getKryo().register(Game.class);
 
 		client.getKryo().register(Player.class);
-		client.getKryo().register(GameData.class);
 		client.getKryo().register(RollData.class);
-
+		client.getKryo().register(GameData.class);
+		
 		client.addListener(new clientListener());
 		client.start();
 		client.connect(5000, "127.0.0.1", 50000);
@@ -52,10 +50,10 @@ public class SnakeLadderClient {
 		new Thread() {
 			@Override
 			public void run() {
-				javafx.application.Application.launch(SnakeAndLadderController.class);
+				javafx.application.Application.launch(SnakeAndLadderUI.class);
 			}
 		}.start();
-		scu = SnakeAndLadderController.waitForLaunch();
+		scu = SnakeAndLadderUI.waitForLaunch();
 		scu.setClient(this);
 	}
 	
@@ -83,15 +81,18 @@ public class SnakeLadderClient {
 		public void received(Connection arg0, Object arg1) {
 			super.received(arg0, arg1);
 			System.out.println("receive");
+			System.out.println(arg1);
 			if (arg1 instanceof GameData) {
+				System.out.println(player+":"+status);
 				GameData data = (GameData) arg1;
 				if (data.getStatus().equals("Game Start")) {
 					player = data.getCurrentPlayer();
 					status = data.getStatus();
+					scu.setPlayer(player);
 				} else {
 					currentPlayer = data.getCurrentPlayer();
 					if(currentPlayer.getName().equals(player.getName())) {
-						scu.setCurrentPlayer(currentPlayer);
+						
 					}
 				}
 			}
