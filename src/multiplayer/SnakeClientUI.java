@@ -2,7 +2,9 @@ package multiplayer;
 
 import java.util.concurrent.CountDownLatch;
 
+import gameLogic.Game;
 import gameLogic.Player;
+import gameUI.SnakeAndLadderController;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -52,8 +54,13 @@ public class SnakeClientUI extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		try {
-			Parent root = (Parent)FXMLLoader.load(getClass().getResource("../gameUI/SnakeAndLadderGameUI.fxml"));
+			FXMLLoader chooseGameLoader = new FXMLLoader(getClass().getResource("../gameUI/SnakeAndLadderGameUI.fxml"));
+			Parent root = chooseGameLoader.load();
 			Scene scene = new Scene(root);
+			
+			SnakeAndLadderController snakeandladder = chooseGameLoader.getController();
+			snakeandladder.setGame(new Game(2));
+			
 			primaryStage.setTitle("Snake&Ladder | "+player.getName());
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);

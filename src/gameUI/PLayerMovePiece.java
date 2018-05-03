@@ -17,7 +17,6 @@ public class PLayerMovePiece extends Task<Integer> {
 		this.playerImage = playerImage;
 	}
 
-
 	public void moveUp() {
 		playerImage.setTranslateY(playerImage.getTranslateY() - 60);
 	}
@@ -41,7 +40,7 @@ public class PLayerMovePiece extends Task<Integer> {
 		} else if (position % 20 >= 10) {
 			moveLeft();
 		}
-		Thread.sleep(20);
+//		Thread.sleep(20);
 		return null;
 	}
 
