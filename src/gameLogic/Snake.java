@@ -35,6 +35,7 @@ public class Snake {
 		snake.put(16, 6);
 		snake.put(53, 33);
 		snake.put(63, 59);
+		snake.put(62, 17);
 		snake.put(86, 35);
 		snake.put(92, 72);
 		snake.put(94, 74);
