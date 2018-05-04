@@ -19,16 +19,15 @@ public class SnakeAndLadderUI extends Application {
 	private Player player;
 	private Player currentPlayer;
 	private String status = "";
-	
+
 	private FXMLLoader chooseGameLoader;
 	private Parent chooseGameRoot;
 	private Scene chooseGameScene;
 
 	public void setSnakeAndLadderUI(SnakeAndLadderUI ui) {
 		this.ui = ui;
-		
-		chooseGameLoader = new FXMLLoader(
-				getClass().getResource("/multiplayer/SnakeAndLadderGameUI.fxml"));
+
+		chooseGameLoader = new FXMLLoader(getClass().getResource("/multiplayer/SnakeAndLadderGameUI.fxml"));
 		try {
 			chooseGameRoot = chooseGameLoader.load();
 		} catch (IOException e) {
@@ -62,16 +61,16 @@ public class SnakeAndLadderUI extends Application {
 		this.player = player;
 		salController.setPlayer(player);
 	}
-	
+
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 		salController.setCurrentPlayer(currentPlayer);
 	}
-	
-	public void setStatusAndMoveDetail(String status,String moveDetail) {
-		salController.setStatusAndMoveDetail(status,moveDetail);
+
+	public void setStatusAndMoveDetail(String status, String moveDetail, int curPos, int newPos) {
+		salController.setStatusAndMoveDetail(status, moveDetail, curPos, newPos);
 	}
-	
+
 	@Override
 	public void start(Stage stage) throws Exception {
 

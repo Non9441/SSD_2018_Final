@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import gameLogic.Die;
 import gameLogic.Player;
+import gameUI.MyAnimTimer;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -40,33 +41,40 @@ public class SnakeAndLadderController {
 	ImageView dieImage;
 	@FXML
 	ImageView player1Image;
+	@FXML
+	ImageView player2Image;
 
 	private Stage stage;
-	private AnimationTimer timer;
 	private TranslateTransition transition;
-	
+
 	private Player player;
 	private Player currentPlayer;
+
 	private String moveDetail = "Starting path";
 	private String status = "Waiting";
+	private int curPos;
+	private int newPos;
+	private String posStatus = "";
+
 	private Die die;
 	private int face;
 
 	private SnakeLadderClient salClient;
+	private MyAnimTimer timer;
 
 	public void setPlayer(Player player) {
 		this.player = player;
 		playerNameLabel.setText(player.getName());
 	}
-	
+
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 		javafx.application.Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				playerTurnLabel.setText(currentPlayer.getName()+"'s turn");
+				playerTurnLabel.setText(currentPlayer.getName() + "'s turn");
 				specialBlockLabel.setText("Game start!!");
-				if(currentPlayer.getName().equals(player.getName())) {
+				if (currentPlayer.getName().equals(player.getName())) {
 					rollButton.setDisable(false);
 				} else {
 					rollButton.setDisable(true);
@@ -74,21 +82,87 @@ public class SnakeAndLadderController {
 			}
 		});
 	}
-	
+
 	public void setSalClient(SnakeLadderClient salClient) {
 		this.salClient = salClient;
 	}
-	
-	public void setStatusAndMoveDetail(String status,String moveDetail) {
+
+	public void setStatusAndMoveDetail(String status, String moveDetail, int curPos, int newPos) {
 		this.status = status;
 		this.moveDetail = moveDetail;
+		this.curPos = curPos;
+		this.newPos = newPos;
+		String[] text = status.split(" ");
+		if (text.length > 4) {
+			this.posStatus= text[3];
+		}
 		javafx.application.Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
+				moveImage(posStatus, curPos, newPos);
 				playerPosition.setText(moveDetail);
 				specialBlockLabel.setText(status);
 			}
 		});
+	}
+
+	public void moveImage(String posStatus, int curPos, int newPos) {
+
+		ImageView curImg = null;
+
+		System.out.println("-----------------------------------------");
+		System.out.println(player.getName());
+		System.out.println(posStatus);
+		System.out.println("-----------------------------------------");
+
+		switch (player.getName()) {
+		case "Player1":
+			curImg = player1Image;
+			break;
+		case "Player2":
+			curImg = player2Image;
+			break;
+		default:
+			curImg = player1Image;
+			break;
+		}
+
+		switch (posStatus) {
+		case "normal":
+			System.out.println(newPos+""+curPos);
+			System.out.println("555555555555");
+			timer.setUp(curImg, curPos, newPos - curPos);
+			timer.start();
+			break;
+		case "Backward":
+			System.out.println("backward");
+			timer.setUp(curImg, curPos, face);
+			timer.start();
+			break;
+		case "Snake":
+			System.out.println("snake");
+			timer.setUp(curImg, curPos, face);
+			timer.start();
+			timer.setSteps(newPos - (curPos + face));
+			timer.start();
+
+			break;
+		case "Ladder":
+			System.out.println("ladder");
+			timer.setUp(curImg, curPos, face);
+			timer.start();
+			timer.setSteps(newPos - curPos);
+			timer.start();
+			break;
+		case "Freeze":
+			System.out.println("freeze");
+			timer.setUp(curImg, curPos, face);
+			timer.start();
+			break;
+		default:
+			break;
+		}
+
 	}
 
 	public void initialize() {
@@ -105,15 +179,17 @@ public class SnakeAndLadderController {
 		transition = new TranslateTransition();
 		transition.setDuration(Duration.seconds(1));
 		rollButton.setDisable(true);
+
+		timer = new MyAnimTimer();
 	}
 
 	public void onRollButtonClicked(ActionEvent event) throws InterruptedException {
 		face = player.roll(die);
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
-		
+
 		salClient.sendRollResult(face);
-		
+
 		specialBlockLabel.setText("Playing....");
 		playerPosition.setText(moveDetail);
 	}
@@ -165,15 +241,4 @@ public class SnakeAndLadderController {
 		}
 	}
 
-	public void playerMove() {
-		timer = new AnimationTimer() {
-			@Override
-			public void handle(long now) {
-				player1Image.setTranslateX(player1Image.getTranslateX() + 5);
-				player1Image.setY(player1Image.getY());
-				System.out.println(player1Image.getTranslateX());
-			}
-		};
-		timer.start();
-	}
 }

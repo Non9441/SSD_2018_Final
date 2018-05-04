@@ -63,6 +63,9 @@ public class SnakeLadderServer {
 		gameData.setCurrentPlayer(currentPlayer);
 		gameData.setStatus(newStatus);
 		gameData.setMoveDetail(moveDetail);
+		System.out.println("----------------------------\n" + fromPosi + "-------------------------------\n");
+		gameData.setCurPos(fromPosi);
+		gameData.setNewPos(afterPosi);
 		System.out.println(currentPlayer.getName() + " turn");
 
 		for (Connection c : connections.keySet()) {
