@@ -57,7 +57,7 @@ public class SnakeLadderClient {
 		scu.setClient(this);
 
 		client.start();
-		client.connect(5000, "192.168.43.209", 50000);
+		client.connect(5000, "127.0.0.1", 50000);
 	}
 
 	public Player getPlayer() {
@@ -122,6 +122,7 @@ public class SnakeLadderClient {
 			SnakeLadderClient snc = new SnakeLadderClient();
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("Cant connect");
 		}
 	}
 }
