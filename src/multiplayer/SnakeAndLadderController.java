@@ -109,9 +109,10 @@ public class SnakeAndLadderController {
 
 	public void onRollButtonClicked(ActionEvent event) throws InterruptedException {
 		face = player.roll(die);
-		salClient.sendRollResult(face);
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
+		
+		salClient.sendRollResult(face);
 		
 		specialBlockLabel.setText("Playing....");
 		playerPosition.setText(moveDetail);
