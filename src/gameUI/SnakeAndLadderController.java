@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import gameLogic.Game;
 import gameLogic.Player;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -146,7 +145,6 @@ public class SnakeAndLadderController extends Application{
 		default:
 			break;
 		}
-//		game.switchPlayer();
 		
 		if (game.isEnded()) {
 			gameEndAlert();
