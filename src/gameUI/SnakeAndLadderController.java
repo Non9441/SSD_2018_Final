@@ -44,7 +44,7 @@ public class SnakeAndLadderController extends Application{
 
 	private Game game;
 	private Stage stage;
-	private AnimationTimer timer;
+	private MyAnimTimer timer;
 
 	public void setGame(Game game) {
 		this.game = game;
@@ -102,13 +102,44 @@ public class SnakeAndLadderController extends Application{
 			break;
 		}
 		
-		timer = new MyAnimTimer(curImg, curPos, face);
-		timer.start();
 
-		game.currentPlayerOnMovePiece(face);
+		String status = game.currentPlayerMovePiece(face);
+		int newPos = game.currentPlayerPosition() + 1;
 		
-		int newPos = game.getPlayerPosition(cur) + 1;
-
+		switch (status) {
+		case "normal":
+			timer = new MyAnimTimer(curImg, curPos, face);
+			timer.start();
+			break;
+		case "Backward":
+			timer = new MyAnimTimer(curImg, curPos, -face);
+			timer.start();
+			break;
+		case "Snake":
+			timer = new MyAnimTimer(curImg, curPos, face);
+			timer.start();
+			while(timer.isActive()) {
+				if(!timer.isActive()) break;
+			}
+			timer.setSteps(curPos-newPos);
+			timer.start();
+			
+			break;
+		case "Ladder":
+			timer = new MyAnimTimer(curImg, curPos, face);
+			timer.start();
+			while(timer.isActive()) {
+				if(!timer.isActive()) break;
+			}
+			timer.setSteps(newPos-curPos);
+			timer.start();
+			break;
+		case "Freeze":
+			break;
+		default:
+			break;
+		}
+		
 		playerPosition.setText(cur.getName() + " " + curPos + "->" + newPos);
 		game.switchPlayer();
 		
@@ -161,27 +192,61 @@ public class SnakeAndLadderController extends Application{
 		
 		private ImageView curImg;
 		private int curPos;
-		private int face;
+		private int steps;
+		private boolean active;
 		
-		public MyAnimTimer(ImageView curImg, int curPos, int face) {
+		
+		
+		public MyAnimTimer(ImageView curImg, int curPos, int steps) {
 			this.curImg = curImg;
 			this.curPos = curPos;
-			this.face = face;
+			this.steps = steps;
+			active = false;
 		}
+		
+		public void setSteps(int steps) {
+			this.steps = steps;
+		}
+		
+		public void setPosition(int curPos) {
+			this.curPos = curPos;
+		}
+		
+		public boolean isActive() {
+			return active;
+		}
+		
 		@Override
 		public void handle(long now) {
-			
-			if(face == 0) stop();
-			else {
-				if (curPos % 20 == 0 || curPos % 20 == 10) {
-					curImg.setTranslateY(curImg.getTranslateY() - 60);	
+			active = true;
+			if(steps == 0) {stop(); active = false;}
+			if(steps > 0) {
+					if (curPos % 20 == 0 || curPos % 20 == 10) {
+						curImg.setTranslateY(curImg.getTranslateY() - 60);	
+					} else if (curPos % 20 <= 10) {
+						curImg.setTranslateX(curImg.getTranslateX() + 60);
+					} else if (curPos % 20 >= 10) {
+						curImg.setTranslateX(curImg.getTranslateX() - 60);
+					}
+					curPos++;
+					steps--;
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			} 
+			if (steps < 0){
+				if (curPos % 20 == 1 || curPos % 20 == 11) {
+					curImg.setTranslateY(curImg.getTranslateY() + 60);	
 				} else if (curPos % 20 <= 10) {
-					curImg.setTranslateX(curImg.getTranslateX() + 60);
-				} else if (curPos % 20 >= 10) {
 					curImg.setTranslateX(curImg.getTranslateX() - 60);
+				} else if (curPos % 20 >= 10) {
+					curImg.setTranslateX(curImg.getTranslateX() + 60);
 				}
-				curPos++;
-				face--;
+				curPos--;
+				steps++;
 				try {
 					Thread.sleep(300);
 				} catch (InterruptedException e) {

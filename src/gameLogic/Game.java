@@ -87,16 +87,17 @@ public class Game {
 		return players[num];
 	}
 
-	public void currentPlayerOnMovePiece(int steps) {
-		currentPlayer().movePiece(board, steps);
-		if (board.pieceIsAtGoal(currentPlayer().getPiece())) {
-			end();
-		}
-	}
+//	public void currentPlayerOnMovePiece(int steps) {
+//		currentPlayer().movePiece(board, steps);
+//		if (board.pieceIsAtGoal(currentPlayer().getPiece())) {
+//			end();
+//		}
+//	}
 	
 	public String currentPlayerMovePiece(int steps) {
 		Player currentPlayer = currentPlayer();
 		int fromPosi = board.getPiecePosition(currentPlayer.getPiece());
+		System.out.println(currentPlayer.getName() + " " + steps);
 		if (isBackStatus) {
 			backwards.moveBack(board, currentPlayer.getPiece(), steps);
 			isBackStatus = false;
@@ -105,7 +106,7 @@ public class Game {
 		}
 		int afterPosi = board.getPiecePosition(currentPlayer.getPiece());
 
-		String status = currentPlayer.getName()+" move from "+fromPosi+"->"+afterPosi;
+		String status = "normal";
 
 
 		if (ladder.isOnLadder(board, currentPlayer.getPiece())) {

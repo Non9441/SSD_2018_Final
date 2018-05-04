@@ -34,6 +34,7 @@ public class Ladder {
 //			System.out.println("Ladder at "+tailOfLadder+","+headOfLadder);
 //		}
 		ladder.put(3, 13);
+		ladder.put(8, 30);
 		ladder.put(18, 37);
 		ladder.put(20, 41);
 		ladder.put(27, 83);
@@ -57,5 +58,6 @@ public class Ladder {
 
 	public void moveUp(Board board, Piece piece) {
 		board.movePiece(piece, getNewPosition(board, piece) - board.getPiecePosition(piece));
+		System.out.println(board.getPiecePosition(piece));
 	}
 }
