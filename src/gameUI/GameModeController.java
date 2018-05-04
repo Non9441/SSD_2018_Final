@@ -17,13 +17,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 public class GameModeController {
-
-	// @FXML
-	// Button twoPlayerModeButton;
-	// @FXML
-	// Button threePlayerModeButton;
-	// @FXML
-	// Button fourPlayerModeButton;
 	
 	@FXML
     ImageView twoPlayerMode;
@@ -45,11 +38,7 @@ public class GameModeController {
 		player = new MediaPlayer(media);
 		player.setVolume(0.1);
 		player.setCycleCount((int)Double.POSITIVE_INFINITY);
-		player.play();		
-		
-//		twoPlayerModeButton.setOnAction(this::onPlayerModeButtonClicked);
-//		threePlayerModeButton.setOnAction(this::onPlayerModeButtonClicked);
-//		fourPlayerModeButton.setOnAction(this::onPlayerModeButtonClicked);
+		player.play();
 		
 		twoPlayerMode.setOnMouseEntered(this::onMouseOver2);
 		threePlayerMode.setOnMouseEntered(this::onMouseOver3);
@@ -71,42 +60,36 @@ public class GameModeController {
 	
 	@FXML
     public void onMouseOver2(MouseEvent event) {
-		System.out.println("over");
 		Image image = new Image(getClass().getResource("../res/button2.gif").toExternalForm());
 		twoPlayerMode.setImage(image);
     }
 
     @FXML
     public void onMouseOver3(MouseEvent event) {
-    	System.out.println("over");
 		Image image = new Image(getClass().getResource("../res/button3.gif").toExternalForm());
 		threePlayerMode.setImage(image);
     }
 
     @FXML
     public void onMouseOver4(MouseEvent event) {
-    	System.out.println("over");
 		Image image = new Image(getClass().getResource("../res/button4.gif").toExternalForm());
 		fourPlayerMode.setImage(image);
     }
     
     @FXML
     public void onMouseExited2(MouseEvent event) {
-    	System.out.println("out");
 		Image image = new Image(getClass().getResource("../res/button2.png").toExternalForm());
 		twoPlayerMode.setImage(image);
     }
 
     @FXML
     public void onMouseExited3(MouseEvent event) {
-    	System.out.println("out");
 		Image image = new Image(getClass().getResource("../res/button3.png").toExternalForm());
 		threePlayerMode.setImage(image);
     }
 
     @FXML
     public void onMouseExited4(MouseEvent event) {
-    	System.out.println("out");
 		Image image = new Image(getClass().getResource("../res/button4.png").toExternalForm());
 		fourPlayerMode.setImage(image);
     }
@@ -138,7 +121,6 @@ public class GameModeController {
 		try {
 
 			int player = 2;
-			System.out.println(player);
 			
 			FXMLLoader chooseGameLoader = new FXMLLoader(getClass().getResource("SnakeAndLadderGameUI.fxml"));
 			Parent chooseGameRoot = chooseGameLoader.load();
@@ -162,7 +144,6 @@ public class GameModeController {
 		try {
 
 			int player = 3;
-			System.out.println(player);
 			
 			FXMLLoader chooseGameLoader = new FXMLLoader(getClass().getResource("SnakeAndLadderGameUI.fxml"));
 			Parent chooseGameRoot = chooseGameLoader.load();
@@ -186,7 +167,6 @@ public class GameModeController {
 		try {
 
 			int player = 4;
-			System.out.println(player);
 			
 			FXMLLoader chooseGameLoader = new FXMLLoader(getClass().getResource("SnakeAndLadderGameUI.fxml"));
 			Parent chooseGameRoot = chooseGameLoader.load();
@@ -203,30 +183,5 @@ public class GameModeController {
 		}
 		player.stop();
     }
-
-
-//	public void onPlayerModeButtonClicked(ActionEvent event) {
-//		stage = (Stage) twoPlayerMode.getScene().getWindow();
-//		try {
-//
-//			Button b = (Button)event.getSource();
-//			int player = Integer.parseInt(b.getText().charAt(0)+"");
-//			System.out.println(player);
-//			
-//			FXMLLoader chooseGameLoader = new FXMLLoader(getClass().getResource("SnakeAndLadderGameUI.fxml"));
-//			Parent chooseGameRoot = chooseGameLoader.load();
-//			Scene chooseGameScene = new Scene(chooseGameRoot);
-//
-//			SnakeAndLadderController snakeAndLadder = chooseGameLoader.getController();
-//			snakeAndLadder.setGame(new Game(player));
-//			
-//			stage.setTitle("Snake and Ladder");
-//			stage.setScene(chooseGameScene);
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		player.stop();
-//	}
 
 }
