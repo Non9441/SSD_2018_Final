@@ -1,7 +1,6 @@
 package gameUI;
 
 import java.util.Optional;
-import java.util.concurrent.CountDownLatch;
 
 import gameLogic.Game;
 import gameLogic.Player;
@@ -112,19 +111,9 @@ public class SnakeAndLadderController extends Application{
 
 		playerPosition.setText(cur.getName() + " " + curPos + "->" + newPos);
 		game.switchPlayer();
-		setButtomDisable();
+		
 		if (game.isEnded()) {
 			gameEndAlert();
-		}
-	}
-
-	public void setButtomDisable() {
-		stage = (Stage) rollButton.getScene().getWindow();
-		String stagePlayerName = stage.getTitle().substring(stage.getTitle().lastIndexOf(" ") + 1);
-		if (stagePlayerName.equals(game.currentPlayer().getName())) {
-			rollButton.setDisable(false);
-		} else {
-			rollButton.setDisable(true);
 		}
 	}
 
