@@ -104,7 +104,7 @@ public class SnakeAndLadderController extends Application{
 		}
 		
 		/*
-		 *  ยังบึ้มอยู่ snake บึ้ม, freeze บึ้ม, ทอยเกินร้อยยังไม่ได้ทำให้เดินกลับ
+		 * อาจจะบึ้ม some condition
 		 */
 
 		String status = game.currentPlayerMovePiece(face);
@@ -114,35 +114,32 @@ public class SnakeAndLadderController extends Application{
 		
 		switch (status) {
 		case "normal":
-			timer.setUp(curImg, curPos, newPos-curPos);
+			timer = new MyAnimTimer(curImg, curPos, newPos-curPos, status);
 			timer.start();
 			game.switchPlayer();
 			break;
 		case "Backward":
 			System.out.println("backward");
-			timer.setUp(curImg, curPos, face);
+			timer = new MyAnimTimer(curImg, curPos, face, status);
 			timer.start();
 			break;
 		case "Snake":
 			System.out.println("snake");
-			timer.setUp(curImg, curPos, face);
-			timer.start();
-			timer.setSteps(newPos-(curPos+face));
+			timer = new MyAnimTimer(curImg, curPos, face, status);
+			timer.setSsteps((curPos+face)-newPos);
 			timer.start();
 			game.switchPlayer();
 			
 			break;
 		case "Ladder":
 			System.out.println("ladder");
-			timer.setUp(curImg, curPos, face);
-			timer.start();
-			timer.setSteps(newPos-curPos);
+			timer = new MyAnimTimer(curImg, curPos, newPos-curPos, status);
 			timer.start();
 			game.switchPlayer();
 			break;
 		case "Freeze":
 			System.out.println("freeze");
-			timer.setUp(curImg, curPos, face);
+			timer = new MyAnimTimer(curImg, curPos, face, status);
 			timer.start();
 			game.switchPlayer();
 			break;
