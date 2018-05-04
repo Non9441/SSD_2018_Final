@@ -3,7 +3,7 @@ package gameUI;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.ImageView;
 
-class MyAnimTimer extends AnimationTimer {
+public class MyAnimTimer extends AnimationTimer {
 	
 	private ImageView curImg;
 	private int curPos;

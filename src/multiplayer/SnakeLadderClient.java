@@ -24,6 +24,9 @@ public class SnakeLadderClient {
 	private String status;
 	private String moveDetail;
 
+	private int curPos;
+	private int newPos;
+
 	private SnakeAndLadderUI scu;
 
 	public SnakeLadderClient() throws IOException {
@@ -54,7 +57,7 @@ public class SnakeLadderClient {
 		scu.setClient(this);
 
 		client.start();
-		client.connect(5000, "127.0.0.1", 50000);
+		client.connect(5000, "192.168.43.209", 50000);
 	}
 
 	public Player getPlayer() {
@@ -95,16 +98,22 @@ public class SnakeLadderClient {
 					player = data.getCurrentPlayer();
 					status = data.getStatus();
 					moveDetail = data.getMoveDetail();
+					curPos = data.getCurPos();
+					newPos = data.getNewPos();
+					
 					scu.setPlayer(player);
-					scu.setStatusAndMoveDetail(status, moveDetail);
+					scu.setStatusAndMoveDetail(player.getName(),status, moveDetail,curPos,newPos);
 				} else {
 					currentPlayer = data.getCurrentPlayer();
 					status = (String) data.getStatus();
 					moveDetail = data.getMoveDetail();
+					curPos = data.getCurPos();
+					newPos = data.getNewPos();
+					
 					scu.setCurrentPlayer(currentPlayer);
-					scu.setStatusAndMoveDetail(status, moveDetail);
+					scu.setStatusAndMoveDetail(currentPlayer.getName(),status, moveDetail, curPos, newPos);
 				}
-			}
+			} 
 		}
 	}
 

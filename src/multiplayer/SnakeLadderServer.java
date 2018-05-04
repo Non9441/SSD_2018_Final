@@ -51,10 +51,10 @@ public class SnakeLadderServer {
 
 	public void onRolled(int face) {
 		System.out.println(game.currentPlayer() + " move " + face);
-		int fromPosi = game.currentPlayerPosition();
+		int fromPosi = game.currentPlayerPosition() + 1;
 		String status = game.currentPlayerMovePiece(face);
 		String newStatus = game.currentPlayer().getName() + " hit on " + status + " path";
-		int afterPosi = game.currentPlayerPosition();
+		int afterPosi = game.currentPlayerPosition() + 1;
 		String moveDetail = game.currentPlayer().getName() + " " + fromPosi + " to " + afterPosi;
 
 		game.switchPlayer();
@@ -63,6 +63,9 @@ public class SnakeLadderServer {
 		gameData.setCurrentPlayer(currentPlayer);
 		gameData.setStatus(newStatus);
 		gameData.setMoveDetail(moveDetail);
+		System.out.println("----------------------------\n" + fromPosi + "-------------------------------\n");
+		gameData.setCurPos(fromPosi);
+		gameData.setNewPos(afterPosi);
 		System.out.println(currentPlayer.getName() + " turn");
 
 		for (Connection c : connections.keySet()) {
