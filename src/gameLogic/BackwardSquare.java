@@ -24,7 +24,6 @@ public class BackwardSquare {
 				if(!board.isSpecialPath(backPath)) {
 					randomSuccess = true;
 				}
-
 			}
 			backward.add(backPath);
 			board.addSpecialPath(backPath);
