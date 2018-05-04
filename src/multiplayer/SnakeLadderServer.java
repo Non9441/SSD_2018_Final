@@ -29,7 +29,7 @@ public class SnakeLadderServer {
 	public SnakeLadderServer() throws IOException {
 		server = new Server();
 		game = new Game(numPlayer);
-		
+
 		server.getKryo().register(Board.class);
 		server.getKryo().register(Piece.class);
 		server.getKryo().register(Square.class);
@@ -49,32 +49,32 @@ public class SnakeLadderServer {
 		System.out.println("Snake Ladder Server started");
 	}
 
-
 	public void onRolled(int face) {
-		System.out.println(game.currentPlayer()+" move "+face);
+		System.out.println(game.currentPlayer() + " move " + face);
 		int fromPosi = game.currentPlayerPosition();
 		String status = game.currentPlayerMovePiece(face);
 		int afterPosi = game.currentPlayerPosition();
-		String newStatus = game.currentPlayer().getName()+" "+fromPosi+" to "+afterPosi;
-		
+		String newStatus = game.currentPlayer().getName() + " " + fromPosi + " to " + afterPosi;
+
 		game.switchPlayer();
 		Player currentPlayer = game.currentPlayer();
 		GameData gameData = new GameData();
 		gameData.setCurrentPlayer(currentPlayer);
 		gameData.setStatus(newStatus);
-		System.out.println(currentPlayer.getName()+" turn");
-		
-		for(Connection c : connections.keySet()) {
+		System.out.println(currentPlayer.getName() + " turn");
+
+		for (Connection c : connections.keySet()) {
 			c.sendTCP(gameData);
-		}	}
-	
+		}
+	}
+
 	public void setFirstPlay() {
 		Player player = game.currentPlayer();
 		String status = "Playing";
 		GameData gameData = new GameData();
 		gameData.setCurrentPlayer(player);
 		gameData.setStatus(status);
-		for(Connection c : connections.keySet()) {
+		for (Connection c : connections.keySet()) {
 			c.sendTCP(gameData);
 		}
 	}
@@ -88,14 +88,14 @@ public class SnakeLadderServer {
 			Player curPlayer = game.getPlayer(number);
 
 			connections.put(arg0, curPlayer);
-			
+
 			GameData data = new GameData();
 			data.setCurrentPlayer(curPlayer);
 			data.setStatus(status);
 			arg0.sendTCP(data);
 			System.out.println(curPlayer.getName() + " connected.");
-			
-			if(connections.size() == numPlayer) {
+
+			if (connections.size() == numPlayer) {
 				setFirstPlay();
 			}
 		}
