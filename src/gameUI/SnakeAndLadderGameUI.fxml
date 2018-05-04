@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameUI.SnakeAndLadderController">
+<AnchorPane xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameUI.SnakeAndLadderController">
    <children>
       <Pane prefHeight="600.0" prefWidth="800.0">
          <children>
@@ -83,6 +83,11 @@
                            </image>
                         </ImageView>
                         <ImageView fx:id="player1Image" fitHeight="35.0" fitWidth="35.0" layoutX="14.0" layoutY="551.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../res/player1.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="player2Image" fitHeight="35.0" fitWidth="35.0" layoutX="14.0" layoutY="551.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../res/player1.png" />
                            </image>

@@ -1,12 +1,10 @@
 package gameUI;
 
 import java.util.Optional;
-import java.util.concurrent.CountDownLatch;
 
 import gameLogic.Game;
 import gameLogic.Player;
 import javafx.animation.AnimationTimer;
-import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,9 +20,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import multiplayer.SnakeClientUI;
-import multiplayer.SnakeLadderClient;
 
 public class SnakeAndLadderController extends Application{
 
@@ -44,51 +39,15 @@ public class SnakeAndLadderController extends Application{
 	ImageView dieImage;
 	@FXML
 	ImageView player1Image;
+    @FXML
+    ImageView player2Image;
 
 	private Game game;
 	private Stage stage;
 	private AnimationTimer timer;
-	private PLayerMovePiece playerMove;
-	private TranslateTransition transition;
-
-	//Add by fame
-	private Player player;
-	private Player currentPlayer;
-	private SnakeLadderClient slc; 
-	
-	private static SnakeAndLadderController scu;
-	private final static CountDownLatch latch = new CountDownLatch(1);
 
 	public void setGame(Game game) {
 		this.game = game;
-	}
-	
-	public void setSnakeAndLadderController(SnakeAndLadderController scu) {
-		this.scu = scu;
-		latch.countDown();
-	}
-	
-	public SnakeAndLadderController() {
-		setSnakeAndLadderController(this);
-	}
-	
-	public static SnakeAndLadderController waitForLaunch() {
-		try {
-			latch.await();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		return scu;
-	}
-	
-	public void setClient(SnakeLadderClient slc) {
-		this.slc = slc;
-		player = slc.getPlayer();
-	}
-	
-	public void setCurrentPlayer(Player currentPlayer) {
-		System.out.println("set currentplayer");
-		this.currentPlayer = currentPlayer;
 	}
 	
 	@Override
@@ -107,18 +66,6 @@ public class SnakeAndLadderController extends Application{
 			e.printStackTrace();
 		}
 	}
-	
-	
-	public void disableRollButton() {
-		rollButton.setDisable(true);
-	}
-	
-	public void enableRollButton() {
-		System.out.println(rollButton);
-		rollButton.setDisable(false);
-	}
-	
-	//End add by fame
 
 	public void initialize() {
 
@@ -126,126 +73,47 @@ public class SnakeAndLadderController extends Application{
 			try {
 				onRollButtonClicked(event);
 			} catch (InterruptedException e) {
- 				e.printStackTrace();
+				e.printStackTrace();
 			}
 		});
 		playerPosition.setText("Your position: " + 1);
-		
-		transition = new TranslateTransition();
-		transition.setDuration(Duration.seconds(1));
 	}
 
 	public void onRollButtonClicked(ActionEvent event) throws InterruptedException {
-		//Fame add aeng ja
-//		if(currentPlayer == null || !currentPlayer.getName().equals(player.getName())) {
-//			specialBlockLabel.setText("It's not your turn!!");
-//			return;
-//		}
-		//Fame lek add laew ja
+		
 		int face = game.currentPlayerRollDie();
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
+		
+		ImageView curImg = null;
+		
 		Player cur = game.currentPlayer();
 		int curPos = game.currentPlayerPosition() + 1;
-
-		transition.setNode(player1Image);
-
-		for (int i = 0; i < face; i++) {
-
-			// transition.stop();
-			//// if (face - i == 1) {
-			//// System.out.println("5555");
-			//// String status = game.currentPlayerMovePiece(1);
-			//// specialBlockLabel.setText(status);
-			////
-			//// } else {
-			//// System.out.println("1111");
-			//// }
-			// game.currentPlayerOnMovePiece(1);
-			// curPos = game.currentPlayerPosition();
-			//
-			// if (curPos % 20 < 10) {
-			// transition.setByX(60);
-			// } else if (curPos % 20 > 10) {
-			// transition.setByX(-60);
-			// } else if (curPos % 20 == 10 || game.currentPlayerPosition() % 20 == 0) {
-			// transition.setByY(60);
-
-			// if (face - i == 1) {
-			// System.out.println("5555");
-			// String status = game.currentPlayerMovePiece(1);
-			// specialBlockLabel.setText(status);
-			//
-			// } else {
-
-			// }
-			// transition.play();
-			// transition.jumpTo(Duration.seconds(1));
-			// Thread.sleep(100);
-			game.currentPlayerOnMovePiece(1);
-
-			if (game.currentPlayer().getName().equals("Player1")) {
-				playerMove = new PLayerMovePiece(game, cur, player1Image);
-				new Thread(playerMove).start();
-				Thread.sleep(40);
-			}
-
-			System.out.println("-----------\n" + game.currentPlayerName() + "\n----------");
+		
+		switch (cur.getName()) {
+		case "Player1":
+			curImg = player1Image;
+			break;
+		case "Player2":
+			curImg = player2Image;
+			break;
+		default:
+			curImg = player1Image;
+			break;
 		}
+		
+		timer = new MyAnimTimer(curImg, curPos, face);
+		timer.start();
 
+		game.currentPlayerOnMovePiece(face);
+		
 		int newPos = game.getPlayerPosition(cur) + 1;
-
-		// if (game.currentPlayer().getName().equals("Player1")) {
-		//// playerMove = new PLayerMovePiece(game, cur, player1Image);
-		//// new Thread(playerMove).start();
-		// transition.setNode(player1Image);
-		// if(newPos > curPos) {
-		// if (newPos % 20 <= 10) {
-		//// if(curPos % 20 < 10) {
-		//// transition.setByX(60*(newPos-curPos));
-		//// transition.play();
-		//// }
-		//// if(curPos % 20 == 10) {
-		//// transition.setByX((((int) Math.ceil((double)curPos/10))-curPos)*60);
-		//// transition.play();
-		//// transition.setByY(60);
-		//// transition.play();
-		//// }
-		// transition.setByX(60*(newPos-curPos));
-		// transition.play();
-		// } else if (newPos % 20 > 10 || newPos % 20 == 0) {
-		// if(curPos % 20 < 10) {
-		// transition.setToX((((int) Math.ceil((double)curPos/10))-curPos)*60);
-		// transition.play();
-		// transition.setToY(60);
-		// transition.play();
-		// transition.setToX(-((newPos - ((int) Math.floor((double)newPos/10)))*60));
-		// transition.play();
-		// }
-		// }
-		//// else if (newPos % 20 == 10 || game.currentPlayerPosition() % 20 == 0) {
-		//// transition.setToY(+60);
-		//// }
-		// } else if(newPos < curPos) {
-		//
-		// }
-		// }
 
 		playerPosition.setText(cur.getName() + " " + curPos + "->" + newPos);
 		game.switchPlayer();
-		setButtomDisable();
+		
 		if (game.isEnded()) {
 			gameEndAlert();
-		}
-	}
-
-	public void setButtomDisable() {
-		stage = (Stage) rollButton.getScene().getWindow();
-		String stagePlayerName = stage.getTitle().substring(stage.getTitle().lastIndexOf(" ") + 1);
-		if (stagePlayerName.equals(game.currentPlayer().getName())) {
-			rollButton.setDisable(false);
-		} else {
-			rollButton.setDisable(true);
 		}
 	}
 
@@ -288,17 +156,42 @@ public class SnakeAndLadderController extends Application{
 			e.printStackTrace();
 		}
 	}
-
-	public void playerMove() {
-		timer = new AnimationTimer() {
-
-			@Override
-			public void handle(long now) {
-				player1Image.setTranslateX(player1Image.getTranslateX() + 5);
-				player1Image.setY(player1Image.getY());
-				System.out.println(player1Image.getTranslateX());
+	
+	class MyAnimTimer extends AnimationTimer {
+		
+		private ImageView curImg;
+		private int curPos;
+		private int face;
+		
+		public MyAnimTimer(ImageView curImg, int curPos, int face) {
+			this.curImg = curImg;
+			this.curPos = curPos;
+			this.face = face;
+		}
+		@Override
+		public void handle(long now) {
+			
+			if(face == 0) stop();
+			else {
+				if (curPos % 20 == 0 || curPos % 20 == 10) {
+					curImg.setTranslateY(curImg.getTranslateY() - 60);	
+				} else if (curPos % 20 <= 10) {
+					curImg.setTranslateX(curImg.getTranslateX() + 60);
+				} else if (curPos % 20 >= 10) {
+					curImg.setTranslateX(curImg.getTranslateX() - 60);
+				}
+				curPos++;
+				face--;
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-		};
-		timer.start();
+			
+		}
+		
 	}
+
 }
