@@ -33,13 +33,13 @@ public class Ladder {
 //			board.addSpecialPath(tailOfLadder);
 //			System.out.println("Ladder at "+tailOfLadder+","+headOfLadder);
 //		}
-		ladder.put(4, 14);
-		ladder.put(19, 38);
-		ladder.put(21, 42);
-		ladder.put(28, 84);
-		ladder.put(51, 67);
-		ladder.put(72, 91);
-		ladder.put(80, 99);
+		ladder.put(3, 13);
+		ladder.put(18, 37);
+		ladder.put(20, 41);
+		ladder.put(27, 83);
+		ladder.put(50, 66);
+		ladder.put(71, 90);
+		ladder.put(79, 98);
 
 
 	}

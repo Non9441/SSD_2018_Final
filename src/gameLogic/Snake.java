@@ -32,13 +32,13 @@ public class Snake {
 //			board.addSpecialPath(tailOfSnake);
 //			System.out.println("Snake at "+headOfSnake+","+tailOfSnake);
 //		}
-		snake.put(17, 7);
-		snake.put(54, 34);
-		snake.put(64, 60);
-		snake.put(87, 36);
-		snake.put(93, 73);
-		snake.put(95, 75);
-		snake.put(98, 79);
+		snake.put(16, 6);
+		snake.put(53, 33);
+		snake.put(63, 59);
+		snake.put(86, 35);
+		snake.put(92, 72);
+		snake.put(94, 74);
+		snake.put(97, 78);
 
 
 	}

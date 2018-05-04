@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Board {
 
-	public static final int SIZE = 64;
+	public static final int SIZE = 100;
 
 	private Square[] squares;
 	private List<Integer> specialPath = new ArrayList<Integer>();

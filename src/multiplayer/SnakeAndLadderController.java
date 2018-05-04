@@ -46,7 +46,7 @@ public class SnakeAndLadderController {
 	private TranslateTransition transition;
 	private Player player;
 	private Player currentPlayer;
-	private String status = "";
+	private String status = "Waiting";
 	private Die die;
 	private int face;
 
@@ -59,6 +59,7 @@ public class SnakeAndLadderController {
 	
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
+		specialBlockLabel.setText("Ready for play");
 	}
 	
 	public void setSalClient(SnakeLadderClient salClient) {
@@ -68,7 +69,7 @@ public class SnakeAndLadderController {
 	public void setStatus(String status) {
 		this.status = status;
 		System.out.println(status);
-		specialBlockLabel.setText(this.status+"");
+//		specialBlockLabel.setText(this.status+"");
 	}
 	
 	public int getFace() {
@@ -86,7 +87,7 @@ public class SnakeAndLadderController {
 			}
 		});
 		playerPosition.setText("Your position: " + 1);
-
+		specialBlockLabel.setText(status);
 		transition = new TranslateTransition();
 		transition.setDuration(Duration.seconds(1));
 	}
