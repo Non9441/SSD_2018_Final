@@ -1,12 +1,11 @@
-package gameUI;
+package multiplayer;
 
 import java.util.Optional;
-import java.util.concurrent.CountDownLatch;
 
-import gameLogic.Game;
+import gameLogic.Die;
 import gameLogic.Player;
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,8 +20,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
-public class SnakeAndLadderController extends Application{
+public class SnakeAndLadderController {
 
 	@FXML
 	Label playerNameLabel;
@@ -40,36 +40,20 @@ public class SnakeAndLadderController extends Application{
 	ImageView dieImage;
 	@FXML
 	ImageView player1Image;
-    @FXML
-    ImageView player2Image;
 
-	private Game game;
 	private Stage stage;
 	private AnimationTimer timer;
+	private TranslateTransition transition;
+	private Player player;
+	private Die die;
 
-	public void setGame(Game game) {
-		this.game = game;
-	}
-	
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("SnakeAndLadderGameUI.fxml"));
-			Parent root = loader.load();
-			Scene scene = new Scene(root);
-			SnakeAndLadderController snake = loader.getController();
-			snake.setGame(new Game(2));
-			primaryStage.setTitle("Snake&Ladder | ");
-			primaryStage.setScene(scene);
-			primaryStage.setResizable(false);
-			primaryStage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 
 	public void initialize() {
 
+		die = new Die();
 		rollButton.setOnAction(event -> {
 			try {
 				onRollButtonClicked(event);
@@ -78,50 +62,24 @@ public class SnakeAndLadderController extends Application{
 			}
 		});
 		playerPosition.setText("Your position: " + 1);
+
+		transition = new TranslateTransition();
+		transition.setDuration(Duration.seconds(1));
 	}
 
 	public void onRollButtonClicked(ActionEvent event) throws InterruptedException {
-		
-		int face = game.currentPlayerRollDie();
+		int face = player.roll(die);
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
-		
-		ImageView curImg = null;
-		
-		Player cur = game.currentPlayer();
-		int curPos = game.currentPlayerPosition() + 1;
-		
-		switch (cur.getName()) {
-		case "Player1":
-			curImg = player1Image;
-			break;
-		case "Player2":
-			curImg = player2Image;
-			break;
-		default:
-			curImg = player1Image;
-			break;
-		}
-		
-		timer = new MyAnimTimer(curImg, curPos, face);
-		timer.start();
 
-		game.currentPlayerOnMovePiece(face);
-		
-		int newPos = game.getPlayerPosition(cur) + 1;
-
-		playerPosition.setText(cur.getName() + " " + curPos + "->" + newPos);
-		game.switchPlayer();
+		playerPosition.setText(player.getName() + " ");
 		setButtomDisable();
-		if (game.isEnded()) {
-			gameEndAlert();
-		}
 	}
 
 	public void setButtomDisable() {
 		stage = (Stage) rollButton.getScene().getWindow();
 		String stagePlayerName = stage.getTitle().substring(stage.getTitle().lastIndexOf(" ") + 1);
-		if (stagePlayerName.equals(game.currentPlayer().getName())) {
+		if (stagePlayerName.equals(player.getName())) {
 			rollButton.setDisable(false);
 		} else {
 			rollButton.setDisable(true);
@@ -142,7 +100,6 @@ public class SnakeAndLadderController extends Application{
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == buttonTypeOne) {
-			game = new Game(game.getNumPlayer());
 			initialize();
 		} else if (result.get() == buttonTypeThree) {
 			alert.setHeaderText("Not finish!!");
@@ -152,10 +109,8 @@ public class SnakeAndLadderController extends Application{
 	}
 
 	public void backToHome() {
-
 		stage = (Stage) playerNameLabel.getScene().getWindow();
 		try {
-
 			FXMLLoader chooseGameLoader = new FXMLLoader(getClass().getResource("GameModeUI.fxml"));
 			Parent chooseGameRoot = chooseGameLoader.load();
 			Scene chooseGameScene = new Scene(chooseGameRoot);
@@ -167,42 +122,17 @@ public class SnakeAndLadderController extends Application{
 			e.printStackTrace();
 		}
 	}
-	
-	class MyAnimTimer extends AnimationTimer {
-		
-		private ImageView curImg;
-		private int curPos;
-		private int face;
-		
-		public MyAnimTimer(ImageView curImg, int curPos, int face) {
-			this.curImg = curImg;
-			this.curPos = curPos;
-			this.face = face;
-		}
-		@Override
-		public void handle(long now) {
-			
-			if(face == 0) stop();
-			else {
-				if (curPos % 20 == 0 || curPos % 20 == 10) {
-					curImg.setTranslateY(curImg.getTranslateY() - 60);	
-				} else if (curPos % 20 <= 10) {
-					curImg.setTranslateX(curImg.getTranslateX() + 60);
-				} else if (curPos % 20 >= 10) {
-					curImg.setTranslateX(curImg.getTranslateX() - 60);
-				}
-				curPos++;
-				face--;
-				try {
-					Thread.sleep(300);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-		}
-		
-	}
 
+	public void playerMove() {
+		timer = new AnimationTimer() {
+
+			@Override
+			public void handle(long now) {
+				player1Image.setTranslateX(player1Image.getTranslateX() + 5);
+				player1Image.setY(player1Image.getY());
+				System.out.println(player1Image.getTranslateX());
+			}
+		};
+		timer.start();
+	}
 }
