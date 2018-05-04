@@ -53,7 +53,7 @@ public class SnakeLadderServer {
 		System.out.println(game.currentPlayer() + " move " + face);
 		int fromPosi = game.currentPlayerPosition();
 		String status = game.currentPlayerMovePiece(face);
-		String newStatus = game.currentPlayer().getName()+" hit on "+status+" path";
+		String newStatus = game.currentPlayer().getName() + " hit on " + status + " path";
 		int afterPosi = game.currentPlayerPosition();
 		String moveDetail = game.currentPlayer().getName() + " " + fromPosi + " to " + afterPosi;
 

@@ -64,11 +64,11 @@ public class SnakeLadderClient {
 	public String getStatus() {
 		return status;
 	}
-	
+
 	public Client getClient() {
 		return client;
 	}
-	
+
 	public void sendRollResult(int face) {
 		client.sendTCP(face);
 	}
@@ -96,13 +96,13 @@ public class SnakeLadderClient {
 					status = data.getStatus();
 					moveDetail = data.getMoveDetail();
 					scu.setPlayer(player);
-					scu.setStatusAndMoveDetail(status,moveDetail);
+					scu.setStatusAndMoveDetail(status, moveDetail);
 				} else {
 					currentPlayer = data.getCurrentPlayer();
 					status = (String) data.getStatus();
 					moveDetail = data.getMoveDetail();
 					scu.setCurrentPlayer(currentPlayer);
-					scu.setStatusAndMoveDetail(status,moveDetail);
+					scu.setStatusAndMoveDetail(status, moveDetail);
 				}
 			}
 		}
