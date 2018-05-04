@@ -1,11 +1,11 @@
 package gameLogic;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class BackwardSquare {
-	private Map<Integer,Integer> backward = new HashMap<Integer,Integer>();
+	private Set<Integer> backward = new HashSet<Integer>();
 	private Random rn = new Random();
 	
 	private int numberOfPath = 62;
@@ -26,7 +26,7 @@ public class BackwardSquare {
 				}
 
 			}
-			backward.put(backPath,0);
+			backward.add(backPath);
 			board.addSpecialPath(backPath);
 			System.out.println("Backward path at "+backPath);
 		}
@@ -34,7 +34,7 @@ public class BackwardSquare {
 	
 	public boolean isOnBackward(Board board,Piece piece) {
 		int pos = board.getPiecePosition(piece);
-		return backward.get(pos) != null;
+		return backward.contains(pos);
 	}
 		
 	public void moveBack(Board board,Piece piece,int back) {

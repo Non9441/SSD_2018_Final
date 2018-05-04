@@ -122,6 +122,7 @@ public class SnakeLadderClient {
 			SnakeLadderClient snc = new SnakeLadderClient();
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("Cant connect");
 		}
 	}
 }
