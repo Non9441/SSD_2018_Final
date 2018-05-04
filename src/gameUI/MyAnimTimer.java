@@ -9,7 +9,7 @@ public class MyAnimTimer extends AnimationTimer {
 	private int curPos;
 	private int steps;
 	private boolean active;
-	private String status;
+	private String status = "";
 	private int ssteps;
 	
 	

@@ -13,7 +13,7 @@ public class BackwardSquare {
 //	private int minBack = 2;
 	
 	public BackwardSquare(Board board) {
-		
+
 //		int numOfBack = rn.nextInt(maxBack - minBack + 1) + minBack;
 //		System.out.println("Number of backward : "+numOfBack);
 //		for(int i = 0; i < numOfBack;i++) {
@@ -33,7 +33,6 @@ public class BackwardSquare {
 		backward.add(24);
 		backward.add(49);
 		backward.add(60);
-		
 	}
 	
 	public boolean isOnBackward(Board board,Piece piece) {
