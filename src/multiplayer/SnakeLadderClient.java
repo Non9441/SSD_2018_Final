@@ -22,6 +22,7 @@ public class SnakeLadderClient {
 	private Player player;
 	private Player currentPlayer;
 	private String status;
+	private String moveDetail;
 
 	private SnakeAndLadderUI scu;
 
@@ -93,13 +94,15 @@ public class SnakeLadderClient {
 				if (data.getStatus().equals("Waiting...")) {
 					player = data.getCurrentPlayer();
 					status = data.getStatus();
+					moveDetail = data.getMoveDetail();
 					scu.setPlayer(player);
-					scu.setStatus(status);
+					scu.setStatusAndMoveDetail(status,moveDetail);
 				} else {
 					currentPlayer = data.getCurrentPlayer();
 					status = (String) data.getStatus();
+					moveDetail = data.getMoveDetail();
 					scu.setCurrentPlayer(currentPlayer);
-					scu.setStatus(status);
+					scu.setStatusAndMoveDetail(status,moveDetail);
 				}
 			}
 		}

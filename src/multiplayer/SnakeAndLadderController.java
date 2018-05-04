@@ -2,8 +2,6 @@ package multiplayer;
 
 import java.util.Optional;
 
-import com.sun.media.jfxmediaimpl.platform.Platform;
-
 import gameLogic.Die;
 import gameLogic.Player;
 import javafx.animation.AnimationTimer;
@@ -46,8 +44,10 @@ public class SnakeAndLadderController {
 	private Stage stage;
 	private AnimationTimer timer;
 	private TranslateTransition transition;
+	
 	private Player player;
 	private Player currentPlayer;
+	private String moveDetail = "Starting path";
 	private String status = "Waiting";
 	private Die die;
 	private int face;
@@ -79,23 +79,19 @@ public class SnakeAndLadderController {
 		this.salClient = salClient;
 	}
 	
-	public void setStatus(String status) {
+	public void setStatusAndMoveDetail(String status,String moveDetail) {
 		this.status = status;
-		System.out.println(status);
+		this.moveDetail = moveDetail;
 		javafx.application.Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
+				playerPosition.setText(moveDetail);
 				specialBlockLabel.setText(status);
 			}
 		});
 	}
-	
-	public int getFace() {
-		return face;
-	}
 
 	public void initialize() {
-
 		die = new Die();
 		rollButton.setOnAction(event -> {
 			try {
@@ -118,7 +114,7 @@ public class SnakeAndLadderController {
 		diceOutputNumberText.setText(face + "");
 		
 		specialBlockLabel.setText("Playing....");
-		playerPosition.setText(player.getName() + " ");
+		playerPosition.setText(moveDetail);
 	}
 
 	public void setButtomDisable() {
@@ -170,7 +166,6 @@ public class SnakeAndLadderController {
 
 	public void playerMove() {
 		timer = new AnimationTimer() {
-
 			@Override
 			public void handle(long now) {
 				player1Image.setTranslateX(player1Image.getTranslateX() + 5);

@@ -10,8 +10,7 @@ public class GameModeUI extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		try {
-			
+		try {	
 			Parent root = (Parent)FXMLLoader.load(getClass().getResource("GameModeUI.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setTitle("Choose Game Mode");
@@ -26,4 +25,5 @@ public class GameModeUI extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
 }

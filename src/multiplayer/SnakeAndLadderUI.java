@@ -68,9 +68,8 @@ public class SnakeAndLadderUI extends Application {
 		salController.setCurrentPlayer(currentPlayer);
 	}
 	
-	public void setStatus(String status) {
-		this.status = status;
-		salController.setStatus(status);
+	public void setStatusAndMoveDetail(String status,String moveDetail) {
+		salController.setStatusAndMoveDetail(status,moveDetail);
 	}
 	
 	@Override
@@ -85,10 +84,6 @@ public class SnakeAndLadderUI extends Application {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public int getFace() {
-		return 0;
 	}
 
 }
