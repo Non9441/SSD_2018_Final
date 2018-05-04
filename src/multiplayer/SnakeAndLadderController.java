@@ -2,6 +2,8 @@ package multiplayer;
 
 import java.util.Optional;
 
+import com.sun.media.jfxmediaimpl.platform.Platform;
+
 import gameLogic.Die;
 import gameLogic.Player;
 import javafx.animation.AnimationTimer;
@@ -59,7 +61,18 @@ public class SnakeAndLadderController {
 	
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
-		specialBlockLabel.setText("Ready for play");
+		javafx.application.Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				playerTurnLabel.setText(currentPlayer.getName()+"'s turn");
+				specialBlockLabel.setText("Game start!!");
+				if(currentPlayer.getName().equals(player.getName())) {
+					rollButton.setDisable(false);
+				} else {
+					rollButton.setDisable(true);
+				}
+			}
+		});
 	}
 	
 	public void setSalClient(SnakeLadderClient salClient) {
@@ -69,7 +82,12 @@ public class SnakeAndLadderController {
 	public void setStatus(String status) {
 		this.status = status;
 		System.out.println(status);
-//		specialBlockLabel.setText(this.status+"");
+		javafx.application.Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				specialBlockLabel.setText(status);
+			}
+		});
 	}
 	
 	public int getFace() {
@@ -87,26 +105,19 @@ public class SnakeAndLadderController {
 			}
 		});
 		playerPosition.setText("Your position: " + 1);
-		specialBlockLabel.setText(status);
+		specialBlockLabel.setText("Waiting...");
 		transition = new TranslateTransition();
 		transition.setDuration(Duration.seconds(1));
+		rollButton.setDisable(true);
 	}
 
 	public void onRollButtonClicked(ActionEvent event) throws InterruptedException {
-		if(currentPlayer == null) {
-			specialBlockLabel.setText("Wait for other player");
-			return;
-		}
-		System.out.println("I am "+player.getName()+", It's"+currentPlayer.getName()+"turn");
-		if(!currentPlayer.getName().equals(player.getName())) {
-			specialBlockLabel.setText("It's not your turn");
-			return;
-		}
 		face = player.roll(die);
 		salClient.sendRollResult(face);
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
-
+		
+		specialBlockLabel.setText("Playing....");
 		playerPosition.setText(player.getName() + " ");
 	}
 

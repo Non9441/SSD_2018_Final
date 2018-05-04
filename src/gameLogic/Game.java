@@ -105,7 +105,7 @@ public class Game {
 		}
 		int afterPosi = board.getPiecePosition(currentPlayer.getPiece());
 
-		String status = currentPlayer.getName()+" move from "+fromPosi+"->"+afterPosi;
+		String status = "normal";
 
 
 		if (ladder.isOnLadder(board, currentPlayer.getPiece())) {
