@@ -1,5 +1,6 @@
 package multiplayer;
 
+import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 
 import gameLogic.Player;
@@ -11,15 +12,31 @@ import javafx.stage.Stage;
 
 public class SnakeAndLadderUI extends Application {
 
-	private SnakeAndLadderController sal;
-	private SnakeLadderClient slc;
+	private SnakeAndLadderController salController;
+	private SnakeLadderClient salClient;
 	private static SnakeAndLadderUI ui;
 	private final static CountDownLatch latch = new CountDownLatch(1);
 	private Player player;
 	private Player currentPlayer;
+	private String status = "";
+	
+	private FXMLLoader chooseGameLoader;
+	private Parent chooseGameRoot;
+	private Scene chooseGameScene;
 
 	public void setSnakeAndLadderUI(SnakeAndLadderUI ui) {
 		this.ui = ui;
+		
+		chooseGameLoader = new FXMLLoader(
+				getClass().getResource("/multiplayer/SnakeAndLadderGameUI.fxml"));
+		try {
+			chooseGameRoot = chooseGameLoader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		chooseGameScene = new Scene(chooseGameRoot);
+
+		salController = chooseGameLoader.getController();
 		latch.countDown();
 	}
 
@@ -37,28 +54,29 @@ public class SnakeAndLadderUI extends Application {
 	}
 
 	public void setClient(SnakeLadderClient slc) {
-		this.slc = slc;
+		this.salClient = slc;
+		salController.setSalClient(salClient);
 	}
 
 	public void setPlayer(Player player) {
 		this.player = player;
-		System.out.println(this.player.getName());
+		salController.setPlayer(player);
 	}
 	
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
+		salController.setCurrentPlayer(currentPlayer);
 	}
-
+	
+	public void setStatus(String status) {
+		this.status = status;
+		salController.setStatus(status);
+	}
+	
 	@Override
 	public void start(Stage stage) throws Exception {
 
 		try {
-			FXMLLoader chooseGameLoader = new FXMLLoader(
-					getClass().getResource("/multiplayer/SnakeAndLadderGameUI.fxml"));
-			Parent chooseGameRoot = chooseGameLoader.load();
-			Scene chooseGameScene = new Scene(chooseGameRoot);
-
-			sal = chooseGameLoader.getController();
 			stage.setTitle("Snake and Ladder");
 			stage.setScene(chooseGameScene);
 			stage.setResizable(false);

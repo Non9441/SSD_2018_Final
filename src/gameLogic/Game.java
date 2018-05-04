@@ -96,14 +96,17 @@ public class Game {
 	
 	public String currentPlayerMovePiece(int steps) {
 		Player currentPlayer = currentPlayer();
-		String status = "Simple";
-
+		int fromPosi = board.getPiecePosition(currentPlayer.getPiece());
 		if (isBackStatus) {
 			backwards.moveBack(board, currentPlayer.getPiece(), steps);
 			isBackStatus = false;
 		} else {
 			currentPlayer.movePiece(board, steps);
 		}
+		int afterPosi = board.getPiecePosition(currentPlayer.getPiece());
+
+		String status = currentPlayer.getName()+" move from "+fromPosi+"->"+afterPosi;
+
 
 		if (ladder.isOnLadder(board, currentPlayer.getPiece())) {
 			ladder.moveUp(board, currentPlayer.getPiece());

@@ -50,12 +50,19 @@ public class SnakeLadderServer {
 	}
 
 
-	public void onRolled(Connection c, int face) {
+	public void onRolled(int face) {
+		System.out.println(game.currentPlayer()+" move "+face);
 		String status = game.currentPlayerMovePiece(face);
-		Player player = game.currentPlayer();
+		game.switchPlayer();
+		Player currentPlayer = game.currentPlayer();
 		GameData gameData = new GameData();
-		c.sendTCP(gameData);
-	}
+		gameData.setCurrentPlayer(currentPlayer);
+		gameData.setStatus(status);
+		System.out.println(currentPlayer.getName()+" turn");
+		
+		for(Connection c : connections.keySet()) {
+			c.sendTCP(gameData);
+		}	}
 	
 	public void setFirstPlay() {
 		Player player = game.currentPlayer();
@@ -63,7 +70,7 @@ public class SnakeLadderServer {
 		GameData gameData = new GameData();
 		gameData.setCurrentPlayer(player);
 		gameData.setStatus(status);
-		
+		System.out.println("Gamedata : "+gameData);
 		for(Connection c : connections.keySet()) {
 			c.sendTCP(gameData);
 		}
@@ -101,10 +108,9 @@ public class SnakeLadderServer {
 		@Override
 		public void received(Connection arg0, Object arg1) {
 			super.received(arg0, arg1);
-			if (arg1 instanceof RollData) {
-				RollData data = (RollData) arg1;
-				int face = data.getFace();
-				onRolled(arg0, face);
+			if (arg1 instanceof Integer) {
+				int face = (Integer) arg1;
+				onRolled(face);
 				System.out.println("Server received data.");
 			}
 		}

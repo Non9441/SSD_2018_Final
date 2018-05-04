@@ -45,10 +45,34 @@ public class SnakeAndLadderController {
 	private AnimationTimer timer;
 	private TranslateTransition transition;
 	private Player player;
+	private Player currentPlayer;
+	private String status = "";
 	private Die die;
+	private int face;
+
+	private SnakeLadderClient salClient;
 
 	public void setPlayer(Player player) {
 		this.player = player;
+		playerNameLabel.setText(player.getName());
+	}
+	
+	public void setCurrentPlayer(Player currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
+	
+	public void setSalClient(SnakeLadderClient salClient) {
+		this.salClient = salClient;
+	}
+	
+	public void setStatus(String status) {
+		this.status = status;
+		System.out.println(status);
+		specialBlockLabel.setText(this.status+"");
+	}
+	
+	public int getFace() {
+		return face;
 	}
 
 	public void initialize() {
@@ -68,12 +92,21 @@ public class SnakeAndLadderController {
 	}
 
 	public void onRollButtonClicked(ActionEvent event) throws InterruptedException {
-		int face = player.roll(die);
+		if(currentPlayer == null) {
+			specialBlockLabel.setText("Wait for other player");
+			return;
+		}
+		System.out.println("I am "+player.getName()+", It's"+currentPlayer.getName()+"turn");
+		if(!currentPlayer.getName().equals(player.getName())) {
+			specialBlockLabel.setText("It's not your turn");
+			return;
+		}
+		face = player.roll(die);
+		salClient.sendRollResult(face);
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
 
 		playerPosition.setText(player.getName() + " ");
-		setButtomDisable();
 	}
 
 	public void setButtomDisable() {

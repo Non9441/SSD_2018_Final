@@ -7,31 +7,39 @@ import java.util.Random;
 public class Snake {
 
 	private Map<Integer, Integer> snake = new HashMap<>();
-	private Random rn = new Random();
+//	private Random rn = new Random();
 	
-	private int numberOfPath = 62;
-	private int maxSnake = 5;
-	private int minSnake = 3;
+//	private int numberOfPath = 62;
+//	private int maxSnake = 5;
+//	private int minSnake = 3;
 	public Snake(Board board) {
 		
-		int numOfSnake = rn.nextInt(maxSnake - minSnake + 1) + minSnake;
-		System.out.println("Number of snake : "+numOfSnake);
-		for(int i = 0; i < numOfSnake;i++) {
-			boolean randomSuccess = false;
-			int tailOfSnake = 0;
-			int headOfSnake = 0;
-			while(!randomSuccess) {
-				tailOfSnake = rn.nextInt(numberOfPath - 1) + 1;
-				headOfSnake = rn.nextInt(numberOfPath - tailOfSnake) + tailOfSnake;
-				if(!board.isSpecialPath(tailOfSnake) && !board.isSpecialPath(headOfSnake)) {
-					randomSuccess = true;
-				}
-			}
-			snake.put(headOfSnake, tailOfSnake);
-			board.addSpecialPath(headOfSnake);
-			board.addSpecialPath(tailOfSnake);
-			System.out.println("Snake at "+headOfSnake+","+tailOfSnake);
-		}
+//		int numOfSnake = rn.nextInt(maxSnake - minSnake + 1) + minSnake;
+//		System.out.println("Number of snake : "+numOfSnake);
+//		for(int i = 0; i < numOfSnake;i++) {
+//			boolean randomSuccess = false;
+//			int tailOfSnake = 0;
+//			int headOfSnake = 0;
+//			while(!randomSuccess) {
+//				tailOfSnake = rn.nextInt(numberOfPath - 1) + 1;
+//				headOfSnake = rn.nextInt(numberOfPath - tailOfSnake) + tailOfSnake;
+//				if(!board.isSpecialPath(tailOfSnake) && !board.isSpecialPath(headOfSnake)) {
+//					randomSuccess = true;
+//				}
+//			}
+//			snake.put(headOfSnake, tailOfSnake);
+//			board.addSpecialPath(headOfSnake);
+//			board.addSpecialPath(tailOfSnake);
+//			System.out.println("Snake at "+headOfSnake+","+tailOfSnake);
+//		}
+		snake.put(17, 7);
+		snake.put(54, 34);
+		snake.put(64, 60);
+		snake.put(87, 36);
+		snake.put(93, 73);
+		snake.put(95, 75);
+		snake.put(98, 79);
+
 
 	}
 

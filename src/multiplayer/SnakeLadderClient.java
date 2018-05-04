@@ -22,7 +22,7 @@ public class SnakeLadderClient {
 	private Player player;
 	private Player currentPlayer;
 	private String status;
-	
+
 	private SnakeAndLadderUI scu;
 
 	public SnakeLadderClient() throws IOException {
@@ -40,9 +40,9 @@ public class SnakeLadderClient {
 		client.getKryo().register(Player.class);
 		client.getKryo().register(GameData.class);
 		client.getKryo().register(RollData.class);
-		
+
 		client.addListener(new clientListener());
-		
+
 		new Thread() {
 			@Override
 			public void run() {
@@ -51,17 +51,25 @@ public class SnakeLadderClient {
 		}.start();
 		scu = SnakeAndLadderUI.waitForLaunch();
 		scu.setClient(this);
-		
+
 		client.start();
 		client.connect(5000, "127.0.0.1", 50000);
 	}
-	
+
 	public Player getPlayer() {
 		return player;
 	}
-	
+
 	public String getStatus() {
 		return status;
+	}
+	
+	public Client getClient() {
+		return client;
+	}
+	
+	public void sendRollResult(int face) {
+		client.sendTCP(face);
 	}
 
 	class clientListener extends Listener {
@@ -80,18 +88,18 @@ public class SnakeLadderClient {
 		public void received(Connection arg0, Object arg1) {
 			super.received(arg0, arg1);
 			System.out.println("receive");
-			System.out.println(arg1);
 			if (arg1 instanceof GameData) {
 				GameData data = (GameData) arg1;
 				if (data.getStatus().equals("Start")) {
 					player = data.getCurrentPlayer();
 					status = data.getStatus();
 					scu.setPlayer(player);
+					scu.setStatus(status);
 				} else {
 					currentPlayer = data.getCurrentPlayer();
-					if(currentPlayer.getName().equals(player.getName())) {
-						scu.setCurrentPlayer(currentPlayer);
-					}
+					status = (String) data.getStatus();
+					scu.setCurrentPlayer(currentPlayer);
+					scu.setStatus(status);
 				}
 			}
 		}
