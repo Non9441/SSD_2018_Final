@@ -90,7 +90,7 @@ public class SnakeLadderClient {
 			System.out.println("receive");
 			if (arg1 instanceof GameData) {
 				GameData data = (GameData) arg1;
-				if (data.getStatus().equals("Start")) {
+				if (data.getStatus().equals("Waiting...")) {
 					player = data.getCurrentPlayer();
 					status = data.getStatus();
 					scu.setPlayer(player);
