@@ -87,35 +87,34 @@ public class SnakeAndLadderController {
 		this.salClient = salClient;
 	}
 
-	public void setStatusAndMoveDetail(String status, String moveDetail, int curPos, int newPos) {
+	public void setStatusAndMoveDetail(String player, String status, String moveDetail, int curPos, int newPos) {
 		this.status = status;
 		this.moveDetail = moveDetail;
 		this.curPos = curPos;
 		this.newPos = newPos;
 		String[] text = status.split(" ");
 		if (text.length > 4) {
-			this.posStatus= text[3];
+			this.posStatus = text[3];
 		}
 		javafx.application.Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				moveImage(posStatus, curPos, newPos);
+				moveImage(player, posStatus, curPos, newPos);
 				playerPosition.setText(moveDetail);
 				specialBlockLabel.setText(status);
 			}
 		});
 	}
 
-	public void moveImage(String posStatus, int curPos, int newPos) {
+	public void moveImage(String player, String posStatus, int curPos, int newPos) {
 
 		ImageView curImg = null;
 
 		System.out.println("-----------------------------------------");
-		System.out.println(player.getName());
 		System.out.println(posStatus);
 		System.out.println("-----------------------------------------");
 
-		switch (player.getName()) {
+		switch (player) {
 		case "Player1":
 			curImg = player1Image;
 			break;
@@ -129,7 +128,7 @@ public class SnakeAndLadderController {
 
 		switch (posStatus) {
 		case "normal":
-			System.out.println(newPos+""+curPos);
+			System.out.println(newPos + "" + curPos);
 			System.out.println("555555555555");
 			timer.setUp(curImg, curPos, newPos - curPos);
 			timer.start();

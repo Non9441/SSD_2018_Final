@@ -98,14 +98,20 @@ public class SnakeLadderClient {
 					player = data.getCurrentPlayer();
 					status = data.getStatus();
 					moveDetail = data.getMoveDetail();
+					curPos = data.getCurPos();
+					newPos = data.getNewPos();
+					
 					scu.setPlayer(player);
-					scu.setStatusAndMoveDetail(status, moveDetail,curPos,newPos);
+					scu.setStatusAndMoveDetail(player.getName(),status, moveDetail,curPos,newPos);
 				} else {
 					currentPlayer = data.getCurrentPlayer();
 					status = (String) data.getStatus();
 					moveDetail = data.getMoveDetail();
+					curPos = data.getCurPos();
+					newPos = data.getNewPos();
+					
 					scu.setCurrentPlayer(currentPlayer);
-					scu.setStatusAndMoveDetail(status, moveDetail, curPos, newPos);
+					scu.setStatusAndMoveDetail(currentPlayer.getName(),status, moveDetail, curPos, newPos);
 				}
 			} 
 		}
