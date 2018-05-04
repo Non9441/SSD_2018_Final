@@ -45,7 +45,7 @@ public class SnakeLadderServer {
 
 		server.addListener(new ServerListener());
 		server.start();
-		server.bind(10000,50000);
+		server.bind(50000);
 		System.out.println("Snake Ladder Server started");
 	}
 
