@@ -119,7 +119,7 @@
                         </ImageView>
                         <ImageView fx:id="player2Image" fitHeight="35.0" fitWidth="35.0" layoutX="14.0" layoutY="551.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../res/player1.png" />
+                              <Image url="@../res/player2.png" />
                            </image>
                         </ImageView>
                      </children>
