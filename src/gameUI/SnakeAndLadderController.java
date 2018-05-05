@@ -5,6 +5,7 @@ import java.util.Optional;
 import gameLogic.Game;
 import gameLogic.Player;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -168,7 +169,7 @@ public class SnakeAndLadderController extends Application{
 			game = new Game(game.getNumPlayer());
 			initialize();
 		} else if (result.get() == buttonTypeThree) {
-			alert.setHeaderText("Not finish!!");
+			replayAction();
 		} else if (result.get() == buttonTypeTwo) {
 			backToHome();
 		}
@@ -189,6 +190,16 @@ public class SnakeAndLadderController extends Application{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void replayAction() {
+		Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				game.replay();
+			}
+		});
 	}
 
 }

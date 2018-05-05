@@ -60,5 +60,17 @@ public class Board {
 		}
 		return false;
 	}
+	
+	public void resetBoard(Player[] players) {
+		for(Square s : squares) {
+			for(Player p : players) {
+				if(s.hasPiece(p.getPiece())) {
+					s.removePiece(p.getPiece());
+					addPiece(p.getPiece(), 0);
+				}
+			}
+		}
+		
+	}
 
 }

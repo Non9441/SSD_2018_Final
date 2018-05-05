@@ -43,7 +43,6 @@ public class SnakeLadderClient {
 
 		client.getKryo().register(Player.class);
 		client.getKryo().register(GameData.class);
-		client.getKryo().register(RollData.class);
 
 		client.addListener(new clientListener());
 

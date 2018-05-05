@@ -41,7 +41,6 @@ public class SnakeLadderServer {
 
 		server.getKryo().register(Player.class);
 		server.getKryo().register(GameData.class);
-		server.getKryo().register(RollData.class);
 
 		server.addListener(new ServerListener());
 		server.start();

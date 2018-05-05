@@ -20,6 +20,7 @@ public class Game {
 	private int numPlayer;
 	private boolean ended;
 	private boolean isBackStatus = false;
+	private boolean isReplay = false;
 
 	public Game(int numPlayer) {
 		this.numPlayer = numPlayer;
@@ -50,10 +51,30 @@ public class Game {
 
 	public void end() {
 		ended = true;
+		for(Integer step : walkHistories) {
+			System.out.print(step+",");
+		}
 	}
 
 	public Player currentPlayer() {
 		return players[currentPlayerIndex];
+	}
+	
+	public void resetGame() {
+		currentPlayerIndex = 0;
+		ended = false;
+		isBackStatus = false;
+		board.resetBoard(players);
+	}
+	
+	public void replay() {
+		resetGame();
+		isReplay = true;
+		for(Integer step : walkHistories) {
+			currentPlayerMovePiece(step);
+			switchPlayer();
+		}
+		isReplay = false;
 	}
 
 	public void switchPlayer() {
@@ -86,16 +107,12 @@ public class Game {
 	public Player getPlayer(int num) {
 		return players[num];
 	}
-
-//	public void currentPlayerOnMovePiece(int steps) {
-//		currentPlayer().movePiece(board, steps);
-//		if (board.pieceIsAtGoal(currentPlayer().getPiece())) {
-//			end();
-//		}
-//	}
 	
 	public String currentPlayerMovePiece(int steps) {
 		Player currentPlayer = currentPlayer();
+		if(!isReplay) {
+			walkHistories.add(steps);
+		}
 		if (isBackStatus) {
 			backwards.moveBack(board, currentPlayer.getPiece(), steps);
 			isBackStatus = false;
@@ -130,10 +147,10 @@ public class Game {
 			end();
 		}
 
-		for (Player p : players) {
-			System.out.println(p.getName() + " at " + board.getPiecePosition(p.getPiece()));
-		}
-		System.out.println("==================");
+//		for (Player p : players) {
+//			System.out.println(p.getName() + " at " + board.getPiecePosition(p.getPiece()));
+//		}
+		System.out.println(currentPlayer.getName()+" move to "+board.getPiecePosition(currentPlayer.getPiece()));
 //		switchPlayer();
 		return status;
 	}
@@ -153,18 +170,19 @@ public class Game {
 				currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
 				continue;
 			}
-			System.out.println("----------------------------------------");
-			System.out.println("Current Player is " + currentPlayer.getName());
-
+//			System.out.println("----------------------------------------");
+//			System.out.println("Current Player is " + currentPlayer.getName());
+//
 			System.out.println("Please hit enter to roll a die.");
 			sc.nextLine();
 			int face = currentPlayerRollDie();
-			System.out.println("The die is rolled! Face = " + face);
-			System.out.println("The piece is at " + board.getPiecePosition(currentPlayer.getPiece()));
+//			System.out.println("The die is rolled! Face = " + face);
+//			System.out.println("The piece is at " + board.getPiecePosition(currentPlayer.getPiece()));
 			currentPlayerMovePiece(face);
-			System.out.println("The piece is moved to " + board.getPiecePosition(currentPlayer.getPiece()));
+//			System.out.println("The piece is moved to " + board.getPiecePosition(currentPlayer.getPiece()));
 			switchPlayer();
 		}
+		replay();
 	}
 	
 	public int getNumPlayer() {
