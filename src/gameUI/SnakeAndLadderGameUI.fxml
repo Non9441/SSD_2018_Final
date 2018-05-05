@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameUI.SnakeAndLadderController">
+<AnchorPane xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameUI.SnakeAndLadderController">
    <children>
       <Pane prefHeight="600.0" prefWidth="800.0">
          <children>
@@ -82,32 +82,32 @@
                               <Image url="@../res/board3.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="25.0" fitWidth="200.0" layoutX="428.0" layoutY="545.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="424.0" layoutY="544.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../res/freeze2.gif" />
+                              <Image url="@../res/freeze.gif" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="25.0" fitWidth="200.0" layoutX="488.0" layoutY="370.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="484.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../res/freeze2.gif" />
+                              <Image url="@../res/freeze.gif" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="25.0" fitWidth="200.0" layoutX="190.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="184.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../res/freeze2.gif" />
+                              <Image url="@../res/freeze.gif" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="25.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../res/backward.gif" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="565.0" layoutY="305.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="9.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../res/backward.gif" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="265.0" layoutY="425.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="548.0" layoutY="306.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../res/backward.gif" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="248.0" layoutY="425.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../res/backward.gif" />
                            </image>
