@@ -14,7 +14,7 @@ public class MyAnimTimer extends AnimationTimer {
 	
 	
 	public MyAnimTimer() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public MyAnimTimer(ImageView curImg, int curPos, int steps, String status) {
@@ -66,23 +66,30 @@ public class MyAnimTimer extends AnimationTimer {
 	}
 	
 	@Override
-	public void handle(long now) {
+	public synchronized void handle(long now) {
 		if(steps == 0) {
-			if(status.equals("Snake") && ssteps != 0) {
-				if (curPos % 20 == 1 || curPos % 20 == 11) {
-					curImg.setTranslateY(curImg.getTranslateY() + 60);	
-				} else if (curPos % 20 <= 10) {
-					curImg.setTranslateX(curImg.getTranslateX() - 60);
-				} else if (curPos % 20 >= 10) {
-					curImg.setTranslateX(curImg.getTranslateX() + 60);
+			if(status.equals("Snake")) {
+				if(ssteps == 0) {
+					stop();
 				}
-				ssteps--;
-				curPos--;
-				try {
-					Thread.sleep(300);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if(ssteps < 0) {
+					if (curPos % 20 == 1 || curPos % 20 == 11) {
+						curImg.setTranslateY(curImg.getTranslateY() + 60);	
+					}
+					if (curPos % 20 <= 10 && curPos % 20 != 1 && curPos % 20 != 0) {
+						curImg.setTranslateX(curImg.getTranslateX() - 60);
+					}
+					if ((curPos % 20 > 10 && curPos % 20 != 11) || curPos % 20 == 0) {
+						curImg.setTranslateX(curImg.getTranslateX() + 60);
+					}
+					curPos--;
+					ssteps++;
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			} else {
 				stop();
@@ -90,10 +97,12 @@ public class MyAnimTimer extends AnimationTimer {
 		}
 		if(steps > 0) {
 				if (curPos % 20 == 0 || curPos % 20 == 10) {
-					curImg.setTranslateY(curImg.getTranslateY() - 60);	
-				} else if (curPos % 20 <= 10) {
+					curImg.setTranslateY(curImg.getTranslateY() - 60);
+				}
+				if (curPos % 20 < 10 && curPos % 20 != 0) {
 					curImg.setTranslateX(curImg.getTranslateX() + 60);
-				} else if (curPos % 20 >= 10) {
+				}
+				if (curPos % 20 > 10) {
 					curImg.setTranslateX(curImg.getTranslateX() - 60);
 				}
 				curPos++;
@@ -108,9 +117,11 @@ public class MyAnimTimer extends AnimationTimer {
 		if (steps < 0){
 			if (curPos % 20 == 1 || curPos % 20 == 11) {
 				curImg.setTranslateY(curImg.getTranslateY() + 60);	
-			} else if (curPos % 20 <= 10) {
+			}
+			if (curPos % 20 <= 10 && curPos % 20 != 1 && curPos % 20 != 0) {
 				curImg.setTranslateX(curImg.getTranslateX() - 60);
-			} else if (curPos % 20 >= 10) {
+			}
+			if ((curPos % 20 > 10 && curPos % 20 != 11) || curPos % 20 == 0) {
 				curImg.setTranslateX(curImg.getTranslateX() + 60);
 			}
 			curPos--;
