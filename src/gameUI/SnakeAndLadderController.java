@@ -78,6 +78,11 @@ public class SnakeAndLadderController extends Application{
 		});
 		playerPosition.setText("Your position: " + 1);
 		timer = new MyAnimTimer();
+		
+		player1Image.setLayoutX(14);
+		player1Image.setLayoutY(551);
+		player2Image.setLayoutX(14);
+		player2Image.setLayoutY(551);
 	}
 
 	public void onRollButtonClicked(ActionEvent event) throws InterruptedException {
@@ -166,8 +171,7 @@ public class SnakeAndLadderController extends Application{
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == buttonTypeOne) {
-			game = new Game(game.getNumPlayer());
-			initialize();
+			playAgain();
 		} else if (result.get() == buttonTypeThree) {
 			replayAction();
 		} else if (result.get() == buttonTypeTwo) {
@@ -175,6 +179,27 @@ public class SnakeAndLadderController extends Application{
 		}
 	}
 
+	public void playAgain() {
+
+		stage = (Stage) playerNameLabel.getScene().getWindow();
+		try {
+
+			FXMLLoader chooseGameLoader = new FXMLLoader(getClass().getResource("SnakeAndLadderGameUI.fxml"));
+			Parent chooseGameRoot = chooseGameLoader.load();
+			Scene chooseGameScene = new Scene(chooseGameRoot);
+
+			
+			SnakeAndLadderController snake = chooseGameLoader.getController();
+			snake.setGame(new Game(2));
+			stage.setTitle("Snake&Ladder | ");
+			stage.setScene(chooseGameScene);
+			stage.setResizable(false);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void backToHome() {
 
 		stage = (Stage) playerNameLabel.getScene().getWindow();
