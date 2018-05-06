@@ -5,7 +5,6 @@ import java.util.Optional;
 import gameLogic.Die;
 import gameLogic.Player;
 import gameUI.MyAnimTimer;
-import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -61,6 +60,24 @@ public class SnakeAndLadderController {
 
 	private SnakeLadderClient salClient;
 	private MyAnimTimer timer;
+	
+	public void initialize() {
+		die = new Die();
+		rollButton.setOnAction(event -> {
+			try {
+				onRollButtonClicked(event);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		});
+		playerPosition.setText("Your position: " + 1);
+		specialBlockLabel.setText("Waiting...");
+		transition = new TranslateTransition();
+		transition.setDuration(Duration.seconds(1));
+		rollButton.setDisable(true);
+
+		timer = new MyAnimTimer();
+	}
 
 	public void setPlayer(Player player) {
 		this.player = player;
@@ -125,61 +142,38 @@ public class SnakeAndLadderController {
 			curImg = player1Image;
 			break;
 		}
-
+		
 		switch (posStatus) {
 		case "normal":
-			System.out.println(newPos + "" + curPos);
-			System.out.println("555555555555");
-			timer.setUp(curImg, curPos, newPos - curPos);
+			timer = new MyAnimTimer(curImg, curPos, newPos-curPos, posStatus);
 			timer.start();
 			break;
 		case "Backward":
 			System.out.println("backward");
-			timer.setUp(curImg, curPos, face);
+			timer = new MyAnimTimer(curImg, curPos, face, posStatus);
 			timer.start();
 			break;
 		case "Snake":
 			System.out.println("snake");
-			timer.setUp(curImg, curPos, face);
+			timer = new MyAnimTimer(curImg, curPos, face, posStatus);
+			timer.setSsteps(newPos-(curPos+face));
 			timer.start();
-			timer.setSteps(newPos - (curPos + face));
-			timer.start();
-
+			
 			break;
 		case "Ladder":
 			System.out.println("ladder");
-			timer.setUp(curImg, curPos, face);
-			timer.start();
-			timer.setSteps(newPos - curPos);
+			timer = new MyAnimTimer(curImg, curPos, newPos-curPos, posStatus);
 			timer.start();
 			break;
 		case "Freeze":
 			System.out.println("freeze");
-			timer.setUp(curImg, curPos, face);
+			timer = new MyAnimTimer(curImg, curPos, face, posStatus);
 			timer.start();
 			break;
 		default:
 			break;
 		}
 
-	}
-
-	public void initialize() {
-		die = new Die();
-		rollButton.setOnAction(event -> {
-			try {
-				onRollButtonClicked(event);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		});
-		playerPosition.setText("Your position: " + 1);
-		specialBlockLabel.setText("Waiting...");
-		transition = new TranslateTransition();
-		transition.setDuration(Duration.seconds(1));
-		rollButton.setDisable(true);
-
-		timer = new MyAnimTimer();
 	}
 
 	public void onRollButtonClicked(ActionEvent event) throws InterruptedException {
