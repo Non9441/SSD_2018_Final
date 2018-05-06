@@ -104,7 +104,7 @@ public class SnakeAndLadderController extends Application{
 		}
 		
 		/*
-		 * อาจจะบึ้ม some condition
+		 * เดินเกินร้อยยังไม่ถอยหลัง backward ยังไม่สมบูรณ์
 		 */
 
 		String status = game.currentPlayerMovePiece(face);
@@ -126,7 +126,7 @@ public class SnakeAndLadderController extends Application{
 		case "Snake":
 			System.out.println("snake");
 			timer = new MyAnimTimer(curImg, curPos, face, status);
-			timer.setSsteps((curPos+face)-newPos);
+			timer.setSsteps(newPos-(curPos+face));
 			timer.start();
 			game.switchPlayer();
 			
