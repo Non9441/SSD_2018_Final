@@ -16,24 +16,29 @@
                   <Image url="@../res/logo.gif" />
                </image>
             </ImageView>
-            <Label layoutX="243.0" layoutY="259.0" opacity="0.4" prefHeight="48.0" prefWidth="346.0" text="CHOOSE GAME MODE" textAlignment="CENTER" textFill="#bf5c00">
+            <Label layoutX="243.0" layoutY="250.0" opacity="0.4" prefHeight="48.0" prefWidth="346.0" text="CHOOSE GAME MODE" textAlignment="CENTER" textFill="#bf5c00">
                <font>
                   <Font name="Roboto Mono Medium Italic for Powerline" size="24.0" />
                </font>
             </Label>
-            <ImageView fx:id="threePlayerMode" fitHeight="64.0" fitWidth="219.0" layoutX="263.0" layoutY="354.0" onMouseEntered="#onMouseOver3" onMouseExited="#onMouseExited3" onMousePressed="#onMousePressed3" onMouseReleased="#onMouseReleased3" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="threePlayerMode" fitHeight="64.0" fitWidth="219.0" layoutX="263.0" layoutY="322.0" onMouseEntered="#onMouseOver3" onMouseExited="#onMouseExited3" onMousePressed="#onMousePressed3" onMouseReleased="#onMouseReleased3" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../res/button3.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="fourPlayerMode" fitHeight="64.0" fitWidth="212.0" layoutX="455.0" layoutY="354.0" onMouseEntered="#onMouseOver4" onMouseExited="#onMouseExited4" onMousePressed="#onMousePressed4" onMouseReleased="#onMouseReleased4" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="fourPlayerMode" fitHeight="64.0" fitWidth="212.0" layoutX="455.0" layoutY="322.0" onMouseEntered="#onMouseOver4" onMouseExited="#onMouseExited4" onMousePressed="#onMousePressed4" onMouseReleased="#onMouseReleased4" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../res/button4.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="twoPlayerMode" fitHeight="64.0" fitWidth="219.0" layoutX="64.0" layoutY="354.0" onMouseEntered="#onMouseOver2" onMouseExited="#onMouseExited2" onMousePressed="#onMousePressed2" onMouseReleased="#onMouseReleased2" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="twoPlayerMode" fitHeight="64.0" fitWidth="219.0" layoutX="63.0" layoutY="322.0" onMouseEntered="#onMouseOver2" onMouseExited="#onMouseExited2" onMousePressed="#onMousePressed2" onMouseReleased="#onMouseReleased2" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../res/button2.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="online" fitHeight="150.0" fitWidth="200.0" layoutX="259.0" layoutY="395.0" onMouseEntered="#onMouseOverOnline" onMouseExited="#onMouseExitedOnline" onMousePressed="#onMousePressedOnline" onMouseReleased="#onMouseReleasedOnline" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../res/OButton.png" />
                </image>
             </ImageView>
          </children>

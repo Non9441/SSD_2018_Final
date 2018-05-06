@@ -26,6 +26,10 @@ public class GameModeController {
 
     @FXML
     ImageView fourPlayerMode;
+    
+    @FXML
+    ImageView online;
+
 
 
 	private Stage stage;
@@ -43,18 +47,22 @@ public class GameModeController {
 		twoPlayerMode.setOnMouseEntered(this::onMouseOver2);
 		threePlayerMode.setOnMouseEntered(this::onMouseOver3);
 		fourPlayerMode.setOnMouseEntered(this::onMouseOver4);
+		online.setOnMouseEntered(this::onMouseOverOnline);
 		
 		twoPlayerMode.setOnMouseExited(this::onMouseExited2);
 		threePlayerMode.setOnMouseExited(this::onMouseExited3);
 		fourPlayerMode.setOnMouseExited(this::onMouseExited4);
+		online.setOnMouseExited(this::onMouseExitedOnline);
 		
 		twoPlayerMode.setOnMousePressed(this::onMousePressed2);
 		threePlayerMode.setOnMousePressed(this::onMousePressed3);
 		fourPlayerMode.setOnMousePressed(this::onMousePressed4);
+		online.setOnMousePressed(this::onMousePressedOnline);
 		
 		twoPlayerMode.setOnMouseReleased(this::onMouseReleased2);
 		threePlayerMode.setOnMouseReleased(this::onMouseReleased3);
 		fourPlayerMode.setOnMouseReleased(this::onMouseReleased4);
+		online.setOnMouseReleased(this::onMouseReleasedOnline);
 		
 	}
 	
@@ -72,8 +80,14 @@ public class GameModeController {
 
     @FXML
     public void onMouseOver4(MouseEvent event) {
-		Image image = new Image(getClass().getResource("../res/button4.gif").toExternalForm());
+    	Image image = new Image(getClass().getResource("../res/button4.gif").toExternalForm());
 		fourPlayerMode.setImage(image);
+    }
+    
+    @FXML
+    public void onMouseOverOnline(MouseEvent event) {
+    	Image image = new Image(getClass().getResource("../res/OButton.gif").toExternalForm());
+		online.setImage(image);
     }
     
     @FXML
@@ -95,6 +109,12 @@ public class GameModeController {
     }
     
     @FXML
+    public void onMouseExitedOnline(MouseEvent event) {
+    	Image image = new Image(getClass().getResource("../res/OButton.png").toExternalForm());
+		online.setImage(image);
+    }
+    
+    @FXML
     public void onMousePressed2(MouseEvent event) {
 		Image image = new Image(getClass().getResource("../res/button2P.png").toExternalForm());
 		twoPlayerMode.setImage(image);
@@ -113,6 +133,12 @@ public class GameModeController {
     	Image image = new Image(getClass().getResource("../res/button4P.png").toExternalForm());
 		fourPlayerMode.setImage(image);
 		
+    }
+    
+    @FXML
+    public void onMousePressedOnline(MouseEvent event) {
+    	Image image = new Image(getClass().getResource("../res/OButtonP.png").toExternalForm());
+		online.setImage(image);
     }
     
     @FXML
@@ -182,6 +208,12 @@ public class GameModeController {
 			e.printStackTrace();
 		}
 		player.stop();
+    }
+    
+    @FXML
+    void onMouseReleasedOnline(MouseEvent event) {
+    	Image image = new Image(getClass().getResource("../res/OButton.png").toExternalForm());
+		online.setImage(image);
     }
 
 }
