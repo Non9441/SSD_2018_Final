@@ -17,19 +17,20 @@ public class MyAnimTimer extends AnimationTimer {
 		
 	}
 	
-	public MyAnimTimer(ImageView curImg, int curPos, int steps, String status) {
+	public MyAnimTimer(ImageView curImg, int curPos, int steps, int ssteps, String status) {
 		this.curImg = curImg;
 		this.curPos = curPos;
 		this.steps = steps;
+		this.ssteps = ssteps;
 		this.status = status;
 		active = false;
 	}
 	
-	public void setUp(ImageView curImg, int curPos, int steps) {
+	public void setUp(ImageView curImg, int curPos, int steps, int ssteps) {
 		setImg(curImg);
 		setcurPos(curPos);
 		setSteps(steps);
-		ssteps = 0;
+		setSsteps(ssteps);
 		
 	}
 	
@@ -55,6 +56,18 @@ public class MyAnimTimer extends AnimationTimer {
 	
 	public int getSSteps() {
 		return ssteps;
+	}
+	
+	public ImageView getImg() {
+		return curImg;
+	}
+	
+	public int getCurPos() {
+		return curPos;
+	}
+	
+	public String getStatus() {
+		return status;
 	}
 	
 	public boolean isActive() {
@@ -102,7 +115,7 @@ public class MyAnimTimer extends AnimationTimer {
 				}
 			} else {
 				this.stop();
-				System.out.println("This " + active);
+				System.out.println("This is " + active);
 			}
 		}
 		if(steps > 0) {

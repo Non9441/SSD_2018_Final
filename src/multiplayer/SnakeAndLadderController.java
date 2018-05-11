@@ -2,8 +2,6 @@ package multiplayer;
 
 import java.util.Optional;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
-import javax.xml.transform.Source;
 
 import gameLogic.Die;
 import gameLogic.Player;
@@ -14,7 +12,6 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.AmbientLight;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -159,35 +156,35 @@ public class SnakeAndLadderController {
 
 		switch (posStatus) {
 		case "normal":
-			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, posStatus);
+			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, 0, posStatus);
 			timer.start();
 			break;
 		case "Backward":
 			System.out.println("backward");
-			timer = new MyAnimTimer(curImg, curPos, face, posStatus);
+			timer = new MyAnimTimer(curImg, curPos, face, 0, posStatus);
 			timer.start();
 			break;
 		case "Snake":
 			System.out.println("snake");
-			timer = new MyAnimTimer(curImg, curPos, face, posStatus);
+			timer = new MyAnimTimer(curImg, curPos, face, newPos - (curPos + face), posStatus);
 			timer.setSsteps(newPos - (curPos + face));
 			timer.start();
 
 			break;
 		case "Ladder":
 			System.out.println("ladder");
-			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, posStatus);
+			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, 0, posStatus);
 			timer.start();
 			break;
 		case "Freeze":
 			System.out.println("freeze");
-			timer = new MyAnimTimer(curImg, curPos, face, posStatus);
+			timer = new MyAnimTimer(curImg, curPos, face, 0, posStatus);
 			timer.start();
 			break;
 		case "Goal":
 			rollButton.setDisable(true);
 			playerWin = player;
-			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, status);
+			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, 0, status);
 			timer.start();
 			Task<Void> move = new Task<Void>() {
 				@Override
