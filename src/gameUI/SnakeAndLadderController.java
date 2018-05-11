@@ -1,5 +1,7 @@
 package gameUI;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import gameLogic.Game;
@@ -18,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
@@ -46,6 +49,7 @@ public class SnakeAndLadderController extends Application {
 	private Game game;
 	private Stage stage;
 	private MyAnimTimer timer;
+	private List<MyAnimTimer> history;
 
 	public void setGame(Game game) {
 		this.game = game;
@@ -79,6 +83,7 @@ public class SnakeAndLadderController extends Application {
 		});
 		playerPosition.setText("Your position: " + 1);
 		timer = new MyAnimTimer();
+		history = new ArrayList<MyAnimTimer>();
 
 		player1Image.setLayoutX(14);
 		player1Image.setLayoutY(551);
@@ -88,9 +93,9 @@ public class SnakeAndLadderController extends Application {
 
 	public void onRollButtonClicked(ActionEvent event) throws InterruptedException {
 
-//		int face = game.currentPlayerRollDie();
-		int face = 50;
-//		dieImage.setImage(new Image("/res/face" + face + ".png"));
+		int face = game.currentPlayerRollDie();
+//		int face = 33;
+		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
 
 		ImageView curImg = null;
@@ -121,32 +126,37 @@ public class SnakeAndLadderController extends Application {
 
 		switch (status) {
 		case "normal":
-			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, status);
+			timer = new MyAnimTimer(curImg, curPos, newPos-curPos, status);
+			history.add(timer);
 			timer.start();
 			game.switchPlayer();
 			break;
 		case "Backward":
 			System.out.println("backward");
 			timer = new MyAnimTimer(curImg, curPos, face, status);
+			history.add(timer);
 			timer.start();
 			break;
 		case "Snake":
 			System.out.println("snake");
 			timer = new MyAnimTimer(curImg, curPos, face, status);
-			timer.setSsteps(newPos - (curPos + face));
+			timer.setSsteps(newPos-(curPos+face));
+			history.add(timer);
 			timer.start();
 			game.switchPlayer();
 
 			break;
 		case "Ladder":
 			System.out.println("ladder");
-			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, status);
+			timer = new MyAnimTimer(curImg, curPos, newPos-curPos, status);
+			history.add(timer);
 			timer.start();
 			game.switchPlayer();
 			break;
 		case "Freeze":
 			System.out.println("freeze");
 			timer = new MyAnimTimer(curImg, curPos, face, status);
+			history.add(timer);
 			timer.start();
 			game.switchPlayer();
 			break;
@@ -238,11 +248,22 @@ public class SnakeAndLadderController extends Application {
 	}
 
 	public void replayAction() {
+		player1Image.setX(14);
+		player1Image.setY(551);
+		
+		player2Image.setX(14);
+		player2Image.setY(551);
+		
 		Platform.runLater(new Runnable() {
 
 			@Override
 			public void run() {
-				game.replay();
+				for(MyAnimTimer timer : history) {
+					timer.start();
+					while(timer.isActive()) {
+						if(!timer.isActive()) break;
+					}
+				}
 			}
 		});
 	}
