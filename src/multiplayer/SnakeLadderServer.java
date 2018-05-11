@@ -3,6 +3,7 @@ package multiplayer;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -23,11 +24,12 @@ public class SnakeLadderServer {
 
 	private Server server;
 	private Game game;
-	private static int numPlayer = 2;
+	private static int numPlayer;
 	private Map<Connection, Player> connections = new HashMap<Connection, Player>();
 
-	public SnakeLadderServer() throws IOException {
+	public SnakeLadderServer(int num) throws IOException {
 		server = new Server();
+		this.numPlayer = num;
 		game = new Game(numPlayer);
 
 		server.getKryo().register(Board.class);
@@ -61,8 +63,8 @@ public class SnakeLadderServer {
 		GameData gameData = new GameData();
 		gameData.setCurrentPlayer(currentPlayer);
 		gameData.setStatus(newStatus);
+		System.out.println("status:"+status);
 		gameData.setMoveDetail(moveDetail);
-		System.out.println("----------------------------\n" + fromPosi + "-------------------------------\n");
 		gameData.setCurPos(fromPosi);
 		gameData.setNewPos(afterPosi);
 		System.out.println(currentPlayer.getName() + " turn");
@@ -88,6 +90,11 @@ public class SnakeLadderServer {
 		@Override
 		public void connected(Connection arg0) {
 			super.connected(arg0);
+			if (connections.size() == numPlayer) {
+				arg0.sendTCP("Full");
+				disconnected(arg0);
+				return;
+			}
 			int number = connections.size();
 			String status = "Waiting...";
 			Player curPlayer = game.getPlayer(number);
@@ -104,13 +111,19 @@ public class SnakeLadderServer {
 			if (connections.size() == numPlayer) {
 				setFirstPlay();
 			}
+
 		}
 
 		@Override
 		public void disconnected(Connection arg0) {
 			super.disconnected(arg0);
-			Player player = connections.get(arg0);
-			connections.remove(arg0);
+			Player player;
+			if (connections.containsKey(arg0)) {
+				player = connections.get(arg0);
+				connections.remove(arg0);
+			} else {
+				player = new Player("Non-Player");
+			}
 			System.out.println(player.getName() + " disconnected.");
 		}
 
@@ -127,7 +140,12 @@ public class SnakeLadderServer {
 
 	public static void main(String[] args) {
 		try {
-			SnakeLadderServer server = new SnakeLadderServer();
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Welcome to snake and ladder server");
+			System.out.println("Please enter number of player in your server : ");
+			int num = sc.nextInt();
+
+			SnakeLadderServer server = new SnakeLadderServer(num);
 
 		} catch (IOException e) {
 			e.printStackTrace();

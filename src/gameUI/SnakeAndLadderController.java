@@ -9,6 +9,7 @@ import gameLogic.Player;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -158,14 +159,32 @@ public class SnakeAndLadderController extends Application {
 			timer.start();
 			game.switchPlayer();
 			break;
+		case "Goal":
+			System.out.println("Goall");
+			rollButton.setDisable(true);
+			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, status);
+			timer.start();
+			
+			Task<Void> move = new Task<Void>() {
+
+				@Override
+				protected Void call() throws Exception {
+					while(timer.isActive()) {
+					}
+					return null;
+				}
+			};
+			move.setOnSucceeded(this::gameIsEnd);
+			new Thread(move).start();		
+			break;
 		default:
 			break;
-		}
+		}	
 
-		if (game.isEnded()) {
-			gameEndAlert();
-		}		
-
+	}
+	
+	public void gameIsEnd(WorkerStateEvent event) {
+		gameEndAlert();
 	}
 
 	public void gameEndAlert() {
