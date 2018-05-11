@@ -21,7 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
-public class SnakeAndLadderController extends Application{
+public class SnakeAndLadderController extends Application {
 
 	@FXML
 	Label playerNameLabel;
@@ -39,8 +39,8 @@ public class SnakeAndLadderController extends Application{
 	ImageView dieImage;
 	@FXML
 	ImageView player1Image;
-    @FXML
-    ImageView player2Image;
+	@FXML
+	ImageView player2Image;
 
 	private Game game;
 	private Stage stage;
@@ -49,7 +49,7 @@ public class SnakeAndLadderController extends Application{
 	public void setGame(Game game) {
 		this.game = game;
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		try {
@@ -62,7 +62,7 @@ public class SnakeAndLadderController extends Application{
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
 			primaryStage.show();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -78,7 +78,7 @@ public class SnakeAndLadderController extends Application{
 		});
 		playerPosition.setText("Your position: " + 1);
 		timer = new MyAnimTimer();
-		
+
 		player1Image.setLayoutX(14);
 		player1Image.setLayoutY(551);
 		player2Image.setLayoutX(14);
@@ -86,16 +86,17 @@ public class SnakeAndLadderController extends Application{
 	}
 
 	public void onRollButtonClicked(ActionEvent event) throws InterruptedException {
-		
-		int face = game.currentPlayerRollDie();
-		dieImage.setImage(new Image("/res/face" + face + ".png"));
+
+//		int face = game.currentPlayerRollDie();
+		int face = 33;
+//		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
-		
+
 		ImageView curImg = null;
-		
+
 		Player cur = game.currentPlayer();
 		int curPos = game.currentPlayerPosition() + 1;
-		
+
 		switch (cur.getName()) {
 		case "Player1":
 			curImg = player1Image;
@@ -107,19 +108,19 @@ public class SnakeAndLadderController extends Application{
 			curImg = player1Image;
 			break;
 		}
-		
+
 		/*
 		 * เดินเกินร้อยยังไม่ถอยหลัง backward ยังไม่สมบูรณ์
 		 */
 
 		String status = game.currentPlayerMovePiece(face);
 		int newPos = game.currentPlayerPosition() + 1;
-		
+
 		playerPosition.setText(cur.getName() + " " + curPos + "->" + newPos);
-		
+
 		switch (status) {
 		case "normal":
-			timer = new MyAnimTimer(curImg, curPos, newPos-curPos, status);
+			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, status);
 			timer.start();
 			game.switchPlayer();
 			break;
@@ -131,14 +132,14 @@ public class SnakeAndLadderController extends Application{
 		case "Snake":
 			System.out.println("snake");
 			timer = new MyAnimTimer(curImg, curPos, face, status);
-			timer.setSsteps(newPos-(curPos+face));
+			timer.setSsteps(newPos - (curPos + face));
 			timer.start();
 			game.switchPlayer();
-			
+
 			break;
 		case "Ladder":
 			System.out.println("ladder");
-			timer = new MyAnimTimer(curImg, curPos, newPos-curPos, status);
+			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, status);
 			timer.start();
 			game.switchPlayer();
 			break;
@@ -151,10 +152,11 @@ public class SnakeAndLadderController extends Application{
 		default:
 			break;
 		}
-		
+
 		if (game.isEnded()) {
 			gameEndAlert();
-		}
+		}		
+
 	}
 
 	public void gameEndAlert() {
@@ -188,7 +190,6 @@ public class SnakeAndLadderController extends Application{
 			Parent chooseGameRoot = chooseGameLoader.load();
 			Scene chooseGameScene = new Scene(chooseGameRoot);
 
-			
 			SnakeAndLadderController snake = chooseGameLoader.getController();
 			snake.setGame(new Game(2));
 			stage.setTitle("Snake&Ladder | ");
@@ -199,7 +200,7 @@ public class SnakeAndLadderController extends Application{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void backToHome() {
 
 		stage = (Stage) playerNameLabel.getScene().getWindow();
@@ -216,10 +217,10 @@ public class SnakeAndLadderController extends Application{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void replayAction() {
 		Platform.runLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				game.replay();
