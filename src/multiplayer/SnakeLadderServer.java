@@ -58,7 +58,9 @@ public class SnakeLadderServer {
 		int afterPosi = game.currentPlayerPosition() + 1;
 		String moveDetail = game.currentPlayer().getName() + " " + fromPosi + " to " + afterPosi;
 
-		game.switchPlayer();
+		if(!status.equals("Goal")) {
+			game.switchPlayer();
+		}
 		Player currentPlayer = game.currentPlayer();
 		GameData gameData = new GameData();
 		gameData.setCurrentPlayer(currentPlayer);

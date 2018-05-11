@@ -1,8 +1,6 @@
 package multiplayer;
 
 import java.util.Optional;
-
-
 import gameLogic.Die;
 import gameLogic.Player;
 import gameUI.MyAnimTimer;
@@ -136,12 +134,21 @@ public class SnakeAndLadderController {
 			}
 		});
 	}
+	
+	public void enableRollButton(WorkerStateEvent event) {
+		if(currentPlayer != null) {
+			if(player.getName().equals(currentPlayer.getName())) {
+				rollButton.setDisable(false);
+			}
+		}
+	}
 
 	public void moveImage(String player, String posStatus, int curPos, int newPos) {
 
 		ImageView curImg = null;
+		boolean isEnd = false;
 		System.out.println(posStatus);
-
+		rollButton.setDisable(true);
 		switch (player) {
 		case "Player1":
 			curImg = player1Image;
@@ -182,6 +189,7 @@ public class SnakeAndLadderController {
 			timer.start();
 			break;
 		case "Goal":
+			isEnd = true;
 			rollButton.setDisable(true);
 			playerWin = player;
 			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, 0, status);
@@ -200,6 +208,19 @@ public class SnakeAndLadderController {
 			break;
 		default:
 			break;
+		}
+		if(!isEnd) {
+			Task<Void> move = new Task<Void>() {
+				@Override
+				protected Void call() throws Exception {
+					while (timer.isActive()) {
+						System.out.print("");
+					}
+					return null;
+				}
+			};
+			move.setOnSucceeded(this::enableRollButton);
+			new Thread(move).start();
 		}
 	}
 
