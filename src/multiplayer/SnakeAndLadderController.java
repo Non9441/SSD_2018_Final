@@ -3,11 +3,14 @@ package multiplayer;
 import java.util.Optional;
 
 import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
+import javax.xml.transform.Source;
 
 import gameLogic.Die;
 import gameLogic.Player;
 import gameUI.MyAnimTimer;
 import javafx.animation.TranslateTransition;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -121,8 +124,8 @@ public class SnakeAndLadderController {
 			public void run() {
 				if (status.contains("Goal")) {
 					rollButton.setDisable(true);
+					moveImage(player, posStatus, curPos, newPos);
 				} else if (status.equals("Full")) {
-					System.out.println("Full Ja");
 					rollButton.setDisable(true);
 					playerNameLabel.setText("Fail to connected");
 					playerPosition.setText(player);
@@ -139,9 +142,7 @@ public class SnakeAndLadderController {
 	public void moveImage(String player, String posStatus, int curPos, int newPos) {
 
 		ImageView curImg = null;
-		System.out.println("-----------------------------------------");
 		System.out.println(posStatus);
-		System.out.println("-----------------------------------------");
 
 		switch (player) {
 		case "Player1":
@@ -182,21 +183,34 @@ public class SnakeAndLadderController {
 			timer = new MyAnimTimer(curImg, curPos, face, posStatus);
 			timer.start();
 			break;
+		case "Goal":
+			rollButton.setDisable(true);
+			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, status);
+			timer.start();
+			Task<Void> move = new Task<Void>() {
+				@Override
+				protected Void call() throws Exception {
+					while (timer.isActive()) {
+						System.out.print("");
+					}
+					return null;
+				}
+			};
+			move.setOnSucceeded(this::gameIsEnd);
+			new Thread(move).start();
+			break;
 		default:
 			break;
 		}
 	}
 
 	public void onRollButtonClicked(ActionEvent event) throws InterruptedException {
-		if (timer.isActive()) {
-			specialBlockLabel.setText("Wait for opponent");
-			return;
-		}
 		rollButton.setDisable(false);
 		face = player.roll(die);
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
 
+		face = 50;
 		salClient.sendRollResult(face);
 
 		specialBlockLabel.setText("Playing....");
@@ -211,6 +225,10 @@ public class SnakeAndLadderController {
 		} else {
 			rollButton.setDisable(true);
 		}
+	}
+	
+	public void gameIsEnd(WorkerStateEvent event) {
+		gameEndAlert();
 	}
 
 	public void gameEndAlert() {
