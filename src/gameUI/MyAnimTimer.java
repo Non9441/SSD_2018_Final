@@ -85,7 +85,7 @@ public class MyAnimTimer extends AnimationTimer {
 					curPos--;
 					ssteps++;
 					try {
-						Thread.sleep(300);
+						Thread.sleep(100);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -108,7 +108,7 @@ public class MyAnimTimer extends AnimationTimer {
 				curPos++;
 				steps--;
 				try {
-					Thread.sleep(300);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -127,7 +127,7 @@ public class MyAnimTimer extends AnimationTimer {
 			curPos--;
 			steps++;
 			try {
-				Thread.sleep(300);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
