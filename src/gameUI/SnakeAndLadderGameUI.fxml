@@ -77,51 +77,55 @@
                <children>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <ImageView fitHeight="600.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../res/board3.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="424.0" layoutY="544.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../res/freeze.gif" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="484.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../res/freeze.gif" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="184.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../res/freeze.gif" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="9.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../res/backward.gif" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="548.0" layoutY="306.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../res/backward.gif" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="248.0" layoutY="425.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../res/backward.gif" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="player1Image" fitHeight="35.0" fitWidth="35.0" layoutX="14.0" layoutY="551.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../res/player1.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="player2Image" fitHeight="35.0" fitWidth="35.0" layoutX="14.0" layoutY="551.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../res/player2.png" />
-                           </image>
-                        </ImageView>
+                        <Pane>
+                           <children>
+                              <ImageView fitHeight="600.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/board3.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="424.0" layoutY="544.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/freeze.gif" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="484.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/freeze.gif" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="184.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/freeze.gif" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="9.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/backward.gif" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="548.0" layoutY="306.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/backward.gif" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="248.0" layoutY="425.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/backward.gif" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="player1Image" fitHeight="35.0" fitWidth="35.0" layoutX="14.0" layoutY="551.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../res/player1.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="player2Image" fitHeight="35.0" fitWidth="35.0" layoutX="16.0" layoutY="551.0" pickOnBounds="true" preserveRatio="true" x="2.0">
+                                 <image>
+                                    <Image url="@../res/player2.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
                      </children>
                   </AnchorPane>
                </children>

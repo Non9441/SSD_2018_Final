@@ -10,7 +10,7 @@ public class MyAnimTimer extends AnimationTimer {
 	private int steps;
 	private boolean active;
 	private String status = "";
-	private int ssteps;
+	private int ssteps = 0;
 	
 	
 	public MyAnimTimer() {
@@ -49,6 +49,14 @@ public class MyAnimTimer extends AnimationTimer {
 		curImg = img;
 	}
 	
+	public int getSteps() {
+		return steps;
+	}
+	
+	public int getSSteps() {
+		return ssteps;
+	}
+	
 	public boolean isActive() {
 		return active;
 	}
@@ -62,6 +70,7 @@ public class MyAnimTimer extends AnimationTimer {
 	@Override
 	public void stop() {
 		active = false;
+		notify();
 		super.stop();
 	}
 	
