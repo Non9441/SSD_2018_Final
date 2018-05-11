@@ -63,6 +63,7 @@ public class SnakeAndLadderController {
 
 	private Die die;
 	private int face;
+	private String playerWin = "";
 
 	private SnakeLadderClient salClient;
 	private MyAnimTimer timer;
@@ -185,6 +186,7 @@ public class SnakeAndLadderController {
 			break;
 		case "Goal":
 			rollButton.setDisable(true);
+			playerWin = player;
 			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, status);
 			timer.start();
 			Task<Void> move = new Task<Void>() {
@@ -233,8 +235,8 @@ public class SnakeAndLadderController {
 
 	public void gameEndAlert() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Confirmation Dialog with Custom Actions");
-		alert.setHeaderText("Look, a Confirmation Dialog with Custom Actions");
+		alert.setTitle("Game end!!");
+		alert.setHeaderText(playerWin + " Win >.<");
 		alert.setContentText("Choose your option.");
 
 		ButtonType buttonTypeOne = new ButtonType("Play again");
