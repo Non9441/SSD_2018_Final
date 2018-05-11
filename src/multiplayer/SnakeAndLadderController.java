@@ -2,9 +2,6 @@ package multiplayer;
 
 import java.util.Optional;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
-import javax.xml.transform.Source;
-
 import gameLogic.Die;
 import gameLogic.Player;
 import gameUI.MyAnimTimer;
@@ -14,7 +11,6 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.AmbientLight;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -137,6 +133,10 @@ public class SnakeAndLadderController {
 				}
 			}
 		});
+	}
+	
+	public void enableRollButton(WorkerStateEvent event) {
+		rollButton.setDisable(false);
 	}
 
 	public void moveImage(String player, String posStatus, int curPos, int newPos) {
