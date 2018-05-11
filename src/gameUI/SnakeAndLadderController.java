@@ -1,5 +1,7 @@
 package gameUI;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import gameLogic.Game;
@@ -45,6 +47,7 @@ public class SnakeAndLadderController extends Application{
 	private Game game;
 	private Stage stage;
 	private MyAnimTimer timer;
+	private List<MyAnimTimer> history;
 
 	public void setGame(Game game) {
 		this.game = game;
@@ -78,6 +81,7 @@ public class SnakeAndLadderController extends Application{
 		});
 		playerPosition.setText("Your position: " + 1);
 		timer = new MyAnimTimer();
+		history = new ArrayList<MyAnimTimer>();
 		
 		player1Image.setLayoutX(14);
 		player1Image.setLayoutY(551);
@@ -120,18 +124,21 @@ public class SnakeAndLadderController extends Application{
 		switch (status) {
 		case "normal":
 			timer = new MyAnimTimer(curImg, curPos, newPos-curPos, status);
+			history.add(timer);
 			timer.start();
 			game.switchPlayer();
 			break;
 		case "Backward":
 			System.out.println("backward");
 			timer = new MyAnimTimer(curImg, curPos, face, status);
+			history.add(timer);
 			timer.start();
 			break;
 		case "Snake":
 			System.out.println("snake");
 			timer = new MyAnimTimer(curImg, curPos, face, status);
 			timer.setSsteps(newPos-(curPos+face));
+			history.add(timer);
 			timer.start();
 			game.switchPlayer();
 			
@@ -139,12 +146,14 @@ public class SnakeAndLadderController extends Application{
 		case "Ladder":
 			System.out.println("ladder");
 			timer = new MyAnimTimer(curImg, curPos, newPos-curPos, status);
+			history.add(timer);
 			timer.start();
 			game.switchPlayer();
 			break;
 		case "Freeze":
 			System.out.println("freeze");
 			timer = new MyAnimTimer(curImg, curPos, face, status);
+			history.add(timer);
 			timer.start();
 			game.switchPlayer();
 			break;
@@ -218,11 +227,22 @@ public class SnakeAndLadderController extends Application{
 	}
 	
 	public void replayAction() {
+		player1Image.setX(14);
+		player1Image.setY(551);
+		
+		player2Image.setX(14);
+		player2Image.setY(551);
+		
 		Platform.runLater(new Runnable() {
 			
 			@Override
 			public void run() {
-				game.replay();
+				for(MyAnimTimer timer : history) {
+					timer.start();
+					while(timer.isActive()) {
+						if(!timer.isActive()) break;
+					}
+				}
 			}
 		});
 	}
