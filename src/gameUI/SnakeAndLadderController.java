@@ -1,11 +1,15 @@
 package gameUI;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import gameLogic.Game;
 import gameLogic.Player;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +25,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
-public class SnakeAndLadderController extends Application{
+public class SnakeAndLadderController extends Application {
 
 	@FXML
 	Label playerNameLabel;
@@ -39,17 +43,18 @@ public class SnakeAndLadderController extends Application{
 	ImageView dieImage;
 	@FXML
 	ImageView player1Image;
-    @FXML
-    ImageView player2Image;
+	@FXML
+	ImageView player2Image;
 
 	private Game game;
 	private Stage stage;
 	private MyAnimTimer timer;
+	private List<MyAnimTimer> history;
 
 	public void setGame(Game game) {
 		this.game = game;
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		try {
@@ -62,7 +67,7 @@ public class SnakeAndLadderController extends Application{
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
 			primaryStage.show();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -78,7 +83,8 @@ public class SnakeAndLadderController extends Application{
 		});
 		playerPosition.setText("Your position: " + 1);
 		timer = new MyAnimTimer();
-		
+		history = new ArrayList<MyAnimTimer>();
+
 		player1Image.setLayoutX(14);
 		player1Image.setLayoutY(551);
 		player2Image.setLayoutX(14);
@@ -86,16 +92,17 @@ public class SnakeAndLadderController extends Application{
 	}
 
 	public void onRollButtonClicked(ActionEvent event) throws InterruptedException {
-		
+
 		int face = game.currentPlayerRollDie();
+//		int face = 33;
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
-		
+
 		ImageView curImg = null;
-		
+
 		Player cur = game.currentPlayer();
 		int curPos = game.currentPlayerPosition() + 1;
-		
+
 		switch (cur.getName()) {
 		case "Player1":
 			curImg = player1Image;
@@ -107,54 +114,78 @@ public class SnakeAndLadderController extends Application{
 			curImg = player1Image;
 			break;
 		}
-		
+
 		/*
 		 * เดินเกินร้อยยังไม่ถอยหลัง backward ยังไม่สมบูรณ์
 		 */
 
 		String status = game.currentPlayerMovePiece(face);
 		int newPos = game.currentPlayerPosition() + 1;
-		
+
 		playerPosition.setText(cur.getName() + " " + curPos + "->" + newPos);
-		
+
 		switch (status) {
 		case "normal":
 			timer = new MyAnimTimer(curImg, curPos, newPos-curPos, status);
+			history.add(timer);
 			timer.start();
 			game.switchPlayer();
 			break;
 		case "Backward":
 			System.out.println("backward");
 			timer = new MyAnimTimer(curImg, curPos, face, status);
+			history.add(timer);
 			timer.start();
 			break;
 		case "Snake":
 			System.out.println("snake");
 			timer = new MyAnimTimer(curImg, curPos, face, status);
 			timer.setSsteps(newPos-(curPos+face));
+			history.add(timer);
 			timer.start();
 			game.switchPlayer();
-			
+
 			break;
 		case "Ladder":
 			System.out.println("ladder");
 			timer = new MyAnimTimer(curImg, curPos, newPos-curPos, status);
+			history.add(timer);
 			timer.start();
 			game.switchPlayer();
 			break;
 		case "Freeze":
 			System.out.println("freeze");
 			timer = new MyAnimTimer(curImg, curPos, face, status);
+			history.add(timer);
 			timer.start();
 			game.switchPlayer();
 			break;
+		case "Goal":
+			System.out.println("Goall");
+			rollButton.setDisable(true);
+			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, status);
+			timer.start();
+			
+			Task<Void> move = new Task<Void>() {
+
+				@Override
+				protected Void call() throws Exception {
+					while(timer.isActive()) {
+					}
+					return null;
+				}
+			};
+			move.setOnSucceeded(this::gameIsEnd);
+			new Thread(move).start();		
+			break;
 		default:
 			break;
-		}
-		
-		if (game.isEnded()) {
-			gameEndAlert();
-		}
+		}	
+
+	}
+	
+	public void gameIsEnd(WorkerStateEvent event) {
+		gameEndAlert();
 	}
 
 	public void gameEndAlert() {
@@ -188,7 +219,6 @@ public class SnakeAndLadderController extends Application{
 			Parent chooseGameRoot = chooseGameLoader.load();
 			Scene chooseGameScene = new Scene(chooseGameRoot);
 
-			
 			SnakeAndLadderController snake = chooseGameLoader.getController();
 			snake.setGame(new Game(2));
 			stage.setTitle("Snake&Ladder | ");
@@ -199,7 +229,7 @@ public class SnakeAndLadderController extends Application{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void backToHome() {
 
 		stage = (Stage) playerNameLabel.getScene().getWindow();
@@ -216,13 +246,24 @@ public class SnakeAndLadderController extends Application{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void replayAction() {
+		player1Image.setX(14);
+		player1Image.setY(551);
+		
+		player2Image.setX(14);
+		player2Image.setY(551);
+		
 		Platform.runLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
-				game.replay();
+				for(MyAnimTimer timer : history) {
+					timer.start();
+					while(timer.isActive()) {
+						if(!timer.isActive()) break;
+					}
+				}
 			}
 		});
 	}
