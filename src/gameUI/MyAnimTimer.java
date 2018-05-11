@@ -62,6 +62,7 @@ public class MyAnimTimer extends AnimationTimer {
 	@Override
 	public void stop() {
 		active = false;
+		System.out.println(active);
 		super.stop();
 	}
 	
@@ -70,7 +71,7 @@ public class MyAnimTimer extends AnimationTimer {
 		if(steps == 0) {
 			if(status.equals("Snake")) {
 				if(ssteps == 0) {
-					stop();
+					this.stop();
 				}
 				if(ssteps < 0) {
 					if (curPos % 20 == 1 || curPos % 20 == 11) {
@@ -92,7 +93,8 @@ public class MyAnimTimer extends AnimationTimer {
 					}
 				}
 			} else {
-				stop();
+				this.stop();
+				System.out.println("This " + active);
 			}
 		}
 		if(steps > 0) {

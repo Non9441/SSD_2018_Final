@@ -6,6 +6,8 @@ import gameLogic.Game;
 import gameLogic.Player;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +18,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
@@ -88,7 +89,7 @@ public class SnakeAndLadderController extends Application {
 	public void onRollButtonClicked(ActionEvent event) throws InterruptedException {
 
 //		int face = game.currentPlayerRollDie();
-		int face = 33;
+		int face = 50;
 //		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
 
@@ -149,14 +150,32 @@ public class SnakeAndLadderController extends Application {
 			timer.start();
 			game.switchPlayer();
 			break;
+		case "Goal":
+			System.out.println("Goall");
+			rollButton.setDisable(true);
+			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, status);
+			timer.start();
+			
+			Task<Void> move = new Task<Void>() {
+
+				@Override
+				protected Void call() throws Exception {
+					while(timer.isActive()) {
+					}
+					return null;
+				}
+			};
+			move.setOnSucceeded(this::gameIsEnd);
+			new Thread(move).start();		
+			break;
 		default:
 			break;
-		}
+		}	
 
-		if (game.isEnded()) {
-			gameEndAlert();
-		}		
-
+	}
+	
+	public void gameIsEnd(WorkerStateEvent event) {
+		gameEndAlert();
 	}
 
 	public void gameEndAlert() {
