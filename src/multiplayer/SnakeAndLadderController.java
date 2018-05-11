@@ -2,6 +2,8 @@ package multiplayer;
 
 import java.util.Optional;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
+
 import gameLogic.Die;
 import gameLogic.Player;
 import gameUI.MyAnimTimer;
@@ -9,6 +11,7 @@ import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.AmbientLight;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -60,7 +63,7 @@ public class SnakeAndLadderController {
 
 	private SnakeLadderClient salClient;
 	private MyAnimTimer timer;
-	
+
 	public void initialize() {
 		die = new Die();
 		rollButton.setOnAction(event -> {
@@ -116,9 +119,19 @@ public class SnakeAndLadderController {
 		javafx.application.Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				moveImage(player, posStatus, curPos, newPos);
-				playerPosition.setText(moveDetail);
-				specialBlockLabel.setText(status);
+				if (status.contains("Goal")) {
+					rollButton.setDisable(true);
+				} else if (status.equals("Full")) {
+					System.out.println("Full Ja");
+					rollButton.setDisable(true);
+					playerNameLabel.setText("Fail to connected");
+					playerPosition.setText(player);
+					specialBlockLabel.setText(moveDetail);
+				} else {
+					moveImage(player, posStatus, curPos, newPos);
+					playerPosition.setText(moveDetail);
+					specialBlockLabel.setText(status);
+				}
 			}
 		});
 	}
@@ -126,7 +139,6 @@ public class SnakeAndLadderController {
 	public void moveImage(String player, String posStatus, int curPos, int newPos) {
 
 		ImageView curImg = null;
-
 		System.out.println("-----------------------------------------");
 		System.out.println(posStatus);
 		System.out.println("-----------------------------------------");
@@ -142,10 +154,10 @@ public class SnakeAndLadderController {
 			curImg = player1Image;
 			break;
 		}
-		
+
 		switch (posStatus) {
 		case "normal":
-			timer = new MyAnimTimer(curImg, curPos, newPos-curPos, posStatus);
+			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, posStatus);
 			timer.start();
 			break;
 		case "Backward":
@@ -156,13 +168,13 @@ public class SnakeAndLadderController {
 		case "Snake":
 			System.out.println("snake");
 			timer = new MyAnimTimer(curImg, curPos, face, posStatus);
-			timer.setSsteps(newPos-(curPos+face));
+			timer.setSsteps(newPos - (curPos + face));
 			timer.start();
-			
+
 			break;
 		case "Ladder":
 			System.out.println("ladder");
-			timer = new MyAnimTimer(curImg, curPos, newPos-curPos, posStatus);
+			timer = new MyAnimTimer(curImg, curPos, newPos - curPos, posStatus);
 			timer.start();
 			break;
 		case "Freeze":
@@ -173,10 +185,14 @@ public class SnakeAndLadderController {
 		default:
 			break;
 		}
-
 	}
 
 	public void onRollButtonClicked(ActionEvent event) throws InterruptedException {
+		if (timer.isActive()) {
+			specialBlockLabel.setText("Wait for opponent");
+			return;
+		}
+		rollButton.setDisable(false);
 		face = player.roll(die);
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");

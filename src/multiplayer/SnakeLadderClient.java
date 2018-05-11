@@ -56,7 +56,9 @@ public class SnakeLadderClient {
 		scu.setClient(this);
 
 		client.start();
-		client.connect(50000, "35.198.204.2", 50000);
+		// client.connect(50000, "35.198.204.2", 50000);
+		client.connect(50000, "127.0.0.1", 50000);
+
 	}
 
 	public Player getPlayer() {
@@ -99,20 +101,22 @@ public class SnakeLadderClient {
 					moveDetail = data.getMoveDetail();
 					curPos = data.getCurPos();
 					newPos = data.getNewPos();
-					
+
 					scu.setPlayer(player);
-					scu.setStatusAndMoveDetail(player.getName(),status, moveDetail,curPos,newPos);
+					scu.setStatusAndMoveDetail(player.getName(), status, moveDetail, curPos, newPos);
 				} else {
 					currentPlayer = data.getCurrentPlayer();
 					status = (String) data.getStatus();
 					moveDetail = data.getMoveDetail();
 					curPos = data.getCurPos();
 					newPos = data.getNewPos();
-					
+
 					scu.setCurrentPlayer(currentPlayer);
-					scu.setStatusAndMoveDetail(currentPlayer.getName(),status, moveDetail, curPos, newPos);
+					scu.setStatusAndMoveDetail(currentPlayer.getName(), status, moveDetail, curPos, newPos);
 				}
-			} 
+			} else if (arg1 instanceof String) {
+				scu.setStatusAndMoveDetail("Connection Fail", "Room is full", "", 0, 0);
+			}
 		}
 	}
 
