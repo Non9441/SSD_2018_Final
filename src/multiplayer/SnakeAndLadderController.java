@@ -267,10 +267,14 @@ public class SnakeAndLadderController {
 		if (result.get() == buttonTypeOne) {
 			initialize();
 		} else if (result.get() == buttonTypeThree) {
-			alert.setHeaderText("Not finish!!");
+			replayAction();
 		} else if (result.get() == buttonTypeTwo) {
 			backToHome();
 		}
+	}
+	
+	public void replayAction() {
+		
 	}
 
 	public void backToHome() {

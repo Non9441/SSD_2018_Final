@@ -45,6 +45,10 @@ public class SnakeAndLadderController extends Application {
 	ImageView player1Image;
 	@FXML
 	ImageView player2Image;
+	@FXML
+    ImageView player3Image;
+    @FXML
+    ImageView player4Image;
 
 	private Game game;
 	private Stage stage;
@@ -293,6 +297,12 @@ public class SnakeAndLadderController extends Application {
 		
 		player2Image.setTranslateX(x-player1Image.getX());
 		player2Image.setTranslateY(y-player1Image.getY());
+		
+		player3Image.setTranslateX(x-player1Image.getX());
+		player3Image.setTranslateY(y-player1Image.getY());
+		
+		player4Image.setTranslateX(x-player1Image.getX());
+		player4Image.setTranslateY(y-player1Image.getY());
 		
 		rollButton.setDisable(true);
 		Iterator<MyAnimTimer> iter = history.iterator();

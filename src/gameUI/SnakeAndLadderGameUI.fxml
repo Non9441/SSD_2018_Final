@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameUI.SnakeAndLadderController">
+<AnchorPane xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameUI.SnakeAndLadderController">
    <children>
       <Pane prefHeight="600.0" prefWidth="800.0">
          <children>
@@ -122,12 +122,12 @@
                               <Image url="@../res/player2.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="2.0" layoutY="540.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="player3Image" fitHeight="27.0" fitWidth="27.0" layoutX="2.0" layoutY="540.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../res/player3.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="3.0" layoutY="570.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="player4Image" fitHeight="27.0" fitWidth="27.0" layoutX="3.0" layoutY="570.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../res/player4.png" />
                            </image>
