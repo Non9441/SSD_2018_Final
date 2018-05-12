@@ -185,12 +185,14 @@ public class SnakeAndLadderController extends Application {
 			break;
 		default:
 			break;
-		}	
+		}
+		specialBlockLabel.setText(cur.getName()+" hit on \n"+status+" path.");
 
 	}
 	
 	public void gameIsEnd(WorkerStateEvent event) {
 		gameEndAlert();
+		
 	}
 
 	public void gameEndAlert() {

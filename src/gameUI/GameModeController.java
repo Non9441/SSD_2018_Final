@@ -30,8 +30,6 @@ public class GameModeController {
     @FXML
     ImageView online;
 
-
-
 	private Stage stage;
 	MediaPlayer player;
 
@@ -63,6 +61,8 @@ public class GameModeController {
 		threePlayerMode.setOnMouseReleased(this::onMouseReleased3);
 		fourPlayerMode.setOnMouseReleased(this::onMouseReleased4);
 		online.setOnMouseReleased(this::onMouseReleasedOnline);
+		
+		
 		
 	}
 	
