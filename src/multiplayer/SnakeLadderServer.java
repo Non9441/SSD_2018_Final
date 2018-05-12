@@ -59,6 +59,10 @@ public class SnakeLadderServer {
 
 		if(!status.equals("Goal")) {
 			game.switchPlayer();
+			while(!game.currentPlayer().isCanPlay()) {
+				game.currentPlayer().setCanPlay(true);
+				game.switchPlayer();
+			}
 		}
 		Player currentPlayer = game.currentPlayer();
 		GameData gameData = new GameData();
@@ -67,7 +71,7 @@ public class SnakeLadderServer {
 		gameData.setMoveDetail(moveDetail);
 		gameData.setCurPos(fromPosi);
 		gameData.setNewPos(afterPosi);
-
+		
 		for (Connection c : connections.keySet()) {
 			c.sendTCP(gameData);
 		}

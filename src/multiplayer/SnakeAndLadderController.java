@@ -84,7 +84,7 @@ public class SnakeAndLadderController {
 
 	public void setPlayer(Player player) {
 		this.player = player;
-		Platform.runLater(new Runnable() {			
+		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				playerNameLabel.setText(player.getName());
@@ -141,10 +141,10 @@ public class SnakeAndLadderController {
 			}
 		});
 	}
-	
+
 	public void enableRollButton(WorkerStateEvent event) {
-		if(currentPlayer != null) {
-			if(player.getName().equals(currentPlayer.getName())) {
+		if (currentPlayer != null) {
+			if (player.getName().equals(currentPlayer.getName())) {
 				rollButton.setDisable(false);
 			}
 		}
@@ -192,7 +192,8 @@ public class SnakeAndLadderController {
 			break;
 		case "Freeze":
 			System.out.println("freeze");
-			timer = new MyAnimTimer(curImg, curPos, face, 0, posStatus);
+			timer = new MyAnimTimer(curImg, curPos, newPos-curPos, 0, posStatus);
+			System.out.println(player + " at " + curPos + " walk " + face);
 			timer.start();
 			break;
 		case "Goal":
@@ -216,7 +217,7 @@ public class SnakeAndLadderController {
 		default:
 			break;
 		}
-		if(!isEnd) {
+		if (!isEnd) {
 			Task<Void> move = new Task<Void>() {
 				@Override
 				protected Void call() throws Exception {
@@ -236,8 +237,7 @@ public class SnakeAndLadderController {
 		face = player.roll(die);
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
-
-		face = 50;
+		face = 7;
 		salClient.sendRollResult(face);
 
 		specialBlockLabel.setText("Playing....");
@@ -253,7 +253,7 @@ public class SnakeAndLadderController {
 			rollButton.setDisable(true);
 		}
 	}
-	
+
 	public void gameIsEnd(WorkerStateEvent event) {
 		gameEndAlert();
 	}
