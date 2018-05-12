@@ -74,6 +74,19 @@ public class SnakeAndLadderController extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
 			primaryStage.show();
+			
+//			switch (game.getNumPlayer()) {
+//			case 2:
+//				player3Image.setVisible(false);
+//				player4Image.setVisible(false);
+//				break;
+//			case 3:
+//				player4Image.setVisible(false);
+//				break;
+//			default:
+//				break;
+//			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -113,6 +126,12 @@ public class SnakeAndLadderController extends Application {
 			break;
 		case "Player2":
 			curImg = player2Image;
+			break;
+		case "Player3":
+			curImg = player3Image;
+			break;
+		case "Player4":
+			curImg = player4Image;
 			break;
 		default:
 			curImg = player1Image;
