@@ -181,7 +181,8 @@ public class SnakeAndLadderController extends Application {
 			break;
 		default:
 			break;
-		}	
+		}
+		specialBlockLabel.setText(cur.getName()+" hit on \n"+status+" path.");
 
 	}
 	
