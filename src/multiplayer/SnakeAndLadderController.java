@@ -56,6 +56,7 @@ public class SnakeAndLadderController {
 	private int curPos;
 	private int newPos;
 	private String posStatus = "";
+	private int faceFromServer;
 
 	private Die die;
 	private int face;
@@ -112,11 +113,12 @@ public class SnakeAndLadderController {
 		this.salClient = salClient;
 	}
 
-	public void setStatusAndMoveDetail(String player, String status, String moveDetail, int curPos, int newPos) {
+	public void setStatusAndMoveDetail(String player, String status, String moveDetail, int curPos, int newPos,int faceFromServer) {
 		this.status = status;
 		this.moveDetail = moveDetail;
 		this.curPos = curPos;
 		this.newPos = newPos;
+		this.faceFromServer = faceFromServer;
 		String[] text = status.split(" ");
 		if (text.length > 4) {
 			this.posStatus = text[3];
@@ -175,15 +177,14 @@ public class SnakeAndLadderController {
 			break;
 		case "Backward":
 			System.out.println("backward");
-			timer = new MyAnimTimer(curImg, curPos, face, 0, posStatus);
+			timer = new MyAnimTimer(curImg, curPos, faceFromServer, 0, posStatus);
 			timer.start();
 			break;
 		case "Snake":
 			System.out.println("snake");
-			timer = new MyAnimTimer(curImg, curPos, face, newPos - (curPos + face), posStatus);
-			timer.setSsteps(newPos - (curPos + face));
+			timer = new MyAnimTimer(curImg, curPos, faceFromServer, newPos - (curPos + faceFromServer), posStatus);
+			timer.setSsteps(newPos - (curPos + faceFromServer));
 			timer.start();
-
 			break;
 		case "Ladder":
 			System.out.println("ladder");
@@ -192,8 +193,8 @@ public class SnakeAndLadderController {
 			break;
 		case "Freeze":
 			System.out.println("freeze");
-			timer = new MyAnimTimer(curImg, curPos, newPos-curPos, 0, posStatus);
-			System.out.println(player + " at " + curPos + " walk " + face);
+			timer = new MyAnimTimer(curImg, curPos, faceFromServer, 0, posStatus);
+			System.out.println(player + " at " + curPos + " walk " + faceFromServer);
 			timer.start();
 			break;
 		case "Goal":
@@ -237,7 +238,6 @@ public class SnakeAndLadderController {
 		face = player.roll(die);
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
-		face = 7;
 		salClient.sendRollResult(face);
 
 		specialBlockLabel.setText("Playing....");
