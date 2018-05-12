@@ -51,7 +51,6 @@ public class SnakeLadderServer {
 	}
 
 	public void onRolled(int face) {
-		System.out.println(game.currentPlayer() + " move " + face);
 		int fromPosi = game.currentPlayerPosition() + 1;
 		String status = game.currentPlayerMovePiece(face);
 		String newStatus = game.currentPlayer().getName() + " hit on " + status + " path";
@@ -65,11 +64,9 @@ public class SnakeLadderServer {
 		GameData gameData = new GameData();
 		gameData.setCurrentPlayer(currentPlayer);
 		gameData.setStatus(newStatus);
-		System.out.println("status:"+status);
 		gameData.setMoveDetail(moveDetail);
 		gameData.setCurPos(fromPosi);
 		gameData.setNewPos(afterPosi);
-		System.out.println(currentPlayer.getName() + " turn");
 
 		for (Connection c : connections.keySet()) {
 			c.sendTCP(gameData);
@@ -126,6 +123,10 @@ public class SnakeLadderServer {
 			} else {
 				player = new Player("Non-Player");
 			}
+			
+			if(connections.size() == 0) {
+				game.resetGame();
+			}
 			System.out.println(player.getName() + " disconnected.");
 		}
 
@@ -135,7 +136,6 @@ public class SnakeLadderServer {
 			if (arg1 instanceof Integer) {
 				int face = (Integer) arg1;
 				onRolled(face);
-				System.out.println("Server received data.");
 			}
 		}
 	}

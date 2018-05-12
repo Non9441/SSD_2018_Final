@@ -120,6 +120,7 @@ public class SnakeAndLadderController {
 			public void run() {
 				if (status.contains("Goal")) {
 					rollButton.setDisable(true);
+					specialBlockLabel.setText(status);
 					moveImage(player, posStatus, curPos, newPos);
 				} else if (status.equals("Full")) {
 					rollButton.setDisable(true);

@@ -40,7 +40,6 @@ public class SnakeLadderClient {
 		client.getKryo().register(FreezeSquare.class);
 		client.getKryo().register(Snake.class);
 		client.getKryo().register(Ladder.class);
-
 		client.getKryo().register(Player.class);
 		client.getKryo().register(GameData.class);
 
@@ -81,7 +80,6 @@ public class SnakeLadderClient {
 		@Override
 		public void connected(Connection arg0) {
 			super.connected(arg0);
-			System.out.println("Connected!!");
 		}
 
 		@Override
@@ -92,7 +90,6 @@ public class SnakeLadderClient {
 		@Override
 		public void received(Connection arg0, Object arg1) {
 			super.received(arg0, arg1);
-			System.out.println("receive");
 			if (arg1 instanceof GameData) {
 				GameData data = (GameData) arg1;
 				if (data.getStatus().equals("Waiting...")) {
