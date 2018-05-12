@@ -188,6 +188,7 @@ public class SnakeAndLadderController extends Application {
 	
 	public void gameIsEnd(WorkerStateEvent event) {
 		gameEndAlert();
+		
 	}
 
 	public void gameEndAlert() {
