@@ -5,6 +5,7 @@ import gameLogic.Die;
 import gameLogic.Player;
 import gameUI.MyAnimTimer;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
@@ -83,7 +84,12 @@ public class SnakeAndLadderController {
 
 	public void setPlayer(Player player) {
 		this.player = player;
-		playerNameLabel.setText(player.getName());
+		Platform.runLater(new Runnable() {			
+			@Override
+			public void run() {
+				playerNameLabel.setText(player.getName());
+			}
+		});
 	}
 
 	public void setCurrentPlayer(Player currentPlayer) {

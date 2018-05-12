@@ -1,5 +1,6 @@
 package gameUI;
 
+import java.io.IOException;
 import java.net.URL;
 
 import gameLogic.Game;
@@ -15,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import multiplayer.SnakeLadderClient;
 
 public class GameModeController {
 	
@@ -212,8 +214,13 @@ public class GameModeController {
     
     @FXML
     void onMouseReleasedOnline(MouseEvent event) {
-    	Image image = new Image(getClass().getResource("../res/OButton.png").toExternalForm());
-		online.setImage(image);
+//    	Image image = new Image(getClass().getResource("../res/OButton.png").toExternalForm());
+//    	online.setImage(image);
+    	try {
+			new SnakeLadderClient((Stage) online.getScene().getWindow());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
 }
