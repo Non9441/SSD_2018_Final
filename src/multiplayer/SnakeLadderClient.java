@@ -15,6 +15,10 @@ import gameLogic.Piece;
 import gameLogic.Player;
 import gameLogic.Snake;
 import gameLogic.Square;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class SnakeLadderClient {
 
@@ -27,9 +31,10 @@ public class SnakeLadderClient {
 	private int curPos;
 	private int newPos;
 
-	private SnakeAndLadderUI scu;
+//	private SnakeAndLadderUI scu;
+	multiplayer.SnakeAndLadderController scu;
 
-	public SnakeLadderClient() throws IOException {
+	public SnakeLadderClient(Stage stage) throws IOException {
 		client = new Client();
 
 		client.getKryo().register(Board.class);
@@ -40,25 +45,31 @@ public class SnakeLadderClient {
 		client.getKryo().register(FreezeSquare.class);
 		client.getKryo().register(Snake.class);
 		client.getKryo().register(Ladder.class);
-
 		client.getKryo().register(Player.class);
 		client.getKryo().register(GameData.class);
 
 		client.addListener(new clientListener());
+		
+		try {
+			
+			FXMLLoader chooseGameLoader = new FXMLLoader(getClass().getResource("SnakeAndLadderGameUI.fxml"));
+			Parent chooseGameRoot = chooseGameLoader.load();
+			Scene chooseGameScene = new Scene(chooseGameRoot);
 
-		new Thread() {
-			@Override
-			public void run() {
-				javafx.application.Application.launch(SnakeAndLadderUI.class);
-			}
-		}.start();
-		scu = SnakeAndLadderUI.waitForLaunch();
-		scu.setClient(this);
+			scu = chooseGameLoader.getController();
+			scu.setSalClient(this);
+			System.out.println(scu);
+			
+			stage.setTitle("Snake and Ladder");
+			stage.setScene(chooseGameScene);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		client.start();
 		// client.connect(50000, "35.198.204.2", 50000);
 		client.connect(50000, "127.0.0.1", 50000);
-
 	}
 
 	public Player getPlayer() {
@@ -81,7 +92,6 @@ public class SnakeLadderClient {
 		@Override
 		public void connected(Connection arg0) {
 			super.connected(arg0);
-			System.out.println("Connected!!");
 		}
 
 		@Override
@@ -92,7 +102,6 @@ public class SnakeLadderClient {
 		@Override
 		public void received(Connection arg0, Object arg1) {
 			super.received(arg0, arg1);
-			System.out.println("receive");
 			if (arg1 instanceof GameData) {
 				GameData data = (GameData) arg1;
 				if (data.getStatus().equals("Waiting...")) {
@@ -121,11 +130,11 @@ public class SnakeLadderClient {
 	}
 
 	public static void main(String[] args) {
-		try {
-			SnakeLadderClient snc = new SnakeLadderClient();
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Cant connect");
-		}
+//		try {
+//			SnakeLadderClient snc = new SnakeLadderClient();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			System.out.println("Cant connect");
+//		}
 	}
 }
