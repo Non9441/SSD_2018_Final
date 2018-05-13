@@ -214,8 +214,6 @@ public class GameModeController {
     
     @FXML
     void onMouseReleasedOnline(MouseEvent event) {
-//    	Image image = new Image(getClass().getResource("../res/OButton.png").toExternalForm());
-//    	online.setImage(image);
     	try {
 			new SnakeLadderClient((Stage) online.getScene().getWindow());
 		} catch (IOException e) {
