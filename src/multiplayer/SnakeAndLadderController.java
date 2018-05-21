@@ -263,7 +263,6 @@ public class SnakeAndLadderController {
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
 
-		face = 50;
 		salClient.sendRollResult(face);
 
 		specialBlockLabel.setText("Playing....");
@@ -330,6 +329,7 @@ public class SnakeAndLadderController {
 
 	private void replay(MyAnimTimer timer2, Iterator<MyAnimTimer> iter) {
 		timer.start();
+		System.out.println(timer.getSteps());
 		historytemp.add(new MyAnimTimer(timer.getImg(), timer.getCurPos(), timer.getSteps(), timer.getSSteps(), timer.getStatus()));
 		if(!iter.hasNext()) {
 			history.clear();
