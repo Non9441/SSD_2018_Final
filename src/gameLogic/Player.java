@@ -5,6 +5,7 @@ public class Player {
 	private String name;
 	private Piece piece;
 	private boolean canPlay = true;;
+	private boolean isBackStatus = false;
 	
 	public Player() {
 
@@ -41,5 +42,11 @@ public class Player {
 	
 	public boolean isCanPlay() {
 		return canPlay;
+	}
+	public void setBackStatus(boolean isBackStatus) {
+		this.isBackStatus = isBackStatus;
+	}
+	public boolean isBackStatus() {
+		return isBackStatus;
 	}
 }

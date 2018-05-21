@@ -7,7 +7,6 @@ import java.util.Optional;
 import gameLogic.Die;
 import gameLogic.Player;
 import gameUI.MyAnimTimer;
-import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -25,7 +24,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class SnakeAndLadderController {
 
@@ -62,6 +60,7 @@ public class SnakeAndLadderController {
 	private int curPos;
 	private int newPos;
 	private String posStatus = "";
+	private int faceFromServer;
 
 	private Die die;
 	private int face;
@@ -99,7 +98,7 @@ public class SnakeAndLadderController {
 
 	public void setPlayer(Player player) {
 		this.player = player;
-		Platform.runLater(new Runnable() {			
+		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				playerNameLabel.setText(player.getName());
@@ -127,11 +126,12 @@ public class SnakeAndLadderController {
 		this.salClient = salClient;
 	}
 
-	public void setStatusAndMoveDetail(String player, String status, String moveDetail, int curPos, int newPos) {
+	public void setStatusAndMoveDetail(String player, String status, String moveDetail, int curPos, int newPos,int faceFromServer) {
 		this.status = status;
 		this.moveDetail = moveDetail;
 		this.curPos = curPos;
 		this.newPos = newPos;
+		this.faceFromServer = faceFromServer;
 		String[] text = status.split(" ");
 		if (text.length > 4) {
 			this.posStatus = text[3];
@@ -156,10 +156,10 @@ public class SnakeAndLadderController {
 			}
 		});
 	}
-	
+
 	public void enableRollButton(WorkerStateEvent event) {
-		if(currentPlayer != null) {
-			if(player.getName().equals(currentPlayer.getName())) {
+		if (currentPlayer != null) {
+			if (player.getName().equals(currentPlayer.getName())) {
 				rollButton.setDisable(false);
 			}
 		}
@@ -197,16 +197,14 @@ public class SnakeAndLadderController {
 			break;
 		case "Backward":
 			System.out.println("backward");
-			timer = new MyAnimTimer(curImg, curPos, face, 0, posStatus);
-			history.add(new MyAnimTimer(curImg, curPos, face, 0, posStatus));
+			timer = new MyAnimTimer(curImg, curPos, faceFromServer, 0, posStatus);
 			timer.start();
 			break;
 		case "Snake":
 			System.out.println("snake");
-			timer = new MyAnimTimer(curImg, curPos, face, newPos - (curPos + face), posStatus);
-			history.add(new MyAnimTimer(curImg, curPos, face, newPos - (curPos + face), posStatus));
+			timer = new MyAnimTimer(curImg, curPos, faceFromServer, newPos - (curPos + faceFromServer), posStatus);
+			timer.setSsteps(newPos - (curPos + faceFromServer));
 			timer.start();
-
 			break;
 		case "Ladder":
 			System.out.println("ladder");
@@ -216,8 +214,8 @@ public class SnakeAndLadderController {
 			break;
 		case "Freeze":
 			System.out.println("freeze");
-			timer = new MyAnimTimer(curImg, curPos, face, 0, posStatus);
-			history.add(new MyAnimTimer(curImg, curPos, face, 0, posStatus));
+			timer = new MyAnimTimer(curImg, curPos, faceFromServer, 0, posStatus);
+			System.out.println(player + " at " + curPos + " walk " + faceFromServer);
 			timer.start();
 			break;
 		case "Goal":
@@ -242,7 +240,7 @@ public class SnakeAndLadderController {
 		default:
 			break;
 		}
-		if(!isEnd) {
+		if (!isEnd) {
 			Task<Void> move = new Task<Void>() {
 				@Override
 				protected Void call() throws Exception {
@@ -278,7 +276,7 @@ public class SnakeAndLadderController {
 			rollButton.setDisable(true);
 		}
 	}
-	
+
 	public void gameIsEnd(WorkerStateEvent event) {
 		gameEndAlert();
 	}

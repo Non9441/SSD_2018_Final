@@ -4,10 +4,12 @@ import gameLogic.Player;
 
 public class GameData {
 	private Player currentPlayer;
+	private String playerWhoRollName;
 	private String status;
 	private String moveDetail;
 	private int curPos;
 	private int newPos;
+	private int faceFromServer;
 
 	public GameData() {
 
@@ -51,6 +53,18 @@ public class GameData {
 
 	public int getNewPos() {
 		return newPos;
+	}
+	public void setPlayerWhoRollName(String playerWhoRollName) {
+		this.playerWhoRollName = playerWhoRollName;
+	}
+	public String getPlayerWhoRollName() {
+		return playerWhoRollName;
+	}
+	public void setFaceFromServer(int faceFromServer) {
+		this.faceFromServer = faceFromServer;
+	}
+	public int getFaceFromServer() {
+		return faceFromServer;
 	}
 
 }

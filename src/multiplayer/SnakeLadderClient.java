@@ -112,19 +112,19 @@ public class SnakeLadderClient {
 					newPos = data.getNewPos();
 
 					scu.setPlayer(player);
-					scu.setStatusAndMoveDetail(player.getName(), status, moveDetail, curPos, newPos);
 				} else {
 					currentPlayer = data.getCurrentPlayer();
 					status = (String) data.getStatus();
 					moveDetail = data.getMoveDetail();
 					curPos = data.getCurPos();
 					newPos = data.getNewPos();
-
+					int faceFromServer = data.getFaceFromServer();
+					String playerWhoRollName = data.getPlayerWhoRollName();
 					scu.setCurrentPlayer(currentPlayer);
-					scu.setStatusAndMoveDetail(currentPlayer.getName(), status, moveDetail, curPos, newPos);
+					scu.setStatusAndMoveDetail(playerWhoRollName, status, moveDetail, curPos, newPos,faceFromServer);
 				}
 			} else if (arg1 instanceof String) {
-				scu.setStatusAndMoveDetail("Connection Fail", "Room is full", "", 0, 0);
+				scu.setStatusAndMoveDetail("Connection Fail", "Room is full", "", 0, 0,0);
 			}
 		}
 	}

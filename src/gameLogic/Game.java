@@ -19,7 +19,6 @@ public class Game {
 	private int currentPlayerIndex;
 	private int numPlayer;
 	private boolean ended;
-	private boolean isBackStatus = false;
 	private boolean isReplay = false;
 
 	public Game(int numPlayer) {
@@ -63,8 +62,11 @@ public class Game {
 	public void resetGame() {
 		currentPlayerIndex = 0;
 		ended = false;
-		isBackStatus = false;
 		board.resetBoard(players);
+		for(Player p:players) {
+			p.setBackStatus(false);
+			p.setCanPlay(true);
+		}
 	}
 	
 	public void replay() {
@@ -113,9 +115,9 @@ public class Game {
 		if(!isReplay) {
 			walkHistories.add(steps);
 		}
-		if (isBackStatus) {
+		if (currentPlayer.isBackStatus()) {
 			backwards.moveBack(board, currentPlayer.getPiece(), steps);
-			isBackStatus = false;
+			currentPlayer.setBackStatus(false);
 		} else {
 			currentPlayer.movePiece(board, steps);
 		}
@@ -138,7 +140,7 @@ public class Game {
 		
 		else if (backwards.isOnBackward(board, currentPlayer.getPiece())) {
 			status = "Backward";
-			isBackStatus = true;
+			currentPlayer.setBackStatus(true);
 			return status;
 		}
 
