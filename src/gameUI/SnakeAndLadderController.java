@@ -60,6 +60,7 @@ public class SnakeAndLadderController extends Application {
 
 	public void setGame(Game game) {
 		this.game = game;
+		playerNameLabel.setText(game.currentPlayerName());
 	}
 
 	@Override
@@ -68,8 +69,6 @@ public class SnakeAndLadderController extends Application {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("SnakeAndLadderGameUI.fxml"));
 			Parent root = loader.load();
 			Scene scene = new Scene(root);
-			SnakeAndLadderController snake = loader.getController();
-			snake.setGame(new Game(game.getNumPlayer()));
 			primaryStage.setTitle("Snake&Ladder | ");
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
@@ -104,6 +103,7 @@ public class SnakeAndLadderController extends Application {
 		x = player1Image.getX();
 		y = player1Image.getY();
 		playerPosition.setText("Your position: " + 1);
+		
 		timer = new MyAnimTimer();
 		history = new ArrayList<MyAnimTimer>();
 		historytemp = new ArrayList<>();
@@ -138,10 +138,6 @@ public class SnakeAndLadderController extends Application {
 			break;
 		}
 
-		/*
-		 * เดินเกินร้อยยังไม่ถอยหลัง backward ยังไม่สมบูรณ์
-		 */
-
 		String status = game.currentPlayerMovePiece(face);
 		int newPos = game.currentPlayerPosition() + 1;
 
@@ -153,6 +149,7 @@ public class SnakeAndLadderController extends Application {
 			history.add(new MyAnimTimer(curImg, curPos, newPos-curPos, 0, status));
 			timer.start();
 			game.switchPlayer();
+			playerNameLabel.setText(game.currentPlayerName());
 			break;
 		case "Backward":
 			System.out.println("backward");
@@ -166,7 +163,7 @@ public class SnakeAndLadderController extends Application {
 			history.add(new MyAnimTimer(curImg, curPos, face, newPos-(curPos+face), status));
 			timer.start();
 			game.switchPlayer();
-
+			playerNameLabel.setText(game.currentPlayerName());
 			break;
 		case "Ladder":
 			System.out.println("ladder");
@@ -174,6 +171,7 @@ public class SnakeAndLadderController extends Application {
 			history.add(new MyAnimTimer(curImg, curPos, newPos-curPos, 0, status));
 			timer.start();
 			game.switchPlayer();
+			playerNameLabel.setText(game.currentPlayerName());
 			break;
 		case "Freeze":
 			System.out.println("freeze");
@@ -181,6 +179,7 @@ public class SnakeAndLadderController extends Application {
 			history.add(new MyAnimTimer(curImg, curPos, face, 0,status));
 			timer.start();
 			game.switchPlayer();
+			playerNameLabel.setText(game.currentPlayerName());
 			break;
 		case "Goal":
 			System.out.println("Goal");

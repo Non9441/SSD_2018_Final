@@ -109,13 +109,11 @@ public class MyAnimTimer extends AnimationTimer {
 					try {
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 			} else {
 				this.stop();
-				System.out.println("This is " + active);
 			}
 		}
 		if(steps > 0) {
@@ -133,7 +131,6 @@ public class MyAnimTimer extends AnimationTimer {
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		} 
@@ -152,7 +149,6 @@ public class MyAnimTimer extends AnimationTimer {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
