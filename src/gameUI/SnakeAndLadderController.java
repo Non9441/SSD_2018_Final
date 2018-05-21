@@ -69,6 +69,8 @@ public class SnakeAndLadderController extends Application {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("SnakeAndLadderGameUI.fxml"));
 			Parent root = loader.load();
 			Scene scene = new Scene(root);
+			SnakeAndLadderController snake = loader.getController();
+			snake.setGame(new Game(game.getNumPlayer()));
 			primaryStage.setTitle("Snake&Ladder | ");
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
@@ -102,8 +104,7 @@ public class SnakeAndLadderController extends Application {
 		});
 		x = player1Image.getX();
 		y = player1Image.getY();
-		playerPosition.setText("Your position: " + 1);
-		
+		playerPosition.setText("Your position: " + 1);		
 		timer = new MyAnimTimer();
 		history = new ArrayList<MyAnimTimer>();
 		historytemp = new ArrayList<>();
