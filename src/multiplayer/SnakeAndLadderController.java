@@ -171,6 +171,7 @@ public class SnakeAndLadderController {
 		boolean isEnd = false;
 		System.out.println(posStatus);
 		rollButton.setDisable(true);
+		
 		switch (player) {
 		case "Player1":
 			curImg = player1Image;
@@ -198,12 +199,13 @@ public class SnakeAndLadderController {
 		case "Backward":
 			System.out.println("backward");
 			timer = new MyAnimTimer(curImg, curPos, faceFromServer, 0, posStatus);
+			history.add(new MyAnimTimer(curImg, curPos, faceFromServer, 0, posStatus));
 			timer.start();
 			break;
 		case "Snake":
 			System.out.println("snake");
 			timer = new MyAnimTimer(curImg, curPos, faceFromServer, newPos - (curPos + faceFromServer), posStatus);
-			timer.setSsteps(newPos - (curPos + faceFromServer));
+			history.add(new MyAnimTimer(curImg, curPos, faceFromServer, newPos - (curPos + faceFromServer), posStatus));
 			timer.start();
 			break;
 		case "Ladder":
@@ -215,6 +217,7 @@ public class SnakeAndLadderController {
 		case "Freeze":
 			System.out.println("freeze");
 			timer = new MyAnimTimer(curImg, curPos, faceFromServer, 0, posStatus);
+			history.add(new MyAnimTimer(curImg, curPos, faceFromServer, 0, posStatus));
 			System.out.println(player + " at " + curPos + " walk " + faceFromServer);
 			timer.start();
 			break;
@@ -267,7 +270,7 @@ public class SnakeAndLadderController {
 		playerPosition.setText(moveDetail);
 	}
 
-	public void setButtomDisable() {
+	public void setButtonDisable() {
 		stage = (Stage) rollButton.getScene().getWindow();
 		String stagePlayerName = stage.getTitle().substring(stage.getTitle().lastIndexOf(" ") + 1);
 		if (stagePlayerName.equals(player.getName())) {
@@ -318,17 +321,15 @@ public class SnakeAndLadderController {
 		
 		rollButton.setDisable(true);
 		
-		System.out.println(history);
 		Iterator<MyAnimTimer> iter = history.iterator();
 		MyAnimTimer timer = iter.next();
 		
 		replay(timer, iter);
 	}
 
-	private void replay(MyAnimTimer timer2, Iterator<MyAnimTimer> iter) {
-		timer.start();
-		System.out.println(timer.getSteps());
-		historytemp.add(new MyAnimTimer(timer.getImg(), timer.getCurPos(), timer.getSteps(), timer.getSSteps(), timer.getStatus()));
+	private void replay(MyAnimTimer hTimer, Iterator<MyAnimTimer> iter) {
+		hTimer.start();
+		historytemp.add(new MyAnimTimer(hTimer.getImg(), hTimer.getCurPos(), hTimer.getSteps(), hTimer.getSSteps(), hTimer.getStatus()));
 		if(!iter.hasNext()) {
 			history.clear();
 			history.addAll(historytemp);
@@ -341,7 +342,7 @@ public class SnakeAndLadderController {
 
 			@Override
 			protected Void call() throws Exception {
-				while(timer.isActive()) {
+				while(hTimer.isActive()) {
 					System.out.print("");
 				}
 				return null;
