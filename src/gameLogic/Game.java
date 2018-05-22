@@ -110,6 +110,21 @@ public class Game {
 		return players[num];
 	}
 	
+	public Player getNextPlayer(Player player) {
+		int index = 0;
+		for(int i =0;i<players.length;i++) {
+			Player p = players[i];
+			if(p.getName().equals(player.getName())) {
+				index = i;
+			}
+		}
+		if(index+1 == players.length) {
+			return players[0];
+		}else {
+			return players[index+1];
+		}
+	}
+	
 	public String currentPlayerMovePiece(int steps) {
 		Player currentPlayer = currentPlayer();
 		if(!isReplay) {
@@ -141,6 +156,7 @@ public class Game {
 		else if (backwards.isOnBackward(board, currentPlayer.getPiece())) {
 			status = "Backward";
 			currentPlayer.setBackStatus(true);
+			getNextPlayer(currentPlayer).setCanPlay(false);
 			return status;
 		}
 

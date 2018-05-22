@@ -264,6 +264,7 @@ public class SnakeAndLadderController {
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
 
+		face = 24;
 		salClient.sendRollResult(face);
 
 		specialBlockLabel.setText("Playing....");
