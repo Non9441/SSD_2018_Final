@@ -265,7 +265,7 @@ public class SnakeAndLadderController {
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
 
-		face = 24;
+		face = 50;
 		salClient.sendRollResult(face);
 
 		specialBlockLabel.setText("Playing....");
@@ -363,7 +363,7 @@ public class SnakeAndLadderController {
 	public void backToHome() {
 		stage = (Stage) playerNameLabel.getScene().getWindow();
 		try {
-			FXMLLoader chooseGameLoader = new FXMLLoader(getClass().getResource("GameModeUI.fxml"));
+			FXMLLoader chooseGameLoader = new FXMLLoader(getClass().getResource("/gameUI/GameModeUI.fxml"));
 			Parent chooseGameRoot = chooseGameLoader.load();
 			Scene chooseGameScene = new Scene(chooseGameRoot);
 
