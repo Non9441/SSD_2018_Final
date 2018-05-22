@@ -46,9 +46,9 @@ public class SnakeAndLadderController {
 	@FXML
 	ImageView player2Image;
 	@FXML
-    ImageView player3Image;
-    @FXML
-    ImageView player4Image;
+	ImageView player3Image;
+	@FXML
+	ImageView player4Image;
 
 	private Stage stage;
 
@@ -68,7 +68,7 @@ public class SnakeAndLadderController {
 
 	private SnakeLadderClient salClient;
 	private MyAnimTimer timer;
-	
+
 	private double x;
 	private double y;
 	private List<MyAnimTimer> history;
@@ -86,13 +86,13 @@ public class SnakeAndLadderController {
 		playerPosition.setText("Your position: " + 1);
 		specialBlockLabel.setText("Waiting...");
 		rollButton.setDisable(true);
-		
+
 		x = player1Image.getX();
 		y = player1Image.getY();
-		
+
 		history = new ArrayList<MyAnimTimer>();
 		historytemp = new ArrayList<>();
-		
+
 		timer = new MyAnimTimer();
 	}
 
@@ -126,7 +126,8 @@ public class SnakeAndLadderController {
 		this.salClient = salClient;
 	}
 
-	public void setStatusAndMoveDetail(String player, String status, String moveDetail, int curPos, int newPos,int faceFromServer) {
+	public void setStatusAndMoveDetail(String player, String status, String moveDetail, int curPos, int newPos,
+			int faceFromServer) {
 		this.status = status;
 		this.moveDetail = moveDetail;
 		this.curPos = curPos;
@@ -171,7 +172,7 @@ public class SnakeAndLadderController {
 		boolean isEnd = false;
 		System.out.println(posStatus);
 		rollButton.setDisable(true);
-		
+
 		switch (player) {
 		case "Player1":
 			curImg = player1Image;
@@ -264,7 +265,7 @@ public class SnakeAndLadderController {
 		dieImage.setImage(new Image("/res/face" + face + ".png"));
 		diceOutputNumberText.setText(face + "");
 
-		face = 24;
+		face = 50;
 		salClient.sendRollResult(face);
 
 		specialBlockLabel.setText("Playing....");
@@ -291,80 +292,78 @@ public class SnakeAndLadderController {
 		alert.setHeaderText(playerWin + " Win >.<");
 		alert.setContentText("Choose your option.");
 
-		ButtonType buttonTypeOne = new ButtonType("Play again");
-		ButtonType buttonTypeThree = new ButtonType("Replay!");
+		ButtonType buttonTypeOne = new ButtonType("Replay!");
 		ButtonType buttonTypeTwo = new ButtonType("Back to Home");
 
-		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeThree, buttonTypeTwo);
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == buttonTypeOne) {
-			initialize();
-		} else if (result.get() == buttonTypeThree) {
 			replayAction();
 		} else if (result.get() == buttonTypeTwo) {
 			backToHome();
 		}
 	}
-	
+
 	public void replayAction() {
-		player1Image.setTranslateX(x-player1Image.getX());
-		player1Image.setTranslateY(y-player1Image.getY());
-		
-		player2Image.setTranslateX(x-player1Image.getX());
-		player2Image.setTranslateY(y-player1Image.getY());
-		
-		player3Image.setTranslateX(x-player1Image.getX());
-		player3Image.setTranslateY(y-player1Image.getY());
-		
-		player4Image.setTranslateX(x-player1Image.getX());
-		player4Image.setTranslateY(y-player1Image.getY());
-		
+		player1Image.setTranslateX(x - player1Image.getX());
+		player1Image.setTranslateY(y - player1Image.getY());
+
+		player2Image.setTranslateX(x - player1Image.getX());
+		player2Image.setTranslateY(y - player1Image.getY());
+
+		player3Image.setTranslateX(x - player1Image.getX());
+		player3Image.setTranslateY(y - player1Image.getY());
+
+		player4Image.setTranslateX(x - player1Image.getX());
+		player4Image.setTranslateY(y - player1Image.getY());
+
 		rollButton.setDisable(true);
-		
+
 		Iterator<MyAnimTimer> iter = history.iterator();
 		MyAnimTimer timer = iter.next();
-		
+
 		replay(timer, iter);
 	}
 
 	private void replay(MyAnimTimer hTimer, Iterator<MyAnimTimer> iter) {
 		hTimer.start();
-		historytemp.add(new MyAnimTimer(hTimer.getImg(), hTimer.getCurPos(), hTimer.getSteps(), hTimer.getSSteps(), hTimer.getStatus()));
-		if(!iter.hasNext()) {
+		historytemp.add(new MyAnimTimer(hTimer.getImg(), hTimer.getCurPos(), hTimer.getSteps(), hTimer.getSSteps(),
+				hTimer.getStatus()));
+		if (!iter.hasNext()) {
 			history.clear();
 			history.addAll(historytemp);
 			historytemp.clear();
 			gameEndAlert();
 			return;
 		}
-		
+
 		Thread t = new Thread(new Task<Void>() {
 
 			@Override
 			protected Void call() throws Exception {
-				while(hTimer.isActive()) {
+				while (hTimer.isActive()) {
 					System.out.print("");
 				}
 				return null;
 			}
-			
+
 			@Override
 			protected void succeeded() {
 				replay(iter.next(), iter);
 				super.succeeded();
 			}
-			
+
 		});
-		
+
 		t.start();
-		
+
 	}
 
 	public void backToHome() {
 		stage = (Stage) playerNameLabel.getScene().getWindow();
 		try {
-			FXMLLoader chooseGameLoader = new FXMLLoader(getClass().getResource("GameModeUI.fxml"));
+			FXMLLoader chooseGameLoader = new FXMLLoader(getClass().getResource("/gameUI/GameModeUI.fxml"));
 			Parent chooseGameRoot = chooseGameLoader.load();
 			Scene chooseGameScene = new Scene(chooseGameRoot);
 

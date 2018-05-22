@@ -228,7 +228,7 @@ public class SnakeAndLadderController extends Application {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == buttonTypeOne) {
-			playAgain(null);
+			playAgain(new ArrayList<MyAnimTimer>());
 		}
 		if (result.get() == buttonTypeThree) {
 			replayAction();
